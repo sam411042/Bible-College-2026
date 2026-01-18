@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible College of India - Pastors Foundation Course</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 5px solid #ffd700;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-style: italic;
+        }
+
+        .logo-section {
+            margin-bottom: 15px;
+            font-size: 3em;
+        }
+
+        .login-section {
+            padding: 60px 40px;
+            background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+        }
+
+        .login-box {
+            max-width: 450px;
+            margin: 0 auto;
+            background: white;
+            padding: 45px;
+            border-radius: 12px;
+            border: 3px solid #1e3c72;
+            box-shadow: 0 10px 30px rgba(30, 60, 114, 0.15);
+        }
+
+        .login-box h2 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .login-box .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 0.95em;
+        }
+
+        input[type="email"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 60, 114, 0.3);
+        }
+
+        .error-msg {
+            color: #dc3545;
+            margin-top: 15px;
+            font-weight: 600;
+            text-align: center;
+            padding: 10px;
+            background: #ffe6e6;
+            border-radius: 5px;
+        }
+
+        .success-msg {
+            color: #28a745;
+            margin-top: 15px;
+            font-weight: 600;
+            text-align: center;
+            padding: 10px;
+            background: #d4edda;
+            border-radius: 5px;
+        }
+
+        .verse-quote {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+            font-style: italic;
+            text-align: center;
+            color: #1565c0;
+            font-size: 1.05em;
+        }
+
+        .info-notice {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            color: #856404;
+        }
+
+        .info-notice h3 {
+            margin-bottom: 12px;
+            color: #856404;
+        }
+
+        .info-notice ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .pdf-selection {
+            display: none;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .student-info {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 5px solid #4caf50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .student-info-text {
+            color: #1b5e20;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            width: auto;
+            padding: 10px 20px;
+            background: #dc3545;
+            font-size: 0.9em;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        .selection-title {
+            text-align: center;
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .pdf-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .pdf-card {
+            background: white;
+            border-radius: 12px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .pdf-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(30, 60, 114, 0.2);
+            border-color: #1e3c72;
+        }
+
+        .pdf-card-icon {
+            font-size: 4.5em;
+            margin-bottom: 15px;
+        }
+
+        .pdf-card-title {
+            font-size: 1.5em;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .pdf-card-desc {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .pdf-card button {
+            width: auto;
+            padding: 14px 35px;
+            font-size: 1em;
+        }
+
+        .pdf-viewer {
+            display: none;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .back-btn-container {
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            width: auto;
+            padding: 10px 20px;
+            background: #6c757d;
+            font-size: 0.95em;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+        }
+
+        .current-pdf-title {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ffc107;
+            text-align: center;
+            font-size: 1.3em;
+            color: #856404;
+            font-weight: 700;
+        }
+
+        .pdf-toolbar {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .pdf-toolbar-left {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .pdf-toolbar button {
+            width: auto;
+            padding: 12px 25px;
+            background: #4caf50;
+            font-size: 1em;
+        }
+
+        .pdf-toolbar button:hover {
+            background: #45a049;
+        }
+
+        .pdf-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: #34495e;
+            padding: 18px;
+            justify-content: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .pdf-controls button {
+            width: auto;
+            padding: 10px 18px;
+            font-size: 0.95em;
+            background: #1e3c72;
+        }
+
+        .pdf-controls button:hover {
+            background: #2a5298;
+        }
+
+        .page-info {
+            color: white;
+            font-weight: 600;
+            font-size: 1.05em;
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+        }
+
+        .canvas-wrapper {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+            overflow: auto;
+            max-height: 85vh;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        #pdf-canvas {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 32px;
+            color: rgba(220, 53, 69, 0.15);
+            pointer-events: none;
+            user-select: none;
+            font-weight: bold;
+            white-space: nowrap;
+            z-index: 9999;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .watermark-top-left {
+            position: fixed;
+            top: 20%;
+            left: 20%;
+            transform: rotate(-30deg);
+            font-size: 24px;
+            color: rgba(220, 53, 69, 0.12);
+            pointer-events: none;
+            user-select: none;
+            font-weight: bold;
+            z-index: 9998;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .watermark-bottom-right {
+            position: fixed;
+            bottom: 20%;
+            right: 20%;
+            transform: rotate(-30deg);
+            font-size: 24px;
+            color: rgba(220, 53, 69, 0.12);
+            pointer-events: none;
+            user-select: none;
+            font-weight: bold;
+            z-index: 9998;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .canvas-wrapper, .canvas-wrapper * {
+                visibility: visible;
+            }
+            .watermark, .watermark-top-left, .watermark-bottom-right {
+                visibility: visible !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pdf-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-section">✝️</div>
+            <h1>Bible College of India</h1>
+            <p>Pastors Foundation Course Materials</p>
+        </div>
+
+        <div id="loginSection" class="login-section">
+            <div class="login-box">
+                <h2>🔐 Student Access</h2>
+                <p class="subtitle">Enter your registered email to access course materials</p>
+                <input type="email" id="studentEmail" placeholder="student@biblecollege.edu" autocomplete="email">
+                <button onclick="verifyAccess()">Access Course Materials</button>
+                <div id="errorMsg" class="error-msg hidden"></div>
+                <div id="successMsg" class="success-msg hidden"></div>
+            </div>
+
+            <div class="verse-quote">
+                "Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth." - 2 Timothy 2:15
+            </div>
+
+            <div class="info-notice">
+                <h3>📋 Important Information:</h3>
+                <ul>
+                    <li><strong>Authorized Access Only:</strong> Only registered students can access these materials</li>
+                    <li><strong>Personal Use:</strong> Materials are for your personal study only</li>
+                    <li><strong>Printing Allowed:</strong> You may print each chapter separately for study purposes</li>
+                    <li><strong>Watermarked:</strong> Your email will appear on all pages to prevent unauthorized sharing</li>
+                    <li><strong>Protected Content:</strong> Materials are secured for authorized students only</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="pdfSelection" class="pdf-selection">
+            <div class="student-info">
+                <div class="student-info-text">
+                    ✅ Logged in as: <span id="loggedEmail"></span>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+
+            <h2 class="selection-title">📚 Select Study Material</h2>
+
+            <div class="pdf-cards">
+                <div class="pdf-card">
+                    <div class="pdf-card-icon">📖</div>
+                    <h3 class="pdf-card-title">Book 1</h3>
+                    <p class="pdf-card-desc">Matthew Gospel - Complete Study Guide</p>
+                    <button onclick="openPDF(1)">View Study Material</button>
+                </div>
+
+                <div class="pdf-card">
+                    <div class="pdf-card-icon">📕</div>
+                    <h3 class="pdf-card-title">Book 2</h3>
+                    <p class="pdf-card-desc">Malachi Studies - Prophetic Insights</p>
+                    <button onclick="openPDF(2)">View Study Material</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="pdfViewer" class="pdf-viewer">
+            <div class="back-btn-container">
+                <button class="back-btn" onclick="backToSelection()">⬅️ Back to All Chapters</button>
+            </div>
+
+            <div class="current-pdf-title" id="currentPdfTitle"></div>
+
+            <div class="pdf-toolbar">
+                <div class="pdf-toolbar-left">📄 Current Chapter</div>
+                <button onclick="printPDF()">🖨️ Print This Chapter</button>
+            </div>
+
+            <div class="pdf-controls">
+                <button onclick="firstPage()">⏮️ First</button>
+                <button onclick="previousPage()">⬅️ Previous</button>
+                <span class="page-info">
+                    Page <span id="page-num">1</span> of <span id="page-count">0</span>
+                </span>
+                <button onclick="nextPage()">Next ➡️</button>
+                <button onclick="lastPage()">⏭️ Last</button>
+                <button onclick="zoomOut()">🔍- Zoom Out</button>
+                <button onclick="zoomIn()">🔍+ Zoom In</button>
+            </div>
+
+            <div class="canvas-wrapper">
+                <canvas id="pdf-canvas"></canvas>
+                <div class="watermark" id="watermark"></div>
+                <div class="watermark-top-left" id="watermark-tl"></div>
+                <div class="watermark-bottom-right" id="watermark-br"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // WHITELIST - Your authorized emails
+        const ALLOWED_EMAILS = [
+            'ssamolik123@gmail.com',
+            'jlibiblecollege@gmail.com',
+            'pastor.john@biblecollege.edu',
+            'pastor.mary@biblecollege.edu',
+        ];
+
+        // PDF CONFIGURATION - Loading from GitHub (NO PASSWORD REQUIRED)
+        const PDF_FILE_PATH = {
+            1: {
+                file: 'https://raw.githubusercontent.com/sam411042/Bible-College-2026/main/MATTHEW.pdf',
+                title: 'Book 1: MATTHEW GOSPEL'
+            },
+            2: {
+                file: 'https://raw.githubusercontent.com/sam411042/Bible-College-2026/main/malachi.pdf',
+                title: 'Book 2: MALACHI'
+            }
+        };
+
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        let scale = 1.5;
+        let studentEmail = '';
+        let currentPdfId = null;
+        const canvas = document.getElementById('pdf-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function verifyAccess() {
+            const email = document.getElementById('studentEmail').value.trim().toLowerCase();
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+
+            errorMsg.classList.add('hidden');
+            successMsg.classList.add('hidden');
+
+            if (!email) {
+                errorMsg.textContent = '⚠️ Please enter your email address';
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                errorMsg.textContent = '⚠️ Please enter a valid email address';
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            if (ALLOWED_EMAILS.includes(email)) {
+                studentEmail = email;
+                successMsg.textContent = '✅ Access granted! Loading materials...';
+                successMsg.classList.remove('hidden');
+                
+                document.getElementById('loggedEmail').textContent = email;
+                document.getElementById('watermark').textContent = email.toUpperCase();
+                document.getElementById('watermark-tl').textContent = email.toUpperCase();
+                document.getElementById('watermark-br').textContent = email.toUpperCase();
+                
+                setTimeout(() => {
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('pdfSelection').style.display = 'block';
+                }, 1000);
+            } else {
+                errorMsg.textContent = '❌ Access Denied: Your email is not registered. Please contact the administrator.';
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        function openPDF(pdfId) {
+            currentPdfId = pdfId;
+            const pdfConfig = PDF_FILE_PATH[pdfId];
+            
+            document.getElementById('currentPdfTitle').textContent = pdfConfig.title;
+            document.getElementById('pdfSelection').style.display = 'none';
+            document.getElementById('pdfViewer').style.display = 'block';
+            
+            loadPDF(pdfConfig.file);
+        }
+
+        function backToSelection() {
+            document.getElementById('pdfViewer').style.display = 'none';
+            document.getElementById('pdfSelection').style.display = 'block';
+            pdfDoc = null;
+            pageNum = 1;
+        }
+
+        function loadPDF(pdfPath) {
+            console.log('Loading PDF:', pdfPath);
+            const loadingTask = pdfjsLib.getDocument(pdfPath);
+            
+            loadingTask.promise.then(function(pdf) {
+                pdfDoc = pdf;
+                document.getElementById('page-count').textContent = pdf.numPages;
+                pageNum = 1;
+                renderPage(pageNum);
+                console.log('PDF loaded successfully');
+            }).catch(function(error) {
+                console.error('PDF error:', error);
+                alert('Error loading PDF from GitHub.\n\nMake sure:\n1. Repository is PUBLIC\n2. Files uploaded: MATTHEW.pdf, malachi.pdf\n3. Files are NOT password protected\n4. Files are in main branch root folder\n\nPath: ' + pdfPath);
+                backToSelection();
+            });
+        }
+
+        function renderPage(num) {
+            pageRendering = true;
+            pdfDoc.getPage(num).then(function(page) {
+                const viewport = page.getViewport({scale: scale});
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderTask = page.render({
+                    canvasContext: ctx,
+                    viewport: viewport
+                });
+
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+            });
+
+            document.getElementById('page-num').textContent = num;
+        }
+
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        function firstPage() {
+            if (pageNum <= 1) return;
+            pageNum = 1;
+            queueRenderPage(pageNum);
+        }
+
+        function previousPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+
+        function nextPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+
+        function lastPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum = pdfDoc.numPages;
+            queueRenderPage(pageNum);
+        }
+
+        function zoomIn() {
+            scale += 0.25;
+            queueRenderPage(pageNum);
+        }
+
+        function zoomOut() {
+            if (scale <= 0.5) return;
+            scale -= 0.25;
+            queueRenderPage(pageNum);
+        }
+
+        function printPDF() {
+            if (!pdfDoc) {
+                alert('PDF not loaded yet');
+                return;
+            }
+            
+            const pdfConfig = PDF_FILE_PATH[currentPdfId];
+            if (!confirm('Print "' + pdfConfig.title + '"?\n\nYour email (' + studentEmail + ') will appear as watermark on all printed pages.')) {
+                return;
+            }
+            
+            window.print();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                studentEmail = '';
+                document.getElementById('studentEmail').value = '';
+                document.getElementById('pdfSelection').style.display = 'none';
+                document.getElementById('pdfViewer').style.display = 'none';
+                document.getElementById('loginSection').style.display = 'block';
+                document.getElementById('errorMsg').classList.add('hidden');
+                document.getElementById('successMsg').classList.add('hidden');
+            }
+        }
+
+        document.getElementById('studentEmail').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyAccess();
+            }
+        });
+
+        console.log('System ready. Allowed emails:', ALLOWED_EMAILS);
+    </script>
+</body>
+</html>
