@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Print-Only Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .upload-section {
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-section:hover {
+            background: #f8f9ff;
+            border-color: #764ba2;
+        }
+
+        .upload-section input[type="file"] {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 60px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .email-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input[type="email"],
+        input[type="date"],
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .email-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .email-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9ff;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .email-item button {
+            padding: 5px 15px;
+            background: #ff4757;
+            font-size: 0.9em;
+        }
+
+        .email-item button:hover {
+            background: #ff3838;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .share-link-box {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .share-link-box h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        .link-display {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .link-display input {
+            background: white;
+        }
+
+        .pdf-viewer {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        .pdf-toolbar {
+            background: #f5f5f5;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .pdf-toolbar button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .info-box h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #856404;
+        }
+
+        .info-box li {
+            margin: 8px 0;
+        }
+
+        .success-msg {
+            color: #4caf50;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .instructions-box {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .instructions-box h3 {
+            color: #1565c0;
+            margin-bottom: 15px;
+        }
+
+        .instructions-box ol {
+            margin-left: 20px;
+            color: #1565c0;
+        }
+
+        .instructions-box li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 PDF Print-Only Secure Viewer</h1>
+            <p>Upload, Share, and Control Access to Your PDFs</p>
+        </div>
+
+        <div class="content">
+            <!-- Instructions for First Time Users -->
+            <div class="instructions-box">
+                <h3>📖 Quick Start Guide:</h3>
+                <ol>
+                    <li><strong>Save this file:</strong> Save as "pdf-viewer.html" on your computer</li>
+                    <li><strong>Open it:</strong> Double-click the file to open in any browser</li>
+                    <li><strong>Upload PDF:</strong> Click the upload area and select your PDF file</li>
+                    <li><strong>Add emails:</strong> Type email addresses of people who should access the PDF</li>
+                    <li><strong>Set expiry:</strong> (Optional) Choose when the link should expire</li>
+                    <li><strong>Generate link:</strong> Click the button to create a secure sharing link</li>
+                    <li><strong>Share:</strong> Copy and share the link with your allowed recipients</li>
+                </ol>
+            </div>
+
+            <!-- Upload Section -->
+            <div class="section">
+                <div class="section-title">📄 Step 1: Upload Your PDF</div>
+                <label for="pdfUpload" class="upload-section">
+                    <div class="upload-icon">📁</div>
+                    <h3>Click to Upload PDF</h3>
+                    <p>or drag and drop your file here</p>
+                    <input type="file" id="pdfUpload" accept=".pdf">
+                </label>
+                <div id="uploadSuccess" class="success-msg hidden"></div>
+            </div>
+
+            <!-- Email Access Control -->
+            <div class="section">
+                <div class="section-title">👥 Step 2: Add Allowed Email Addresses (5-6 people)</div>
+                <div class="email-input-group">
+                    <input type="email" id="emailInput" placeholder="Enter email address (e.g., user@example.com)">
+                    <button onclick="addEmail()">Add Email</button>
+                </div>
+                <div id="emailList" class="email-list"></div>
+            </div>
+
+            <!-- Expiration Date -->
+            <div class="section">
+                <div class="section-title">📅 Step 3: Set Expiration Date (Optional)</div>
+                <input type="date" id="expiryDate" min="">
+            </div>
+
+            <!-- Generate Link -->
+            <div class="section">
+                <button class="generate-btn" onclick="generateLink()" id="generateBtn" disabled>
+                    🔗 Generate Secure Share Link
+                </button>
+            </div>
+
+            <!-- Share Link Display -->
+            <div id="shareLinkBox" class="share-link-box hidden">
+                <h3>✅ Secure Link Generated Successfully!</h3>
+                <div class="link-display">
+                    <input type="text" id="shareLink" readonly>
+                    <button onclick="copyLink()">📋 Copy Link</button>
+                </div>
+                <p style="color: #2e7d32; font-size: 0.9em;">
+                    ✓ Only allowed email addresses can access<br>
+                    ✓ Download disabled | Print enabled<br>
+                    <span id="expiryInfo"></span>
+                </p>
+            </div>
+
+            <!-- PDF Viewer -->
+            <div id="pdfViewer" class="pdf-viewer hidden">
+                <div class="pdf-toolbar">
+                    <span style="font-weight: 600;">📄 PDF Preview</span>
+                    <button onclick="printPDF()">
+                        🖨️ Print Only
+                    </button>
+                </div>
+                <iframe id="pdfFrame" src=""></iframe>
+            </div>
+
+            <!-- Important Information -->
+            <div class="info-box">
+                <h3>⚠️ Important Information:</h3>
+                <ul>
+                    <li><strong>This is a demo interface</strong> - The link generation is simulated for demonstration</li>
+                    <li><strong>Local use only</strong> - Currently works on your computer only</li>
+                    <li><strong>For production use:</strong> You need to host this on a web server with backend authentication</li>
+                    <li><strong>Print to PDF</strong> - Users can still use browser's "Print to PDF" feature (unavoidable if print is enabled)</li>
+                    <li><strong>Screenshots</strong> - Users can take screenshots (no technical solution prevents this)</li>
+                    <li><strong>Best for:</strong> Sharing with trusted people where convenience matters more than perfect security</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pdfFile = null;
+        let pdfUrl = null;
+        let allowedEmails = [];
+
+        // Set minimum date to today
+        document.getElementById('expiryDate').min = new Date().toISOString().split('T')[0];
+
+        // Handle file upload
+        document.getElementById('pdfUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.type === 'application/pdf') {
+                pdfFile = file;
+                pdfUrl = URL.createObjectURL(file);
+                
+                // Show success message
+                const successMsg = document.getElementById('uploadSuccess');
+                successMsg.textContent = `✓ ${file.name} uploaded successfully!`;
+                successMsg.classList.remove('hidden');
+                
+                // Show PDF preview
+                document.getElementById('pdfFrame').src = pdfUrl + '#toolbar=0&navpanes=0&scrollbar=0';
+                document.getElementById('pdfViewer').classList.remove('hidden');
+                
+                checkGenerateButton();
+            } else {
+                alert('❌ Please upload a valid PDF file');
+            }
+        });
+
+        // Add email to list
+        function addEmail() {
+            const emailInput = document.getElementById('emailInput');
+            const email = emailInput.value.trim();
+            
+            if (email && email.includes('@') && email.includes('.')) {
+                if (!allowedEmails.includes(email)) {
+                    allowedEmails.push(email);
+                    updateEmailList();
+                    emailInput.value = '';
+                    checkGenerateButton();
+                } else {
+                    alert('⚠️ This email is already added');
+                }
+            } else {
+                alert('❌ Please enter a valid email address');
+            }
+        }
+
+        // Update email list display
+        function updateEmailList() {
+            const emailList = document.getElementById('emailList');
+            emailList.innerHTML = '';
+            
+            allowedEmails.forEach((email, index) => {
+                const emailItem = document.createElement('div');
+                emailItem.className = 'email-item';
+                emailItem.innerHTML = `
+                    <span>📧 ${email}</span>
+                    <button onclick="removeEmail(${index})">Remove</button>
+                `;
+                emailList.appendChild(emailItem);
+            });
+        }
+
+        // Remove email from list
+        function removeEmail(index) {
+            allowedEmails.splice(index, 1);
+            updateEmailList();
+            checkGenerateButton();
+        }
+
+        // Check if generate button should be enabled
+        function checkGenerateButton() {
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = !(pdfFile && allowedEmails.length > 0);
+        }
+
+        // Generate share link
+        function generateLink() {
+            const randomId = Math.random().toString(36).substr(2, 9);
+            const shareLink = `https://yoursite.com/view/${randomId}`;
+            
+            document.getElementById('shareLink').value = shareLink;
+            document.getElementById('shareLinkBox').classList.remove('hidden');
+            
+            // Show expiry info if set
+            const expiryDate = document.getElementById('expiryDate').value;
+            const expiryInfo = document.getElementById('expiryInfo');
+            if (expiryDate) {
+                expiryInfo.textContent = `✓ Link expires on: ${new Date(expiryDate).toLocaleDateString()}`;
+            } else {
+                expiryInfo.textContent = '';
+            }
+
+            // Show success alert
+            alert('✅ Secure link generated! Copy and share with your allowed recipients.');
+        }
+
+        // Copy link to clipboard
+        function copyLink() {
+            const linkInput = document.getElementById('shareLink');
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999); // For mobile devices
+            
+            try {
+                document.execCommand('copy');
+                alert('✅ Link copied to clipboard!');
+            } catch (err) {
+                alert('⚠️ Please manually copy the link: Ctrl+C or Cmd+C');
+            }
+        }
+
+        // Print PDF
+        function printPDF() {
+            if (pdfUrl) {
+                const printWindow = window.open(pdfUrl);
+                if (printWindow) {
+                    printWindow.onload = function() {
+                        printWindow.print();
+                    };
+                } else {
+                    alert('⚠️ Please allow pop-ups to print the PDF');
+                }
+            }
+        }
+
+        // Allow Enter key to add email
+        document.getElementById('emailInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addEmail();
+            }
+        });
+
+        // Prevent right-click on PDF iframe
+        document.addEventListener('DOMContentLoaded', function() {
+            const iframe = document.getElementById('pdfFrame');
+            iframe.addEventListener('load', function() {
+                try {
+                    iframe.contentDocument.addEventListener('contextmenu', function(e) {
+                        e.preventDefault();
+                        alert('❌ Download is disabled. You can only print this document.');
+                    });
+                } catch (e) {
+                    // Cross-origin restrictions prevent this, which is fine
+                    console.log('Cannot access iframe content due to security restrictions');
+                }
+            });
+        });
+
+        // Disable PDF download via keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                alert('❌ Download is disabled. You can only print this document.');
+                return false;
+            }
+        });
+
+        // Show welcome message on first load
+        window.addEventListener('load', function() {
+            console.log('✅ PDF Print-Only Viewer loaded successfully!');
+            console.log('📖 Follow the steps to upload and share your PDF securely.');
+        });
+    </script>
+</body>
+</html>
