@@ -54,7 +54,6 @@
             font-size: 3em;
         }
 
-        /* Login Section */
         .login-section {
             padding: 60px 40px;
             background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
@@ -160,7 +159,6 @@
             line-height: 1.8;
         }
 
-        /* PDF Selection Section */
         .pdf-selection {
             display: none;
             padding: 40px;
@@ -251,7 +249,6 @@
             font-size: 1em;
         }
 
-        /* PDF Viewer Section */
         .pdf-viewer {
             display: none;
             padding: 30px;
@@ -362,7 +359,6 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.2);
         }
 
-        /* Enhanced Multi-Layer Watermarks */
         .watermark {
             position: fixed;
             top: 50%;
@@ -437,7 +433,6 @@
             <p>Pastors Foundation Course Materials</p>
         </div>
 
-        <!-- Login Section -->
         <div id="loginSection" class="login-section">
             <div class="login-box">
                 <h2>🔐 Student Access</h2>
@@ -463,7 +458,6 @@
             </div>
         </div>
 
-        <!-- PDF Selection Section -->
         <div id="pdfSelection" class="pdf-selection">
             <div class="student-info">
                 <div class="student-info-text">
@@ -475,7 +469,6 @@
             <h2 class="selection-title">📚 Select Study Material</h2>
 
             <div class="pdf-cards">
-                <!-- PDF Card 1 -->
                 <div class="pdf-card">
                     <div class="pdf-card-icon">📖</div>
                     <h3 class="pdf-card-title">Book 1</h3>
@@ -483,7 +476,6 @@
                     <button onclick="openPDF(1)">View study material</button>
                 </div>
 
-                <!-- PDF Card 2 -->
                 <div class="pdf-card">
                     <div class="pdf-card-icon">📕</div>
                     <h3 class="pdf-card-title">Book 2</h3>
@@ -491,7 +483,6 @@
                     <button onclick="openPDF(2)">View study material</button>
                 </div>
 
-                <!-- PDF Card 3 -->
                 <div class="pdf-card">
                     <div class="pdf-card-icon">📗</div>
                     <h3 class="pdf-card-title">Book 3</h3>
@@ -501,7 +492,6 @@
             </div>
         </div>
 
-        <!-- PDF Viewer Section -->
         <div id="pdfViewer" class="pdf-viewer">
             <div class="back-btn-container">
                 <button class="back-btn" onclick="backToSelection()">⬅️ Back to All Chapters</button>
@@ -538,23 +528,18 @@
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        // ==========================================
-        // CONFIGURATION - EDIT THESE SECTIONS
-        // ==========================================
-
-        // PDF PASSWORD (Hidden from non-technical users)
+        // PDF PASSWORD - Hidden from non-technical users
         const PDF_PASSWORD = '123456';
 
-        // WHITELIST - ADD YOUR STUDENT EMAILS HERE
+        // WHITELIST
         const ALLOWED_EMAILS = [
             'ssamolik123@gmail.com',
             'jlibiblecollege@gmail.com',
             'pastor.john@biblecollege.edu',
             'pastor.mary@biblecollege.edu',
-            // Add more emails here...
         ];
 
-        // PDF CONFIGURATION - UPDATE YOUR PDF FILENAMES HERE
+        // PDF CONFIGURATION
         const PDF_FILE_PATH = {
             1: {
                 file: 'MATTHEW.pdf',
@@ -570,10 +555,6 @@
             }
         };
 
-        // ==========================================
-        // APPLICATION CODE
-        // ==========================================
-
         let pdfDoc = null;
         let pageNum = 1;
         let pageRendering = false;
@@ -584,7 +565,6 @@
         const canvas = document.getElementById('pdf-canvas');
         const ctx = canvas.getContext('2d');
 
-        // Verify student access
         function verifyAccess() {
             const email = document.getElementById('studentEmail').value.trim().toLowerCase();
             const errorMsg = document.getElementById('errorMsg');
@@ -601,7 +581,6 @@
                 return;
             }
 
-            // Check whitelist
             if (ALLOWED_EMAILS.includes(email)) {
                 studentEmail = email;
                 document.getElementById('loggedEmail').textContent = email;
@@ -616,7 +595,6 @@
             }
         }
 
-        // Open specific PDF
         function openPDF(pdfId) {
             currentPdfId = pdfId;
             const pdfConfig = PDF_FILE_PATH[pdfId];
@@ -628,7 +606,6 @@
             loadPDF(pdfConfig.file);
         }
 
-        // Back to selection
         function backToSelection() {
             document.getElementById('pdfViewer').style.display = 'none';
             document.getElementById('pdfSelection').style.display = 'block';
@@ -636,7 +613,6 @@
             pageNum = 1;
         }
 
-        // Load PDF with password support
         function loadPDF(pdfPath) {
             const loadingTask = pdfjsLib.getDocument({
                 url: pdfPath,
@@ -659,7 +635,6 @@
             });
         }
 
-        // Render page
         function renderPage(num) {
             pageRendering = true;
             pdfDoc.getPage(num).then(function(page) {
@@ -693,7 +668,6 @@
             }
         }
 
-        // Navigation functions
         function firstPage() {
             if (pageNum <= 1) return;
             pageNum = 1;
@@ -729,7 +703,6 @@
             queueRenderPage(pageNum);
         }
 
-        // Print function with ENHANCED MULTI-LAYER WATERMARKS
         function printPDF() {
             if (!pdfDoc) {
                 alert('Please wait for the PDF to load completely');
@@ -741,7 +714,6 @@
             
             if (!confirmed) return;
             
-            // Create print-friendly iframe
             const printFrame = document.createElement('iframe');
             printFrame.style.position = 'fixed';
             printFrame.style.right = '0';
@@ -758,15 +730,8 @@
                 <head>
                     <title>Print - ${pdfConfig.title}</title>
                     <style>
-                        @page {
-                            size: A4;
-                            margin: 0;
-                        }
-                        body { 
-                            margin: 0; 
-                            padding: 0;
-                            background: white;
-                        }
+                        @page { size: A4; margin: 0; }
+                        body { margin: 0; padding: 0; background: white; }
                         .page-container {
                             position: relative;
                             page-break-after: always;
@@ -777,91 +742,36 @@
                             align-items: center;
                             justify-content: center;
                         }
-                        .page-container:last-child {
-                            page-break-after: auto;
-                        }
-                        .page-container img { 
-                            max-width: 100%;
-                            max-height: 100%;
-                            width: auto;
-                            height: auto;
-                            display: block;
-                        }
-                        /* Multiple watermark layers */
+                        .page-container:last-child { page-break-after: auto; }
+                        .page-container img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
                         .watermark-center {
-                            position: fixed;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%) rotate(-45deg);
-                            font-size: 90px;
-                            color: rgba(220, 53, 69, 0.10);
-                            font-weight: bold;
-                            white-space: nowrap;
-                            pointer-events: none;
-                            z-index: 9999;
-                            font-family: Arial, sans-serif;
-                            letter-spacing: 8px;
+                            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
+                            font-size: 90px; color: rgba(220, 53, 69, 0.10); font-weight: bold; white-space: nowrap;
+                            pointer-events: none; z-index: 9999; font-family: Arial, sans-serif; letter-spacing: 8px;
                         }
                         .watermark-top {
-                            position: fixed;
-                            top: 15%;
-                            left: 50%;
-                            transform: translate(-50%, 0) rotate(-35deg);
-                            font-size: 50px;
-                            color: rgba(220, 53, 69, 0.08);
-                            font-weight: bold;
-                            white-space: nowrap;
-                            pointer-events: none;
-                            z-index: 9998;
-                            font-family: Arial, sans-serif;
+                            position: fixed; top: 15%; left: 50%; transform: translate(-50%, 0) rotate(-35deg);
+                            font-size: 50px; color: rgba(220, 53, 69, 0.08); font-weight: bold; white-space: nowrap;
+                            pointer-events: none; z-index: 9998; font-family: Arial, sans-serif;
                         }
                         .watermark-bottom {
-                            position: fixed;
-                            bottom: 15%;
-                            left: 50%;
-                            transform: translate(-50%, 0) rotate(-35deg);
-                            font-size: 50px;
-                            color: rgba(220, 53, 69, 0.08);
-                            font-weight: bold;
-                            white-space: nowrap;
-                            pointer-events: none;
-                            z-index: 9998;
-                            font-family: Arial, sans-serif;
+                            position: fixed; bottom: 15%; left: 50%; transform: translate(-50%, 0) rotate(-35deg);
+                            font-size: 50px; color: rgba(220, 53, 69, 0.08); font-weight: bold; white-space: nowrap;
+                            pointer-events: none; z-index: 9998; font-family: Arial, sans-serif;
                         }
                         .watermark-left {
-                            position: fixed;
-                            top: 50%;
-                            left: 10%;
-                            transform: translate(0, -50%) rotate(-90deg);
-                            font-size: 40px;
-                            color: rgba(220, 53, 69, 0.07);
-                            font-weight: bold;
-                            white-space: nowrap;
-                            pointer-events: none;
-                            z-index: 9997;
-                            font-family: Arial, sans-serif;
+                            position: fixed; top: 50%; left: 10%; transform: translate(0, -50%) rotate(-90deg);
+                            font-size: 40px; color: rgba(220, 53, 69, 0.07); font-weight: bold; white-space: nowrap;
+                            pointer-events: none; z-index: 9997; font-family: Arial, sans-serif;
                         }
                         .watermark-right {
-                            position: fixed;
-                            top: 50%;
-                            right: 10%;
-                            transform: translate(0, -50%) rotate(-90deg);
-                            font-size: 40px;
-                            color: rgba(220, 53, 69, 0.07);
-                            font-weight: bold;
-                            white-space: nowrap;
-                            pointer-events: none;
-                            z-index: 9997;
-                            font-family: Arial, sans-serif;
+                            position: fixed; top: 50%; right: 10%; transform: translate(0, -50%) rotate(-90deg);
+                            font-size: 40px; color: rgba(220, 53, 69, 0.07); font-weight: bold; white-space: nowrap;
+                            pointer-events: none; z-index: 9997; font-family: Arial, sans-serif;
                         }
                         @media print {
-                            .page-container {
-                                margin: 0;
-                                padding: 0;
-                            }
-                            .watermark-center, .watermark-top, .watermark-bottom, .watermark-left, .watermark-right {
-                                display: block !important;
-                            }
+                            .page-container { margin: 0; padding: 0; }
+                            .watermark-center, .watermark-top, .watermark-bottom, .watermark-left, .watermark-right { display: block !important; }
                         }
                     </style>
                 </head>
@@ -871,9 +781,7 @@
                     <div class="watermark-bottom">${studentEmail.toUpperCase()}</div>
                     <div class="watermark-left">${studentEmail.toUpperCase()}</div>
                     <div class="watermark-right">${studentEmail.toUpperCase()}</div>
-                    <div id="content">
-                        <p style="text-align:center; padding:50px; font-size:18px;">⏳ Preparing pages for print...</p>
-                    </div>
+                    <div id="content"><p style="text-align:center; padding:50px; font-size:18px;">⏳ Preparing pages for print...</p></div>
                 </body>
                 </html>
             `);
@@ -882,7 +790,52 @@
             const contentDiv = frameDoc.getElementById('content');
             let renderPromises = [];
             
-            // Show loading message
             const loadingMsg = document.createElement('div');
             loadingMsg.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.8); color:white; padding:30px; border-radius:10px; z-index:10000; text-align:center;';
             loadingMsg.innerHTML = '⏳ Preparing print preview...<br><small>Please wait</small>';
+            document.body.appendChild(loadingMsg);
+            
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                renderPromises.push(
+                    pdfDoc.getPage(i).then(function(page) {
+                        const viewport = page.getViewport({scale: 2.5});
+                        const tempCanvas = document.createElement('canvas');
+                        const context = tempCanvas.getContext('2d');
+                        tempCanvas.height = viewport.height;
+                        tempCanvas.width = viewport.width;
+
+                        return page.render({
+                            canvasContext: context,
+                            viewport: viewport
+                        }).promise.then(function() {
+                            return tempCanvas.toDataURL('image/png', 1.0);
+                        });
+                    })
+                );
+            }
+
+            Promise.all(renderPromises).then(function(images) {
+                contentDiv.innerHTML = '';
+                
+                images.forEach(function(imgData, index) {
+                    const pageDiv = frameDoc.createElement('div');
+                    pageDiv.className = 'page-container';
+                    const img = frameDoc.createElement('img');
+                    img.src = imgData;
+                    img.alt = 'Page ' + (index + 1);
+                    pageDiv.appendChild(img);
+                    contentDiv.appendChild(pageDiv);
+                });
+                
+                document.body.removeChild(loadingMsg);
+                
+                setTimeout(function() {
+                    printFrame.contentWindow.focus();
+                    printFrame.contentWindow.print();
+                    
+                    setTimeout(function() {
+                        document.body.removeChild(printFrame);
+                    }, 1000);
+                }, 500);
+                
+            }).catch(function(
