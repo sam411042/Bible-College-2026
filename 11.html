@@ -426,23 +426,32 @@
 
         @media print {
             body * {
-                visibility: hidden;
-            }
-            #print-container, #print-container * {
-                visibility: visible;
+                visibility: hidden !important;
+                display: none !important;
             }
             #print-container {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
+                visibility: visible !important;
+                display: block !important;
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            #print-container * {
+                visibility: visible !important;
+                display: block !important;
             }
             .print-page {
-                page-break-after: always;
-                page-break-inside: avoid;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
             .print-page:last-child {
-                page-break-after: auto;
+                page-break-after: auto !important;
             }
         }
 
@@ -783,7 +792,7 @@
             queueRenderPage(pageNum);
         }
 
-        // ✅ FIXED PRINT FUNCTION - Renders all pages and prints without download option
+        // ✅ FIXED PRINT FUNCTION - Renders all pages as images and opens print dialog
         async function printPDF() {
             if (!pdfDoc) {
                 alert('PDF not loaded yet');
@@ -818,25 +827,31 @@
             printContainer.innerHTML = '';
 
             try {
-                // Render all pages to canvases
+                // Render all pages to images
                 const printScale = 2; // Higher quality for printing
                 
                 for (let i = 1; i <= totalPages; i++) {
                     const page = await pdfDoc.getPage(i);
                     const viewport = page.getViewport({scale: printScale});
                     
-                    const printCanvas = document.createElement('canvas');
-                    printCanvas.className = 'print-page';
-                    printCanvas.width = viewport.width;
-                    printCanvas.height = viewport.height;
+                    // Create temporary canvas
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = viewport.width;
+                    tempCanvas.height = viewport.height;
                     
-                    const printCtx = printCanvas.getContext('2d');
+                    const tempCtx = tempCanvas.getContext('2d');
                     await page.render({
-                        canvasContext: printCtx,
+                        canvasContext: tempCtx,
                         viewport: viewport
                     }).promise;
                     
-                    printContainer.appendChild(printCanvas);
+                    // Convert canvas to image for better printing
+                    const img = document.createElement('img');
+                    img.src = tempCanvas.toDataURL('image/png');
+                    img.className = 'print-page';
+                    img.style.cssText = 'width: 100%; display: block; margin: 0; padding: 0;';
+                    
+                    printContainer.appendChild(img);
                     
                     // Update progress
                     const progress = Math.round((i / totalPages) * 100);
@@ -848,18 +863,23 @@
                 // Remove progress overlay
                 document.body.removeChild(progressOverlay);
                 
-                // Trigger print dialog
-                window.print();
-                
-                // Clean up after printing
+                // Small delay to ensure images are loaded
                 setTimeout(() => {
-                    printContainer.innerHTML = '';
-                }, 1000);
+                    // Trigger print dialog
+                    window.print();
+                    
+                    // Clean up after printing
+                    setTimeout(() => {
+                        printContainer.innerHTML = '';
+                    }, 2000);
+                }, 500);
 
             } catch (error) {
                 console.error('Print error:', error);
                 alert('⚠️ Error preparing document for printing. Please try again.');
-                document.body.removeChild(progressOverlay);
+                if (document.body.contains(progressOverlay)) {
+                    document.body.removeChild(progressOverlay);
+                }
             } finally {
                 printBtn.disabled = false;
                 printBtn.textContent = '🖨️ Print This Chapter';
