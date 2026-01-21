@@ -792,55 +792,7 @@
             queueRenderPage(pageNum);
         }
 
-        // ✅ FIXED PRINT FUNCTION - Renders all pages as images and opens print dialog
-        async function printPDF() {
-            if (!pdfDoc) {
-                alert('PDF not loaded yet');
-                return;
-            }
-            
-            const pdfConfig = PDF_FILE_PATH[currentPdfId];
-            const totalPages = pdfDoc.numPages;
-            
-            if (!confirm(`Print all ${totalPages} pages of "${pdfConfig.title}"?\n\nThis may take a moment to prepare.`)) {
-                return;
-            }
-
-            const printBtn = document.getElementById('printBtn');
-            printBtn.disabled = true;
-            printBtn.textContent = '⏳ Preparing pages...';
-
-            // Create progress overlay
-            const progressOverlay = document.createElement('div');
-            progressOverlay.className = 'print-progress';
-            progressOverlay.innerHTML = `
-                <h3>🖨️ Preparing Document for Print</h3>
-                <p>Please wait while all pages are loaded...</p>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
-                </div>
-                <p id="progressText">Loading page 1 of ${totalPages}</p>
-            `;
-            document.body.appendChild(progressOverlay);
-
-            const printContainer = document.getElementById('print-container');
-            printContainer.innerHTML = '';
-
-            try {
-                // Render all pages to images
-                const printScale = 2; // Higher quality for printing
-                
-                for (let i = 1; i <= totalPages; i++) {
-                    const page = await pdfDoc.getPage(i);
-                    const viewport = page.getViewport({scale: printScale});
-                    
-                    // Create temporary canvas
-                    const tempCanvas = document.createElement('canvas');
-                    tempCanvas.width = viewport.width;
-                    tempCanvas.height = viewport.height;
-                    
-                    const tempCtx = tempCanvas.getContext('2d');
-                    await page.render({
+ page.render({
                         canvasContext: tempCtx,
                         viewport: viewport
                     }).promise;
