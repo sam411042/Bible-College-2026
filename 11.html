@@ -379,7 +379,6 @@
             display: none;
         }
 
-        /* Print-specific styles */
         #print-container {
             display: none;
         }
@@ -602,7 +601,6 @@
         </div>
     </div>
 
-    <!-- Hidden container for printing all pages -->
     <div id="print-container"></div>
 
     <script>
@@ -670,40 +668,55 @@
         const ctx = canvas.getContext('2d');
 
         function verifyAccess() {
-            const email = document.getElementById('studentEmail').value.trim().toLowerCase();
-            const errorMsg = document.getElementById('errorMsg');
-            const successMsg = document.getElementById('successMsg');
+            try {
+                const emailInput = document.getElementById('studentEmail');
+                const errorMsg = document.getElementById('errorMsg');
+                const successMsg = document.getElementById('successMsg');
 
-            errorMsg.classList.add('hidden');
-            successMsg.classList.add('hidden');
+                if (!emailInput) {
+                    console.error('Email input not found');
+                    return;
+                }
 
-            if (!email) {
-                errorMsg.textContent = '⚠️ Please enter your email address';
-                errorMsg.classList.remove('hidden');
-                return;
-            }
+                const email = emailInput.value.trim().toLowerCase();
 
-            if (!email.includes('@') || !email.includes('.')) {
-                errorMsg.textContent = '⚠️ Please enter a valid email address';
-                errorMsg.classList.remove('hidden');
-                return;
-            }
+                errorMsg.classList.add('hidden');
+                successMsg.classList.add('hidden');
 
-            if (ALLOWED_EMAILS[email]) {
-                studentEmail = email;
-                studentName = ALLOWED_EMAILS[email];
-                successMsg.textContent = '✅ Access granted! Loading materials...';
-                successMsg.classList.remove('hidden');
-                
-                document.getElementById('loggedEmail').textContent = studentName + ' (' + email + ')';
-                
-                setTimeout(() => {
-                    document.getElementById('loginSection').style.display = 'none';
-                    document.getElementById('pdfSelection').style.display = 'block';
-                }, 1000);
-            } else {
-                errorMsg.textContent = '❌ Access Denied: Your email is not registered. Please contact the administrator.';
-                errorMsg.classList.remove('hidden');
+                if (!email) {
+                    errorMsg.textContent = '⚠️ Please enter your email address';
+                    errorMsg.classList.remove('hidden');
+                    return;
+                }
+
+                if (!email.includes('@') || !email.includes('.')) {
+                    errorMsg.textContent = '⚠️ Please enter a valid email address';
+                    errorMsg.classList.remove('hidden');
+                    return;
+                }
+
+                console.log('Checking email:', email);
+                console.log('Allowed emails:', Object.keys(ALLOWED_EMAILS));
+
+                if (ALLOWED_EMAILS[email]) {
+                    studentEmail = email;
+                    studentName = ALLOWED_EMAILS[email];
+                    successMsg.textContent = '✅ Access granted! Loading materials...';
+                    successMsg.classList.remove('hidden');
+                    
+                    document.getElementById('loggedEmail').textContent = studentName + ' (' + email + ')';
+                    
+                    setTimeout(() => {
+                        document.getElementById('loginSection').style.display = 'none';
+                        document.getElementById('pdfSelection').style.display = 'block';
+                    }, 1000);
+                } else {
+                    errorMsg.textContent = '❌ Access Denied: Your email is not registered. Please contact the administrator.';
+                    errorMsg.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('An error occurred. Please refresh the page and try again.');
             }
         }
 
@@ -810,147 +823,56 @@
             queueRenderPage(pageNum);
         }
 
- page.render({
-                        canvasContext: tempCtx,
-                        viewport: viewport
-                    }).promise;
-                    
-                    // Convert canvas to image for better printing
-                    const img = document.createElement('img');
-                    img.src = tempCanvas.toDataURL('image/png');
-                    img.className = 'print-page';
-                    img.style.cssText = 'width: 100%; display: block; margin: 0; padding: 0;';
-                    
-                    printContainer.appendChild(img);
-                    
-                    // Update progress
-                    const progress = Math.round((i / totalPages) * 100);
-                    document.getElementById('progressFill').style.width = progress + '%';
-                    document.getElementById('progressFill').textContent = progress + '%';
-                    document.getElementById('progressText').textContent = `Loading page ${i} of ${totalPages}`;
-                }
+        async function printPDF() {
+            if (!pdfDoc) {
+                alert('PDF not loaded yet');
+                return;
+            }
+            
+            const pdfConfig = PDF_FILE_PATH[currentPdfId];
+            const totalPages = pdfDoc.numPages;
+            
+            if (!confirm(`Print all ${totalPages} pages of "${pdfConfig.title}"?\n\nThis will prepare all pages for printing.`)) {
+                return;
+            }
 
-                // Remove progress overlay
-                document.body.removeChild(progressOverlay);
+            const printBtn = document.getElementById('printBtn');
+            printBtn.disabled = true;
+            printBtn.textContent = '⏳ Preparing pages...';
+
+            const progressOverlay = document.createElement('div');
+            progressOverlay.className = 'print-progress';
+            progressOverlay.innerHTML = `
+                <h3>🖨️ Preparing Document for Print</h3>
+                <p>Please wait while all pages are loaded...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
+                </div>
+                <p id="progressText">Loading page 1 of ${totalPages}</p>
+            `;
+            document.body.appendChild(progressOverlay);
+
+            const printContainer = document.getElementById('print-container');
+            printContainer.innerHTML = '';
+            printContainer.style.display = 'block';
+
+            try {
+                const A4_WIDTH = 595;
+                const A4_HEIGHT = 842;
                 
-                // Small delay to ensure images are loaded
-                setTimeout(() => {
-                    // Trigger print dialog
-                    window.print();
+                for (let i = 1; i <= totalPages; i++) {
+                    const page = await pdfDoc.getPage(i);
+                    const viewport = page.getViewport({scale: 1.0});
                     
-                    // Clean up after printing
-                    setTimeout(() => {
-                        printContainer.innerHTML = '';
-                    }, 2000);
-                }, 500);
-
-            } catch (error) {
-                console.error('Print error:', error);
-                alert('⚠️ Error preparing document for printing. Please try again.');
-                if (document.body.contains(progressOverlay)) {
-                    document.body.removeChild(progressOverlay);
-                }
-            } finally {
-                printBtn.disabled = false;
-                printBtn.textContent = '🖨️ Print This Chapter';
-            }
-        }
-
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                studentEmail = '';
-                studentName = '';
-                document.getElementById('studentEmail').value = '';
-                document.getElementById('pdfSelection').style.display = 'none';
-                document.getElementById('pdfViewer').style.display = 'none';
-                document.getElementById('loginSection').style.display = 'block';
-                document.getElementById('errorMsg').classList.add('hidden');
-                document.getElementById('successMsg').classList.add('hidden');
-            }
-        }
-
-        document.getElementById('studentEmail').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                verifyAccess();
-            }
-        });
-
-        console.log('System ready. Allowed users:', Object.keys(ALLOWED_EMAILS).length);
-
-        // BLOCK PRINT/SAVE FEATURES
-        // Disable right-click context menu
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            alert('⚠️ Right-click is disabled for security purposes.');
-            return false;
-        });
-
-        // Block keyboard shortcuts for Print and Save
-        document.addEventListener('keydown', function(e) {
-            // Block Ctrl+P (Print)
-            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
-                e.preventDefault();
-                alert('⚠️ Print function is disabled.\n\nPlease use the "Print This Chapter" button in the PDF viewer for authorized printing.');
-                return false;
-            }
-            
-            // Block Ctrl+S (Save)
-            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-                e.preventDefault();
-                alert('⚠️ Save function is disabled.\n\nContent is for viewing only. Use the Print button if you need a copy.');
-                return false;
-            }
-            
-            // Block Ctrl+Shift+P (Print dialog in some browsers)
-            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'P') {
-                e.preventDefault();
-                alert('⚠️ Print function is disabled.\n\nPlease use the "Print This Chapter" button in the PDF viewer for authorized printing.');
-                return false;
-            }
-
-            // Block F12 (Developer Tools)
-            if (e.key === 'F12') {
-                e.preventDefault();
-                alert('⚠️ Developer tools are disabled for security purposes.');
-                return false;
-            }
-
-            // Block Ctrl+Shift+I (Developer Tools)
-            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'I') {
-                e.preventDefault();
-                alert('⚠️ Developer tools are disabled for security purposes.');
-                return false;
-            }
-
-            // Block Ctrl+Shift+J (Console)
-            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'J') {
-                e.preventDefault();
-                alert('⚠️ Developer tools are disabled for security purposes.');
-                return false;
-            }
-
-            // Block Ctrl+U (View Source)
-            if ((e.ctrlKey || e.metaKey) && e.key === 'u') {
-                e.preventDefault();
-                alert('⚠️ View source is disabled for security purposes.');
-                return false;
-            }
-        });
-
-        // Disable text selection on PDF canvas
-        canvas.addEventListener('selectstart', function(e) {
-            e.preventDefault();
-            return false;
-        });
-
-        // Detect when print dialog is opened (partial detection)
-        window.addEventListener('beforeprint', function() {
-            console.log('Print dialog detected');
-        });
-
-        window.addEventListener('afterprint', function() {
-            console.log('Print dialog closed');
-        });
-    </script>
-</body>
-</html>
+                    const scale = A4_WIDTH / viewport.width;
+                    const scaledViewport = page.getViewport({scale: scale});
+                    
+                    const printCanvas = document.createElement('canvas');
+                    printCanvas.className = 'print-page';
+                    printCanvas.width = scaledViewport.width;
+                    printCanvas.height = scaledViewport.height;
+                    
+                    const printCtx = printCanvas.getContext('2d');
+                    
+                    await page.render({
+                        canvasContext:
