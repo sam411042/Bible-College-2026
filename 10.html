@@ -132,6 +132,7 @@
             padding: 10px;
             background: #ffe6e6;
             border-radius: 5px;
+            display: none;
         }
 
         .success-msg {
@@ -142,6 +143,7 @@
             padding: 10px;
             background: #d4edda;
             border-radius: 5px;
+            display: none;
         }
 
         .verse-quote {
@@ -190,6 +192,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .student-info-text {
@@ -218,7 +222,7 @@
 
         .pdf-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-bottom: 30px;
         }
@@ -308,6 +312,8 @@
             border-radius: 10px;
             margin-bottom: 20px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .pdf-toolbar-left {
@@ -379,7 +385,6 @@
             display: none;
         }
 
-        /* Print-specific styles */
         #print-container {
             display: none;
         }
@@ -427,55 +432,56 @@
         @media print {
             @page {
                 size: A4;
-                margin: 0;
+                margin: 0.5cm;
             }
             
             body * {
                 visibility: hidden !important;
-                display: none !important;
+            }
+            
+            #print-container,
+            #print-container * {
+                visibility: visible !important;
             }
             
             #print-container {
-                visibility: visible !important;
-                display: block !important;
                 position: absolute !important;
                 left: 0 !important;
                 top: 0 !important;
                 width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-            
-            #print-container * {
-                visibility: visible !important;
                 display: block !important;
             }
             
             .print-page {
-                page-break-before: always !important;
                 page-break-after: always !important;
                 page-break-inside: avoid !important;
+                display: block !important;
                 width: 100% !important;
-                height: 100% !important;
-                max-width: 100% !important;
-                max-height: 100% !important;
-                margin: 0 !important;
+                margin: 0 auto !important;
                 padding: 0 !important;
-                object-fit: contain !important;
-            }
-            
-            .print-page:first-child {
-                page-break-before: avoid !important;
             }
             
             .print-page:last-child {
                 page-break-after: avoid !important;
+            }
+
+            .print-page img {
+                max-width: 100% !important;
+                height: auto !important;
+                display: block !important;
+                margin: 0 auto !important;
             }
         }
 
         @media (max-width: 768px) {
             .pdf-cards {
                 grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .login-box {
+                padding: 30px 20px;
             }
             .print-progress {
                 min-width: 300px;
@@ -498,8 +504,8 @@
                 <p class="subtitle">Enter your registered email to access course materials</p>
                 <input type="email" id="studentEmail" placeholder="student@biblecollege.edu" autocomplete="email">
                 <button onclick="verifyAccess()">Access Course Materials</button>
-                <div id="errorMsg" class="error-msg hidden"></div>
-                <div id="successMsg" class="success-msg hidden"></div>
+                <div id="errorMsg" class="error-msg"></div>
+                <div id="successMsg" class="success-msg"></div>
             </div>
 
             <div class="verse-quote">
@@ -530,14 +536,14 @@
             <div class="pdf-cards">
                 <div class="pdf-card">
                     <div class="pdf-card-icon">📖</div>
-                    <h3 class="pdf-card-title">मत्तय </h3>
+                    <h3 class="pdf-card-title">मत्तय</h3>
                     <p class="pdf-card-desc">Matthew Gospel - Complete Study Guide</p>
                     <button onclick="openPDF(1)">View Study Material</button>
                 </div>
 
                 <div class="pdf-card">
                     <div class="pdf-card-icon">📕</div>
-                    <h3 class="pdf-card-title">मार्क </h3>
+                    <h3 class="pdf-card-title">मार्क</h3>
                     <p class="pdf-card-desc">Mark Gospel - Prophetic Insights</p>
                     <button onclick="openPDF(2)">View Study Material</button>
                 </div>
@@ -602,18 +608,17 @@
         </div>
     </div>
 
-    <!-- Hidden container for printing all pages -->
     <div id="print-container"></div>
 
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        // WHITELIST - Your authorized emails with names
+        // WHITELIST - Authorized emails
         const ALLOWED_EMAILS = {
             'p82158860@gmail.com': 'Pritee Gaikwad',
             'ranjeeta.kamble333@gmail.com': 'Ranjeeta Kamble',
             'vypardh78@gmail.com': 'Vishal Pardhe',
-            'rvpardhe07@gmail.com': 'Kavita pardhe',
+            'rvpardhe07@gmail.com': 'Kavita Pardhe',
             'manoramaramane@gmail.com': 'Manorama Ramane',
             'buddhiwantmeene@gmail.com': 'Meena Buddhiwant',
             'vishforluv1982@gmail.com': 'Vishwas Bhosale',
@@ -630,7 +635,7 @@
             'manisha.fernandis15@gmail.com': 'Manisha Fernandis'
         };
 
-        // PDF CONFIGURATION - Loading from GitHub
+        // PDF Configuration
         const PDF_FILE_PATH = {
             1: {
                 file: 'https://raw.githubusercontent.com/sam411042/Bible-College-2026/main/matthew.pdf',
@@ -669,31 +674,43 @@
         const canvas = document.getElementById('pdf-canvas');
         const ctx = canvas.getContext('2d');
 
+        // Allow Enter key to submit
+        document.getElementById('studentEmail').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyAccess();
+            }
+        });
+
         function verifyAccess() {
-            const email = document.getElementById('studentEmail').value.trim().toLowerCase();
+            const emailInput = document.getElementById('studentEmail');
             const errorMsg = document.getElementById('errorMsg');
             const successMsg = document.getElementById('successMsg');
 
-            errorMsg.classList.add('hidden');
-            successMsg.classList.add('hidden');
+            const email = emailInput.value.trim().toLowerCase();
 
+            // Hide messages
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            // Validation
             if (!email) {
                 errorMsg.textContent = '⚠️ Please enter your email address';
-                errorMsg.classList.remove('hidden');
+                errorMsg.style.display = 'block';
                 return;
             }
 
             if (!email.includes('@') || !email.includes('.')) {
                 errorMsg.textContent = '⚠️ Please enter a valid email address';
-                errorMsg.classList.remove('hidden');
+                errorMsg.style.display = 'block';
                 return;
             }
 
+            // Check whitelist
             if (ALLOWED_EMAILS[email]) {
                 studentEmail = email;
                 studentName = ALLOWED_EMAILS[email];
                 successMsg.textContent = '✅ Access granted! Loading materials...';
-                successMsg.classList.remove('hidden');
+                successMsg.style.display = 'block';
                 
                 document.getElementById('loggedEmail').textContent = studentName + ' (' + email + ')';
                 
@@ -703,8 +720,17 @@
                 }, 1000);
             } else {
                 errorMsg.textContent = '❌ Access Denied: Your email is not registered. Please contact the administrator.';
-                errorMsg.classList.remove('hidden');
+                errorMsg.style.display = 'block';
             }
+        }
+
+        function logout() {
+            studentEmail = '';
+            studentName = '';
+            document.getElementById('studentEmail').value = '';
+            document.getElementById('pdfSelection').style.display = 'none';
+            document.getElementById('pdfViewer').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
         }
 
         function openPDF(pdfId) {
@@ -726,19 +752,16 @@
         }
 
         function loadPDF(pdfPath) {
-            console.log('Loading PDF:', pdfPath);
-            const loadingTask = pdfjsLib.getDocument({
-                url: pdfPath
-            });
+            const loadingTask = pdfjsLib.getDocument(pdfPath);
             
             loadingTask.promise.then(function(pdf) {
                 pdfDoc = pdf;
                 document.getElementById('page-count').textContent = pdf.numPages;
                 pageNum = 1;
                 renderPage(pageNum);
-                console.log('PDF loaded successfully');
             }).catch(function(error) {
-                console.error('PDF error:', error);
+                console.error('Error loading PDF:', error);
+                alert('Error loading PDF. Please try again.');
                 backToSelection();
             });
         }
@@ -810,147 +833,113 @@
             queueRenderPage(pageNum);
         }
 
- page.render({
-                        canvasContext: tempCtx,
+        async function printPDF() {
+            if (!pdfDoc) {
+                alert('PDF not loaded yet');
+                return;
+            }
+            
+            const pdfConfig = PDF_FILE_PATH[currentPdfId];
+            const totalPages = pdfDoc.numPages;
+            
+            if (!confirm(`Print all ${totalPages} pages of "${pdfConfig.title}"?\n\nThis will prepare all pages for printing.`)) {
+                return;
+            }
+
+            const printBtn = document.getElementById('printBtn');
+            printBtn.disabled = true;
+            printBtn.textContent = '⏳ Preparing pages...';
+
+            // Create progress overlay
+            const progressOverlay = document.createElement('div');
+            progressOverlay.className = 'print-progress';
+            progressOverlay.innerHTML = `
+                <h3>🖨️ Preparing Document for Print</h3>
+                <p>Please wait while all pages are loaded...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
+                </div>
+                <p id="progressText">Loading page 1 of ${totalPages}</p>
+            `;
+            document.body.appendChild(progressOverlay);
+
+            const printContainer = document.getElementById('print-container');
+            printContainer.innerHTML = '';
+
+            try {
+                // Render all pages to images
+                for (let i = 1; i <= totalPages; i++) {
+                    const page = await pdfDoc.getPage(i);
+                    
+                    // Scale for print quality (2.0 for good quality)
+                    const viewport = page.getViewport({scale: 2.0});
+                    
+                    // Create canvas for this page
+                    const printCanvas = document.createElement('canvas');
+                    printCanvas.width = viewport.width;
+                    printCanvas.height = viewport.height;
+                    
+                    const printCtx = printCanvas.getContext('2d');
+                    
+                    // Render page to canvas
+                    await page.render({
+                        canvasContext: printCtx,
                         viewport: viewport
                     }).promise;
                     
-                    // Convert canvas to image for better printing
+                    // Convert canvas to image
+                    const imgData = printCanvas.toDataURL('image/png');
+                    
+                    // Create image element
                     const img = document.createElement('img');
-                    img.src = tempCanvas.toDataURL('image/png');
+                    img.src = imgData;
                     img.className = 'print-page';
-                    img.style.cssText = 'width: 100%; display: block; margin: 0; padding: 0;';
+                    img.alt = `Page ${i}`;
                     
                     printContainer.appendChild(img);
                     
                     // Update progress
                     const progress = Math.round((i / totalPages) * 100);
-                    document.getElementById('progressFill').style.width = progress + '%';
-                    document.getElementById('progressFill').textContent = progress + '%';
-                    document.getElementById('progressText').textContent = `Loading page ${i} of ${totalPages}`;
+                    const progressFill = document.getElementById('progressFill');
+                    const progressText = document.getElementById('progressText');
+                    
+                    if (progressFill) {
+                        progressFill.style.width = progress + '%';
+                        progressFill.textContent = progress + '%';
+                    }
+                    if (progressText) {
+                        progressText.textContent = `Loading page ${i} of ${totalPages}`;
+                    }
                 }
-
+                
                 // Remove progress overlay
                 document.body.removeChild(progressOverlay);
                 
-                // Small delay to ensure images are loaded
+                // Show print container
+                printContainer.style.display = 'block';
+                
+                // Small delay to ensure images are ready
                 setTimeout(() => {
                     // Trigger print dialog
                     window.print();
                     
-                    // Clean up after printing
+                    // Cleanup after print
                     setTimeout(() => {
+                        printContainer.style.display = 'none';
                         printContainer.innerHTML = '';
-                    }, 2000);
+                        printBtn.disabled = false;
+                        printBtn.textContent = '🖨️ Print This Chapter';
+                    }, 500);
                 }, 500);
-
+                
             } catch (error) {
                 console.error('Print error:', error);
-                alert('⚠️ Error preparing document for printing. Please try again.');
-                if (document.body.contains(progressOverlay)) {
-                    document.body.removeChild(progressOverlay);
-                }
-            } finally {
+                alert('Error preparing document for printing. Please try again.');
+                document.body.removeChild(progressOverlay);
                 printBtn.disabled = false;
                 printBtn.textContent = '🖨️ Print This Chapter';
             }
         }
-
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                studentEmail = '';
-                studentName = '';
-                document.getElementById('studentEmail').value = '';
-                document.getElementById('pdfSelection').style.display = 'none';
-                document.getElementById('pdfViewer').style.display = 'none';
-                document.getElementById('loginSection').style.display = 'block';
-                document.getElementById('errorMsg').classList.add('hidden');
-                document.getElementById('successMsg').classList.add('hidden');
-            }
-        }
-
-        document.getElementById('studentEmail').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                verifyAccess();
-            }
-        });
-
-        console.log('System ready. Allowed users:', Object.keys(ALLOWED_EMAILS).length);
-
-        // BLOCK PRINT/SAVE FEATURES
-        // Disable right-click context menu
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            alert('⚠️ Right-click is disabled for security purposes.');
-            return false;
-        });
-
-        // Block keyboard shortcuts for Print and Save
-        document.addEventListener('keydown', function(e) {
-            // Block Ctrl+P (Print)
-            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
-                e.preventDefault();
-                alert('⚠️ Print function is disabled.\n\nPlease use the "Print This Chapter" button in the PDF viewer for authorized printing.');
-                return false;
-            }
-            
-            // Block Ctrl+S (Save)
-            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-                e.preventDefault();
-                alert('⚠️ Save function is disabled.\n\nContent is for viewing only. Use the Print button if you need a copy.');
-                return false;
-            }
-            
-            // Block Ctrl+Shift+P (Print dialog in some browsers)
-            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'P') {
-                e.preventDefault();
-                alert('⚠️ Print function is disabled.\n\nPlease use the "Print This Chapter" button in the PDF viewer for authorized printing.');
-                return false;
-            }
-
-            // Block F12 (Developer Tools)
-            if (e.key === 'F12') {
-                e.preventDefault();
-                alert('⚠️ Developer tools are disabled for security purposes.');
-                return false;
-            }
-
-            // Block Ctrl+Shift+I (Developer Tools)
-            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'I') {
-                e.preventDefault();
-                alert('⚠️ Developer tools are disabled for security purposes.');
-                return false;
-            }
-
-            // Block Ctrl+Shift+J (Console)
-            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'J') {
-                e.preventDefault();
-                alert('⚠️ Developer tools are disabled for security purposes.');
-                return false;
-            }
-
-            // Block Ctrl+U (View Source)
-            if ((e.ctrlKey || e.metaKey) && e.key === 'u') {
-                e.preventDefault();
-                alert('⚠️ View source is disabled for security purposes.');
-                return false;
-            }
-        });
-
-        // Disable text selection on PDF canvas
-        canvas.addEventListener('selectstart', function(e) {
-            e.preventDefault();
-            return false;
-        });
-
-        // Detect when print dialog is opened (partial detection)
-        window.addEventListener('beforeprint', function() {
-            console.log('Print dialog detected');
-        });
-
-        window.addEventListener('afterprint', function() {
-            console.log('Print dialog closed');
-        });
     </script>
 </body>
 </html>
