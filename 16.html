@@ -348,10 +348,15 @@
             const student = STUDENT_DATA[currentUser];
             const marks = student.marks.filter(m => m !== null);
             const total = marks.reduce((a,b) => a+b, 0);
-            const avg = (total / marks.length).toFixed(2);
-            const percentage = ((total / (marks.length * 100)) * 100).toFixed(2);
-            const grade = percentage >= 90 ? 'A+' : percentage >= 80 ? 'A' : percentage >= 70 ? 'B+' : percentage >= 60 ? 'B' : percentage >= 50 ? 'C' : 'F';
-            const gradeClass = percentage >= 80 ? 'grade-A' : percentage >= 60 ? 'grade-B' : percentage >= 50 ? 'grade-C' : 'grade-F';
+            
+            // Students with less than 3 exams get null percentage
+            const excludedEmails = ['bordeamol26@gmail.com', 'borde.siyona@gmail.com', 'ashubaladon@gmail.com'];
+            const isExcluded = excludedEmails.includes(currentUser);
+            
+            const avg = isExcluded ? 'N/A' : (total / marks.length).toFixed(2);
+            const percentage = isExcluded ? null : ((total / (marks.length * 100)) * 100).toFixed(2);
+            const grade = isExcluded ? 'N/A' : (percentage >= 90 ? 'A+' : percentage >= 80 ? 'A' : percentage >= 70 ? 'B+' : percentage >= 60 ? 'B' : percentage >= 50 ? 'C' : 'F');
+            const gradeClass = isExcluded ? '' : (percentage >= 80 ? 'grade-A' : percentage >= 60 ? 'grade-B' : percentage >= 50 ? 'grade-C' : 'grade-F');
 
             document.getElementById('marksStudentName').textContent = student.name;
             
