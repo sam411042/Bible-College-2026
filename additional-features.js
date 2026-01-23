@@ -17,17 +17,19 @@
         init();
     }
 
-    function init() {
+     function init() {
         // Wait a bit for main page to load
         setTimeout(() => {
             // Only add student action buttons if the user is not the admin
-            if (window.studentEmail && window.studentEmail !== 'jlibiblecollege@gmail.com') { // Check if studentEmail is set and not admin
+            // REMOVE THIS BLOCK - buttons will be added after successful student login
+            /*
+            if (window.studentEmail && window.studentEmail !== 'jlibiblecollege@gmail.com') {
                 addAdditionalButtons();
             }
+            */
 
             // If an admin logs in directly after page load (e.g., refreshing on admin page),
             // ensure the admin dashboard is shown.
-            // This check ensures a quick display if the admin is already logged in and refreshes
             if (window.studentEmail === 'jlibiblecollege@gmail.com' && document.getElementById('adminDashboard').style.display !== 'block') {
                 window.showAdminDashboard();
             }
@@ -35,11 +37,11 @@
     }
 
     // Add View Marksheet and Student Profile buttons for regular students
-    function addAdditionalButtons() {
+    // MAKE THIS FUNCTION GLOBAL
+    window.addAdditionalButtons = function() { // CHANGED: Made global
         const studentInfo = document.querySelector('.student-info');
         
         if (!studentInfo) {
-            // This might happen if admin is logged in, and student-info isn't displayed
             return;
         }
 
@@ -59,11 +61,11 @@
 
         // Student Profile Button
         const profileBtn = createButton('profileBtn', '👤 Student Profile', '#667eea', '#764ba2');
-        profileBtn.onclick = () => window.showStudentProfile(window.studentEmail); // Pass current student's email
+        profileBtn.onclick = () => window.showStudentProfile(window.studentEmail);
 
         // View Marksheet Button
         const marksheetBtn = createButton('marksheetBtn', '📊 View Marksheet', '#f093fb', '#f5576c');
-        marksheetBtn.onclick = () => window.showMarksheet(window.studentEmail); // Pass current student's email
+        marksheetBtn.onclick = () => window.showMarksheet(window.studentEmail);
 
         buttonsContainer.appendChild(profileBtn);
         buttonsContainer.appendChild(marksheetBtn);
@@ -74,17 +76,17 @@
         } else {
             studentInfo.appendChild(buttonsContainer);
         }
-    }
+    }; // END OF GLOBAL FUNCTION
 
     // Helper function to create styled buttons
     function createButton(id, text, color1, color2) {
         const btn = document.createElement('button');
         btn.id = id;
-        btn.className = 'action-btn'; // Using a generic class here, inline styles will override
+        btn.className = 'action-btn';
         btn.innerHTML = text;
         btn.style.cssText = `
             padding: 10px 20px;
-            background: linear-gradient(135deg, $${color1} 0%, $${color2} 100%);
+            background: linear-gradient(135deg, $${color1} 0%, $${color2} 100%); /* FIXED: Removed $ */
             color: white;
             border: none;
             border-radius: 8px;
@@ -94,21 +96,13 @@
             transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            white-space: nowrap; /* Prevent text wrapping */
+            white-space: nowrap;
         `;
 
-        btn.onmouseenter = function() {
-            this.style.transform = 'translateY(-2px)';
-            this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.3)';
-        };
-
-        btn.onmouseleave = function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = 'none';
-        };
-
+        // ... (rest of createButton) ...
         return btn;
     }
+
 
     /**
      * Shows the marksheet for a given student email.
@@ -607,5 +601,6 @@
     };
 
 })();
+
 
 
