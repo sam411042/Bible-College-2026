@@ -200,27 +200,7 @@
             color: #1b5e20;
             font-weight: 600;
         }
-        /* Style for the new action buttons */
-        .action-btn {
-            width: auto;
-            padding: 10px 20px;
-            background: #007bff; /* A blue color for differentiation */
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3); /* Matching shadow */
-        }
-
+        /* The .action-btn CSS is removed from here as additional-features.js handles inline styling */
 
         .logout-btn {
             width: auto;
@@ -549,9 +529,7 @@
                 <div class="student-info-text">
                     ✅ Logged in as: <span id="loggedEmail"></span>
                 </div>
-                <!-- New buttons added here -->
-                <button class="action-btn" onclick="viewMarksheet()">View Marksheet</button>
-                <button class="action-btn" onclick="viewStudentProfile()">Student Profile</button>
+                <!-- The "View Marksheet" and "Student Profile" buttons will be dynamically added here by additional-features.js -->
                 <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
 
@@ -693,8 +671,9 @@
         let pageRendering = false;
         let pageNumPending = null;
         let scale = 1.5;
-        let studentEmail = '';
-        let studentName = '';
+        // Declare studentEmail and studentName globally so additional-features.js can access them
+        window.studentEmail = '';
+        window.studentName = '';
         let currentPdfId = null;
         const canvas = document.getElementById('pdf-canvas');
         const ctx = canvas.getContext('2d');
@@ -732,12 +711,12 @@
 
             // Check whitelist
             if (ALLOWED_EMAILS[email]) {
-                studentEmail = email;
-                studentName = ALLOWED_EMAILS[email];
+                window.studentEmail = email; // Assign to global window.studentEmail
+                window.studentName = ALLOWED_EMAILS[email]; // Assign to global window.studentName
                 successMsg.textContent = '✅ Access granted! Loading materials...';
                 successMsg.style.display = 'block';
                 
-                document.getElementById('loggedEmail').textContent = studentName + ' (' + email + ')';
+                document.getElementById('loggedEmail').textContent = window.studentName + ' (' + email + ')';
                 
                 setTimeout(() => {
                     document.getElementById('loginSection').style.display = 'none';
@@ -750,11 +729,18 @@
         }
 
         function logout() {
-            studentEmail = '';
-            studentName = '';
+            window.studentEmail = '';
+            window.studentName = '';
             document.getElementById('studentEmail').value = '';
             document.getElementById('pdfSelection').style.display = 'none';
             document.getElementById('pdfViewer').style.display = 'none';
+
+            // Hide marksheet or profile sections if they are open
+            const marksheetSection = document.getElementById('marksheetSection');
+            if (marksheetSection) marksheetSection.style.display = 'none';
+            const profileSection = document.getElementById('profileSection');
+            if (profileSection) profileSection.style.display = 'none';
+            
             document.getElementById('loginSection').style.display = 'block';
         }
 
@@ -764,6 +750,13 @@
             
             document.getElementById('currentPdfTitle').textContent = pdfConfig.title;
             document.getElementById('pdfSelection').style.display = 'none';
+            
+            // Hide marksheet or profile sections if they are open
+            const marksheetSection = document.getElementById('marksheetSection');
+            if (marksheetSection) marksheetSection.style.display = 'none';
+            const profileSection = document.getElementById('profileSection');
+            if (profileSection) profileSection.style.display = 'none';
+
             document.getElementById('pdfViewer').style.display = 'block';
             
             loadPDF(pdfConfig.file);
@@ -965,21 +958,9 @@
                 printBtn.textContent = '🖨️ Print This Chapter';
             }
         }
-
-        // Placeholder functions for the new buttons
-        function viewMarksheet() {
-            alert("This button will eventually show the student's marksheet.");
-            // Implement your marksheet viewing logic here.
-            // This might involve fetching data from a server and displaying it.
-        }
-
-        function viewStudentProfile() {
-            alert("This button will eventually show the student's profile information.");
-            // Implement your student profile viewing logic here.
-            // This might involve fetching data from a server and displaying it.
-        }
     </script>
-       <script src="student-data.js"></script>
+    <!-- Your external JS files should be linked after the main script -->
+    <script src="student-data.js"></script>
     <script src="additional-features.js"></script>
 </body>
 </html>
