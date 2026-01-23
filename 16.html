@@ -190,175 +190,34 @@
         }
         
         /* Print Styles */
-        @page {
-            size: A4 portrait;
-            margin: 0;
-        }
-        
         @media print {
-            body { 
-                background: white !important; 
-                padding: 0 !important;
-            }
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; }
+            .back-btn, .print-btn, .logout-btn, .button-group { display: none !important; }
             
-            .container { 
-                box-shadow: none !important;
-                border-radius: 0 !important;
-            }
-            
-            /* Hide header on print */
-            .header {
-                display: none !important;
-            }
-            
-            /* Hide all buttons */
-            .back-btn, .print-btn, .logout-btn, .button-group, .student-actions {
-                display: none !important;
-            }
-            
-            /* Hide student info bar on marks print */
-            body.printing-marks .student-info {
-                display: none !important;
-            }
-            
-            /* Marks Card Print - Fit on one page */
-            body.printing-marks #marksSection {
+            /* Marks Card Print */
+            #marksSection {
                 display: block !important;
                 visibility: visible !important;
-                page-break-inside: avoid !important;
-                page-break-after: avoid !important;
             }
             
-            body.printing-marks #marksSection * {
+            #marksSection * {
                 visibility: visible !important;
             }
             
-            body.printing-marks .marks-section {
-                padding: 15mm !important;
+            .marks-header { 
+                background: #1e3c72 !important; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact; 
+            }
+            .summary-card { 
+                page-break-inside: avoid;
                 background: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
-            
-            body.printing-marks .marks-header { 
-                background: #ff9800 !important; 
-                -webkit-print-color-adjust: exact !important; 
-                print-color-adjust: exact !important;
-                padding: 15px !important;
-                margin-bottom: 15px !important;
-                page-break-inside: avoid !important;
-            }
-            
-            body.printing-marks .marks-header h2 {
-                font-size: 1.5em !important;
-                margin-bottom: 5px !important;
-            }
-            
-            body.printing-marks .marks-summary {
-                margin-bottom: 15px !important;
-                gap: 10px !important;
-                page-break-inside: avoid !important;
-            }
-            
-            body.printing-marks .summary-card { 
-                page-break-inside: avoid !important;
-                background: white !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                padding: 12px !important;
-            }
-            
-            body.printing-marks .summary-card h3 {
-                font-size: 0.75em !important;
-                margin-bottom: 5px !important;
-            }
-            
-            body.printing-marks .summary-card .value {
-                font-size: 1.5em !important;
-            }
-            
-            body.printing-marks .summary-card .grade {
-                font-size: 1.8em !important;
-            }
-            
-            body.printing-marks .marks-table-container {
-                padding: 15px !important;
-                margin-bottom: 0 !important;
-            }
-            
-            body.printing-marks .marks-table { 
-                page-break-inside: auto !important;
-            }
-            
-            body.printing-marks .marks-table thead {
-                background: #1e3c72 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            body.printing-marks .marks-table th {
-                padding: 8px !important;
-                font-size: 0.8em !important;
-                background: #1e3c72 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            body.printing-marks .marks-table td {
-                padding: 8px !important;
-                font-size: 0.85em !important;
-            }
-            
-            body.printing-marks .marks-table tr { 
-                page-break-inside: avoid !important;
-            }
-            
-            /* Make marks colors print */
-            body.printing-marks .mark-excellent {
-                color: #4caf50 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            body.printing-marks .mark-good {
-                color: #2196f3 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            body.printing-marks .mark-average {
-                color: #ff9800 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            body.printing-marks .mark-poor {
-                color: #f44336 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            body.printing-marks .grade-A {
-                color: #4caf50 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            body.printing-marks .grade-B {
-                color: #2196f3 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            body.printing-marks .grade-C {
-                color: #ff9800 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            body.printing-marks .grade-F {
-                color: #f44336 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
+            .marks-table { page-break-inside: auto; }
+            .marks-table tr { page-break-inside: avoid; }
             
             /* PDF Print Styles - only apply when print-container has content */
             body.printing-pdf * {
@@ -700,4 +559,315 @@
             'manisha.fernandis15@gmail.com': { name: 'Manisha Fernandis', marks: [null,null,70,74,50,null,37] },
             'meghad09jun@gmail.com': { name: 'Megha Mhaske', marks: [null,48,100,40,null,null,null] },
             'ashubaladon@gmail.com': { name: 'Ashish Dongerdive', marks: [null,70,null,null,null,null,75] },
-            'vishforluv1982@gmail.com': { name: 'Vishwas Bhosale', marks: [62,50
+            'vishforluv1982@gmail.com': { name: 'Vishwas Bhosale', marks: [62,50,null,100,40,null,null] }
+        };
+
+        const EXAMS = ['June', 'July', 'August', 'September', 'October', 'Nov-1', 'Nov-2'];
+        let currentUser = '';
+        let pdfDoc = null;
+        let currentPage = 1;
+        let totalPages = 0;
+        let currentPdfId = null;
+
+        // Initialize PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        function verifyAccess() {
+            const email = document.getElementById('studentEmail').value.trim().toLowerCase();
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            if (!email) {
+                errorMsg.textContent = '⚠️ Please enter email';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (STUDENT_DATA[email]) {
+                currentUser = email;
+                successMsg.textContent = '✅ Login successful!';
+                successMsg.style.display = 'block';
+                
+                setTimeout(() => {
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('dashboardSection').style.display = 'block';
+                    document.getElementById('loggedName').textContent = STUDENT_DATA[email].name;
+                }, 800);
+            } else {
+                errorMsg.textContent = '❌ Email not registered';
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function loadPDFFromURL(bookId) {
+            const pdfConfig = PDF_FILE_PATH[bookId];
+            if (!pdfConfig) {
+                alert('PDF not found!');
+                return;
+            }
+
+            currentPdfId = bookId; // Store current PDF ID
+            
+            document.getElementById('pdfTitle').textContent = `📖 ${pdfConfig.title}`;
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('pdfViewerSection').style.display = 'block';
+            
+            // Show loading message
+            const canvas = document.getElementById('pdfCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 800;
+            canvas.height = 400;
+            ctx.fillStyle = '#f0f0f0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#1e3c72';
+            ctx.font = '20px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Loading PDF...', canvas.width / 2, canvas.height / 2);
+
+            pdfjsLib.getDocument(pdfConfig.file).promise.then(function(pdf) {
+                pdfDoc = pdf;
+                totalPages = pdf.numPages;
+                currentPage = 1;
+                renderPage(currentPage);
+            }).catch(function(error) {
+                alert('Error loading PDF: ' + error.message + '\n\nFor local PDFs (मार्क, लूका), please ensure the files are in the same directory as this HTML file.');
+                backToDashboard();
+            });
+        }
+
+        function renderPage(num) {
+            pdfDoc.getPage(num).then(function(page) {
+                const canvas = document.getElementById('pdfCanvas');
+                const ctx = canvas.getContext('2d');
+                
+                const viewport = page.getViewport({ scale: 1.5 });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                
+                page.render(renderContext);
+                document.getElementById('pageInfo').textContent = `Page ${num} of ${totalPages}`;
+            });
+        }
+
+        function previousPage() {
+            if (currentPage <= 1) return;
+            currentPage--;
+            renderPage(currentPage);
+        }
+
+        function nextPage() {
+            if (currentPage >= totalPages) return;
+            currentPage++;
+            renderPage(currentPage);
+        }
+
+        function showMarks() {
+            const student = STUDENT_DATA[currentUser];
+            const marks = student.marks.filter(m => m !== null);
+            const total = marks.reduce((a,b) => a+b, 0);
+            
+            // Students with less than 3 exams get null percentage
+            const excludedEmails = ['bordeamol26@gmail.com', 'borde.siyona@gmail.com', 'ashubaladon@gmail.com'];
+            const isExcluded = excludedEmails.includes(currentUser);
+            
+            const avg = isExcluded ? 'N/A' : (total / marks.length).toFixed(2);
+            const percentage = isExcluded ? 'N/A' : ((total / (marks.length * 100)) * 100).toFixed(2);
+            const grade = isExcluded ? 'N/A' : (percentage >= 90 ? 'A+' : percentage >= 80 ? 'A' : percentage >= 70 ? 'B+' : percentage >= 60 ? 'B' : percentage >= 50 ? 'C' : 'F');
+            const gradeClass = isExcluded ? '' : (percentage >= 80 ? 'grade-A' : percentage >= 60 ? 'grade-B' : percentage >= 50 ? 'grade-C' : 'grade-F');
+
+            document.getElementById('marksStudentName').textContent = student.name;
+            
+            document.getElementById('marksSummary').innerHTML = `
+                <div class="summary-card">
+                    <h3>Total Marks</h3>
+                    <div class="value">${total}</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Exams Taken</h3>
+                    <div class="value">${marks.length}/7</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Average</h3>
+                    <div class="value">${avg}</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Percentage</h3>
+                    <div class="value">${percentage}${percentage !== 'N/A' ? '%' : ''}</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Grade</h3>
+                    <div class="grade ${gradeClass}">${grade}</div>
+                </div>
+            `;
+
+            let tableHTML = '';
+            student.marks.forEach((mark, i) => {
+                const status = mark === null ? 'Absent' : mark >= 90 ? 'Excellent' : mark >= 70 ? 'Good' : mark >= 50 ? 'Average' : 'Needs Improvement';
+                const markClass = mark === null ? 'mark-absent' : mark >= 90 ? 'mark-excellent' : mark >= 70 ? 'mark-good' : mark >= 50 ? 'mark-average' : 'mark-poor';
+                const percent = mark === null ? '-' : mark + '%';
+                
+                tableHTML += `
+                    <tr>
+                        <td><strong>${EXAMS[i]}</strong></td>
+                        <td class="${markClass}">${mark === null ? '-' : mark}</td>
+                        <td>100</td>
+                        <td>${percent}</td>
+                        <td>${status}</td>
+                    </tr>
+                `;
+            });
+            document.getElementById('marksBody').innerHTML = tableHTML;
+
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('marksSection').style.display = 'block';
+        }
+
+        function backToDashboard() {
+            document.getElementById('marksSection').style.display = 'none';
+            document.getElementById('pdfViewerSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+        }
+
+        function logout() {
+            currentUser = '';
+            document.getElementById('studentEmail').value = '';
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('marksSection').style.display = 'none';
+            document.getElementById('pdfViewerSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+        }
+
+        function printMarks() {
+            // Ensure we're not in PDF printing mode
+            document.body.classList.remove('printing-pdf');
+            window.print();
+        }
+
+        function printPDF() {
+            if (!pdfDoc || !currentPdfId) {
+                alert('No PDF loaded to print');
+                return;
+            }
+            
+            const pdfConfig = PDF_FILE_PATH[currentPdfId];
+            const totalPages = pdfDoc.numPages;
+            
+            if (!confirm(`Print all ${totalPages} pages of "${pdfConfig.title}"?\n\nThis will prepare all pages for printing.`)) {
+                return;
+            }
+
+            // Create progress overlay
+            const progressOverlay = document.createElement('div');
+            progressOverlay.className = 'print-progress';
+            progressOverlay.innerHTML = `
+                <h3>🖨️ Preparing Document for Print</h3>
+                <p>Please wait while all pages are loaded...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
+                </div>
+                <p id="progressText">Loading page 1 of ${totalPages}</p>
+            `;
+            document.body.appendChild(progressOverlay);
+
+            const printContainer = document.getElementById('print-container');
+            printContainer.innerHTML = '';
+
+            // Render all pages
+            let pagesRendered = 0;
+            
+            const renderAllPages = async () => {
+                try {
+                    for (let i = 1; i <= totalPages; i++) {
+                        const page = await pdfDoc.getPage(i);
+                        
+                        // Scale for print quality
+                        const viewport = page.getViewport({scale: 2.0});
+                        
+                        // Create canvas for this page
+                        const printCanvas = document.createElement('canvas');
+                        printCanvas.width = viewport.width;
+                        printCanvas.height = viewport.height;
+                        
+                        const printCtx = printCanvas.getContext('2d');
+                        
+                        // Render page to canvas
+                        await page.render({
+                            canvasContext: printCtx,
+                            viewport: viewport
+                        }).promise;
+                        
+                        // Convert canvas to image
+                        const imgData = printCanvas.toDataURL('image/png');
+                        
+                        // Create print page div
+                        const pageDiv = document.createElement('div');
+                        pageDiv.className = 'print-page';
+                        
+                        const img = document.createElement('img');
+                        img.src = imgData;
+                        img.alt = `Page ${i}`;
+                        
+                        pageDiv.appendChild(img);
+                        printContainer.appendChild(pageDiv);
+                        
+                        pagesRendered++;
+                        
+                        // Update progress
+                        const progress = Math.round((i / totalPages) * 100);
+                        const progressFill = document.getElementById('progressFill');
+                        const progressText = document.getElementById('progressText');
+                        
+                        if (progressFill) {
+                            progressFill.style.width = progress + '%';
+                            progressFill.textContent = progress + '%';
+                        }
+                        if (progressText) {
+                            progressText.textContent = `Loading page ${i} of ${totalPages}`;
+                        }
+                    }
+                    
+                    // Remove progress overlay
+                    document.body.removeChild(progressOverlay);
+                    
+                    // Show print container and add printing class
+                    printContainer.style.display = 'block';
+                    document.body.classList.add('printing-pdf');
+                    
+                    // Trigger print dialog
+                    setTimeout(() => {
+                        window.print();
+                        
+                        // Cleanup after print
+                        setTimeout(() => {
+                            document.body.classList.remove('printing-pdf');
+                            printContainer.style.display = 'none';
+                            printContainer.innerHTML = '';
+                        }, 500);
+                    }, 500);
+                    
+                } catch (error) {
+                    console.error('Print error:', error);
+                    alert('Error preparing document for printing. Please try again.');
+                    if (document.body.contains(progressOverlay)) {
+                        document.body.removeChild(progressOverlay);
+                    }
+                }
+            };
+            
+            renderAllPages();
+        }
+
+        document.getElementById('studentEmail').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') verifyAccess();
+        });
+    </script>
+</body>
+</html>
