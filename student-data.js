@@ -282,22 +282,6 @@ const STUDENT_DATA = {
             reference2: 'Nikita Hiwale - 7745811984',
             futurePlan: 'Know the plan of God in my life, Have a daily relationship with Jesus, walk with Him'
         },
-        'ashmitgupta7787@gmail.com': {
-            name: 'Sayali Thokal',
-            address: 'Porwal Road',
-            mobile: '9021565467',
-            dob: '11/17/1983',
-            age: 41,
-            gender: 'Female',
-            education: 'Masters',
-            occupation: 'Service',
-            marital: 'Divorced',
-            church: 'Methodist Church',
-            pastor: 'Pastor Name Not Specified',
-            reference1: 'Ashmit - 9225112131',
-            reference2: '',
-            futurePlan: 'As will of God'
-        },
         'michaelsalvi@gmail.com': {
             name: 'Michael Salvi',
             address: 'Jeevan Sinhha Co-op Housing Society, Ramne Sitaram Chawl, Parvati Paytha East, Pune-9, Behind Bharat Petrol Pump, 4th Floor',
@@ -342,4 +326,5 @@ const STUDENT_DATA = {
     // Exam months mapping
     examMonths: ['June', 'July', 'August', 'September', 'October', 'Nov-1', 'Nov-2']
 };
+
 
