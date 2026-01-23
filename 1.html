@@ -6,6 +6,7 @@
     <title>Bible College of India - Pastors Foundation Course</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
+        /* Existing CSS styles remain unchanged */
         * {
             margin: 0;
             padding: 0;
@@ -430,6 +431,93 @@
             font-weight: 600;
         }
 
+        /* New styles for Admin Dashboard */
+        .admin-dashboard {
+            display: none; /* Hidden by default */
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .admin-header h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .admin-controls {
+            display: flex;
+            justify-content: flex-end; /* Pushes logout to the right */
+            margin-bottom: 20px;
+        }
+
+        .student-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .student-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid #1e3c72;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .student-card h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .student-card p {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            flex-grow: 1; /* Allows card to expand evenly */
+        }
+
+        .student-card-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap; /* For responsiveness */
+        }
+
+        .student-card-actions button {
+            flex-grow: 1; /* Buttons take equal space */
+            width: auto; /* Override default 100% width for individual buttons in card */
+            padding: 10px 15px;
+            font-size: 0.9em;
+            border-radius: 6px;
+        }
+
+        .btn-view-profile {
+            background: linear-gradient(135deg, #2196f3 0%, #00bcd4 100%);
+        }
+        .btn-view-profile:hover {
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-view-marksheet {
+            background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);
+        }
+        .btn-view-marksheet:hover {
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+        }
+
+
         @media print {
             @page {
                 size: A4;
@@ -487,6 +575,13 @@
             .print-progress {
                 min-width: 300px;
                 padding: 30px;
+            }
+            .profile-cards {
+                grid-template-columns: 1fr; /* Stack profile cards on small screens */
+            }
+            .student-card-actions button {
+                padding: 8px 12px; /* Smaller buttons on mobile */
+                font-size: 0.85em;
             }
         }
     </style>
@@ -608,6 +703,24 @@
                 <canvas id="pdf-canvas"></canvas>
             </div>
         </div>
+
+        <!-- NEW ADMIN DASHBOARD SECTION -->
+        <div id="adminDashboard" class="admin-dashboard">
+            <div class="admin-header">
+                <div style="font-size: 3em; margin-bottom: 10px;">👑</div>
+                <h2>Admin Dashboard</h2>
+                <p>Welcome, <span id="adminLoggedEmail"></span>! Manage student records here.</p>
+            </div>
+            <div class="admin-controls">
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+            <h3 class="selection-title" style="margin-bottom: 20px;">All Students</h3>
+            <div id="studentList" class="student-list">
+                <!-- Student cards will be populated here by JavaScript -->
+            </div>
+        </div>
+        <!-- END NEW ADMIN DASHBOARD SECTION -->
+
     </div>
 
     <div id="print-container"></div>
@@ -621,7 +734,7 @@
             'ranjeeta.kamble333@gmail.com': 'Ranjeeta Kamble',
             'vypardh78@gmail.com': 'Vishal Pardhe',
             'rvpardhe07@gmail.com': 'Kavita Pardhe',
-            'jlibiblecollege@gmail.com': 'Bible College Admin', 
+            'jlibiblecollege@gmail.com': 'Bible College Admin',
             'manoramaramane@gmail.com': 'Manorama Ramane',
             'buddhiwantmeene@gmail.com': 'Meena Buddhiwant',
             'vishforluv1982@gmail.com': 'Vishwas Bhosale',
@@ -685,6 +798,18 @@
             }
         });
 
+        // Function to hide all main content sections
+        function hideAllContentSections() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('pdfSelection').style.display = 'none';
+            document.getElementById('pdfViewer').style.display = 'none';
+            const marksheetSection = document.getElementById('marksheetSection');
+            if (marksheetSection) marksheetSection.style.display = 'none';
+            const profileSection = document.getElementById('profileSection');
+            if (profileSection) profileSection.style.display = 'none';
+            document.getElementById('adminDashboard').style.display = 'none'; // Hide admin dashboard too
+        }
+
         function verifyAccess() {
             const emailInput = document.getElementById('studentEmail');
             const errorMsg = document.getElementById('errorMsg');
@@ -716,11 +841,23 @@
                 successMsg.textContent = '✅ Access granted! Loading materials...';
                 successMsg.style.display = 'block';
                 
-                document.getElementById('loggedEmail').textContent = window.studentName + ' (' + email + ')';
-                
                 setTimeout(() => {
-                    document.getElementById('loginSection').style.display = 'none';
-                    document.getElementById('pdfSelection').style.display = 'block';
+                    hideAllContentSections(); // Hide all sections first
+
+                    if (email === 'jlibiblecollege@gmail.com') {
+                        document.getElementById('adminLoggedEmail').textContent = window.studentName;
+                        // Call the function from additional-features.js to show admin dashboard
+                        if (typeof showAdminDashboard === 'function') {
+                            showAdminDashboard();
+                        } else {
+                            console.error("showAdminDashboard is not defined. Make sure additional-features.js is loaded correctly.");
+                            document.getElementById('adminDashboard').style.display = 'block'; // Fallback
+                            document.getElementById('studentList').innerHTML = '<p>Error loading student list. Check console.</p>';
+                        }
+                    } else {
+                        document.getElementById('loggedEmail').textContent = window.studentName + ' (' + email + ')';
+                        document.getElementById('pdfSelection').style.display = 'block';
+                    }
                 }, 1000);
             } else {
                 errorMsg.textContent = '❌ Access Denied: Your email is not registered. Please contact the administrator.';
@@ -732,38 +869,23 @@
             window.studentEmail = '';
             window.studentName = '';
             document.getElementById('studentEmail').value = '';
-            document.getElementById('pdfSelection').style.display = 'none';
-            document.getElementById('pdfViewer').style.display = 'none';
-
-            // Hide marksheet or profile sections if they are open
-            const marksheetSection = document.getElementById('marksheetSection');
-            if (marksheetSection) marksheetSection.style.display = 'none';
-            const profileSection = document.getElementById('profileSection');
-            if (profileSection) profileSection.style.display = 'none';
-            
-            document.getElementById('loginSection').style.display = 'block';
+            hideAllContentSections(); // Hide all current views
+            document.getElementById('loginSection').style.display = 'block'; // Show login section
         }
 
         function openPDF(pdfId) {
             currentPdfId = pdfId;
             const pdfConfig = PDF_FILE_PATH[pdfId];
             
+            hideAllContentSections(); // Hide everything else
             document.getElementById('currentPdfTitle').textContent = pdfConfig.title;
-            document.getElementById('pdfSelection').style.display = 'none';
-            
-            // Hide marksheet or profile sections if they are open
-            const marksheetSection = document.getElementById('marksheetSection');
-            if (marksheetSection) marksheetSection.style.display = 'none';
-            const profileSection = document.getElementById('profileSection');
-            if (profileSection) profileSection.style.display = 'none';
-
             document.getElementById('pdfViewer').style.display = 'block';
             
             loadPDF(pdfConfig.file);
         }
 
         function backToSelection() {
-            document.getElementById('pdfViewer').style.display = 'none';
+            hideAllContentSections();
             document.getElementById('pdfSelection').style.display = 'block';
             pdfDoc = null;
             pageNum = 1;
