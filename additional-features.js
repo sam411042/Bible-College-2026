@@ -577,7 +577,7 @@
                 <p>${email}</p>
                 <div class="student-card-actions">
                     <button class="btn-view-profile" onclick="window.showStudentProfile('${email}')">View Profile</button>
-                    $${marks && marks.marks && marks.marks.length > 0 ? `<button class="btn-view-marksheet" onclick="window.showMarksheet('$${email}')">View Marksheet</button>` : ''}
+                    $${marks && marks.marks && marks.marks.length > 0 ? `<button class="btn-view-marksheet" onclick="window.showMarksheet('${email}')">View Marksheet</button>` : ''}
                 </div>
             `;
             studentListContainer.appendChild(studentCard);
@@ -607,3 +607,4 @@
     };
 
 })();
+
