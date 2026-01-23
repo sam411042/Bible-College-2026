@@ -297,7 +297,7 @@
         document.getElementById('marksheet-student-name').textContent = studentData.name;
         document.getElementById('marksheet-student-email-display').textContent = email; // Display email
         document.getElementById('total-marks').textContent = totalMarks;
-        document.getElementById('exams-taken').textContent = `$${examsTaken}/$${examMonths.length}`; // Dynamic total
+        document.getElementById('exams-taken').textContent = `${examsTaken}/${examMonths.length}`; // Dynamic total
         document.getElementById('average-score').textContent = average;
         document.getElementById('percentage-score').textContent = percentage + '%';
         document.getElementById('grade-display').textContent = grade;
@@ -333,10 +333,10 @@
 
             row.innerHTML = `
                 <td style="padding: 15px; font-weight: 600;">${examMonth}</td>
-                <td style="padding: 15px; text-align: center; color: $${markColor}; font-weight: 700; font-size: 1.1em;">$${markValue}</td>
+                <td style="padding: 15px; text-align: center; color: $${markColor}; font-weight: 700; font-size: 1.1em;">${markValue}</td>
                 <td style="padding: 15px; text-align: center;">${outOf}</td>
                 <td style="padding: 15px; text-align: center; font-weight: 600;">${examPercentage}</td>
-                <td style="padding: 15px; text-align: center; font-weight: 600; color: $${markColor};">$${status}</td>
+                <td style="padding: 15px; text-align: center; font-weight: 600; color: ${markColor};">${status}</td>
             `;
 
             tableBody.appendChild(row);
@@ -607,4 +607,5 @@
     };
 
 })();
+
 
