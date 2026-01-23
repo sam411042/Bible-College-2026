@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bible College of India - Student Portal</title>
+    <title>Bible College of India - Pastors Foundation Course</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Georgia', serif;
+            font-family: 'Georgia', 'Times New Roman', serif;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
             padding: 20px;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -21,6 +27,7 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.4);
             overflow: hidden;
         }
+
         .header {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
@@ -28,12 +35,30 @@
             text-align: center;
             border-bottom: 5px solid #ffd700;
         }
-        .header h1 { font-size: 2.2em; margin-bottom: 10px; font-weight: 700; }
-        .header p { font-size: 1.2em; opacity: 0.95; font-style: italic; }
-        .logo-section { margin-bottom: 15px; font-size: 3em; }
-        
-        /* Login Section */
-        .login-section { padding: 60px 40px; background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%); }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-style: italic;
+        }
+
+        .logo-section {
+            margin-bottom: 15px;
+            font-size: 3em;
+        }
+
+        .login-section {
+            padding: 60px 40px;
+            background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+        }
+
         .login-box {
             max-width: 450px;
             margin: 0 auto;
@@ -43,8 +68,21 @@
             border: 3px solid #1e3c72;
             box-shadow: 0 10px 30px rgba(30, 60, 114, 0.15);
         }
-        .login-box h2 { color: #1e3c72; margin-bottom: 10px; font-size: 1.8em; text-align: center; }
-        .login-box .subtitle { color: #666; margin-bottom: 30px; text-align: center; font-size: 0.95em; }
+
+        .login-box h2 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .login-box .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 0.95em;
+        }
+
         input[type="email"] {
             width: 100%;
             padding: 15px;
@@ -54,7 +92,12 @@
             margin-bottom: 20px;
             transition: border-color 0.3s;
         }
-        input[type="email"]:focus { outline: none; border-color: #1e3c72; }
+
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+
         button {
             width: 100%;
             padding: 16px;
@@ -67,21 +110,79 @@
             font-weight: 600;
             transition: all 0.3s;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30, 60, 114, 0.3); }
-        .error-msg, .success-msg {
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 60, 114, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-msg {
+            color: #dc3545;
             margin-top: 15px;
             font-weight: 600;
             text-align: center;
             padding: 10px;
+            background: #ffe6e6;
             border-radius: 5px;
             display: none;
         }
-        .error-msg { color: #dc3545; background: #ffe6e6; }
-        .success-msg { color: #28a745; background: #d4edda; }
-        
-        /* Dashboard Section */
-        .pdf-selection { display: none; padding: 40px; background: #f8f9fa; }
+
+        .success-msg {
+            color: #28a745;
+            margin-top: 15px;
+            font-weight: 600;
+            text-align: center;
+            padding: 10px;
+            background: #d4edda;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .verse-quote {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+            font-style: italic;
+            text-align: center;
+            color: #1565c0;
+            font-size: 1.05em;
+        }
+
+        .info-notice {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            color: #856404;
+        }
+
+        .info-notice h3 {
+            margin-bottom: 12px;
+            color: #856404;
+        }
+
+        .info-notice ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .pdf-selection {
+            display: none;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
         .student-info {
             background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
             padding: 20px;
@@ -94,231 +195,350 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        .student-info-text { color: #1b5e20; font-weight: 600; }
-        .student-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-        .marks-btn { width: auto; padding: 10px 20px; background: #ff9800; font-size: 0.9em; }
-        .marks-btn:hover { background: #f57c00; }
-        .logout-btn { width: auto; padding: 10px 20px; background: #dc3545; font-size: 0.9em; }
-        .logout-btn:hover { background: #c82333; }
-        
-        /* Marks Section */
-        .marks-section { display: none; padding: 40px; background: #f8f9fa; }
-        .marks-header {
-            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .marks-header h2 { font-size: 2em; margin-bottom: 10px; }
-        .marks-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .summary-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-left: 5px solid #1e3c72;
-        }
-        .summary-card h3 { color: #666; font-size: 0.85em; margin-bottom: 10px; text-transform: uppercase; }
-        .summary-card .value { font-size: 2em; font-weight: bold; color: #1e3c72; }
-        .summary-card .grade { font-size: 2.5em; font-weight: bold; }
-        .grade-A { color: #4caf50; }
-        .grade-B { color: #2196f3; }
-        .grade-C { color: #ff9800; }
-        .grade-F { color: #f44336; }
-        
-        .marks-table-container {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            overflow-x: auto;
-        }
-        .marks-table { width: 100%; border-collapse: collapse; }
-        .marks-table th {
-            background: #1e3c72;
-            color: white;
-            padding: 12px;
-            text-align: center;
+
+        .student-info-text {
+            color: #1b5e20;
             font-weight: 600;
-            font-size: 0.9em;
         }
-        .marks-table td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 0.95em;
-        }
-        .marks-table tr:hover { background: #f5f5f5; }
-        .mark-excellent { color: #4caf50; font-weight: bold; }
-        .mark-good { color: #2196f3; font-weight: bold; }
-        .mark-average { color: #ff9800; font-weight: bold; }
-        .mark-poor { color: #f44336; font-weight: bold; }
-        .mark-absent { color: #9e9e9e; }
-        
-        .back-btn {
-            width: auto;
-            padding: 10px 20px;
-            background: #6c757d;
-            font-size: 0.95em;
-            margin-bottom: 20px;
-        }
-        .back-btn:hover { background: #5a6268; }
-        
-        .print-btn {
-            width: auto;
-            padding: 10px 20px;
-            background: #28a745;
-            font-size: 0.95em;
-            margin-bottom: 20px;
-            margin-left: 10px;
-        }
-        .print-btn:hover { background: #218838; }
-        
+
         .button-group {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
             flex-wrap: wrap;
         }
-        
-        /* Print Styles */
-        @media print {
-            body { background: white; padding: 0; }
-            .container { box-shadow: none; }
-            .back-btn, .print-btn, .logout-btn, .button-group { display: none !important; }
-            
-            /* Marks Card Print */
-            #marksSection {
-                display: block !important;
-                visibility: visible !important;
-            }
-            
-            #marksSection * {
-                visibility: visible !important;
-            }
-            
-            .marks-header { 
-                background: #1e3c72 !important; 
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact; 
-            }
-            .summary-card { 
-                page-break-inside: avoid;
-                background: white !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .marks-table { page-break-inside: auto; }
-            .marks-table tr { page-break-inside: avoid; }
-            
-            /* PDF Print Styles - only apply when print-container has content */
-            body.printing-pdf * {
-                visibility: hidden !important;
-            }
-            
-            body.printing-pdf #print-container,
-            body.printing-pdf #print-container * {
-                visibility: visible !important;
-            }
-            
-            body.printing-pdf #print-container {
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100% !important;
-                display: block !important;
-            }
-            
-            .print-page {
-                page-break-after: always !important;
-                page-break-inside: avoid !important;
-                display: block !important;
-                width: 100% !important;
-                margin: 0 auto !important;
-                padding: 0 !important;
-            }
-            
-            .print-page:last-child {
-                page-break-after: avoid !important;
-            }
 
-            .print-page img {
-                max-width: 100% !important;
-                height: auto !important;
-                display: block !important;
-                margin: 0 auto !important;
-            }
+        .profile-btn {
+            width: auto;
+            padding: 10px 20px;
+            background: #007bff;
+            font-size: 0.9em;
         }
-        
+
+        .profile-btn:hover {
+            background: #0056b3;
+        }
+
+        .logout-btn {
+            width: auto;
+            padding: 10px 20px;
+            background: #dc3545;
+            font-size: 0.9em;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        .selection-title {
+            text-align: center;
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
         .pdf-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
         }
+
         .pdf-card {
             background: white;
             border-radius: 12px;
-            padding: 30px;
+            padding: 35px;
             text-align: center;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border: 3px solid #e0e0e0;
             transition: all 0.3s;
             cursor: pointer;
         }
+
         .pdf-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(30, 60, 114, 0.2);
             border-color: #1e3c72;
         }
-        .pdf-card-icon { font-size: 3.5em; margin-bottom: 15px; }
-        .pdf-card-title { font-size: 1.3em; color: #1e3c72; margin-bottom: 10px; font-weight: 700; }
-        .pdf-card button { width: auto; padding: 12px 30px; font-size: 0.95em; }
-        
-        /* PDF Viewer */
-        .pdf-viewer-container {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+
+        .pdf-card-icon {
+            font-size: 4.5em;
+            margin-bottom: 15px;
         }
-        #pdfCanvas {
-            width: 100%;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+
+        .pdf-card-title {
+            font-size: 1.5em;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-weight: 700;
         }
-        .pdf-controls {
-            text-align: center;
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
+
+        .pdf-card-desc {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1em;
+            line-height: 1.6;
         }
-        .pdf-controls button {
+
+        .pdf-card button {
+            width: auto;
+            padding: 14px 35px;
+            font-size: 1em;
+        }
+
+        .pdf-viewer {
+            display: none;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .back-btn-container {
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
             width: auto;
             padding: 10px 20px;
+            background: #6c757d;
+            font-size: 0.95em;
         }
-        #pageInfo {
-            padding: 10px 20px;
-            background: #f5f5f5;
+
+        .back-btn:hover {
+            background: #5a6268;
+        }
+
+        .current-pdf-title {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ffc107;
+            text-align: center;
+            font-size: 1.3em;
+            color: #856404;
+            font-weight: 700;
+        }
+
+        .pdf-toolbar {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .pdf-toolbar-left {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .pdf-toolbar button {
+            width: auto;
+            padding: 12px 25px;
+            background: #4caf50;
+            font-size: 1em;
+        }
+
+        .pdf-toolbar button:hover {
+            background: #45a049;
+        }
+
+        .pdf-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: #34495e;
+            padding: 18px;
+            justify-content: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .pdf-controls button {
+            width: auto;
+            padding: 10px 18px;
+            font-size: 0.95em;
+            background: #1e3c72;
+        }
+
+        .pdf-controls button:hover {
+            background: #2a5298;
+        }
+
+        .page-info {
+            color: white;
+            font-weight: 600;
+            font-size: 1.05em;
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.1);
             border-radius: 5px;
-            font-weight: bold;
-            color: #1e3c72;
         }
-        
+
+        .canvas-wrapper {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+            overflow: auto;
+            max-height: 85vh;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        #pdf-canvas {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 900px;
+            margin: 40px auto;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            padding: 0;
+        }
+
+        .close-modal:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 35px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .profile-section {
+            margin-bottom: 30px;
+        }
+
+        .profile-section h3 {
+            color: #1e3c72;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ffd700;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .profile-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #1e3c72;
+        }
+
+        .profile-item-label {
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        .profile-item-value {
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .profile-full {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #1e3c72;
+            margin-bottom: 15px;
+        }
+
+        .print-profile-btn {
+            width: 100%;
+            padding: 15px;
+            background: #28a745;
+            margin-top: 20px;
+        }
+
+        .print-profile-btn:hover {
+            background: #218838;
+        }
+
+        .hidden {
+            display: none;
+        }
+
         #print-container {
             display: none;
         }
-        
+
         .print-progress {
             position: fixed;
             top: 50%;
@@ -358,30 +578,71 @@
             color: white;
             font-weight: 600;
         }
-        
-        .print-page {
-            page-break-after: always;
-            page-break-inside: avoid;
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 0.5cm;
+            }
+            
+            body * {
+                visibility: hidden !important;
+            }
+            
+            #print-container,
+            #print-container * {
+                visibility: visible !important;
+            }
+            
+            #print-container {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                display: block !important;
+            }
+            
+            .print-page {
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                display: block !important;
+                width: 100% !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+            }
+            
+            .print-page:last-child {
+                page-break-after: avoid !important;
+            }
+
+            .print-page img {
+                max-width: 100% !important;
+                height: auto !important;
+                display: block !important;
+                margin: 0 auto !important;
+            }
         }
-        
-        .print-page:last-child {
-            page-break-after: avoid;
-        }
-        
-        .print-page img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-        
+
         @media (max-width: 768px) {
-            .pdf-cards { grid-template-columns: 1fr; }
-            .marks-summary { grid-template-columns: repeat(2, 1fr); }
-            .marks-table { font-size: 0.8em; }
-            .marks-table th, .marks-table td { padding: 8px; }
-            .student-info { flex-direction: column; align-items: flex-start; }
-            .student-actions { width: 100%; }
+            .pdf-cards {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .login-box {
+                padding: 30px 20px;
+            }
+            .print-progress {
+                min-width: 300px;
+                padding: 30px;
+            }
+            .modal-content {
+                margin: 20px auto;
+            }
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -390,123 +651,131 @@
         <div class="header">
             <div class="logo-section">✝️</div>
             <h1>Bible College of India</h1>
-            <p>Pastors Foundation Course</p>
+            <p>Pastors Foundation Course Materials</p>
         </div>
 
-        <!-- Login Section -->
         <div id="loginSection" class="login-section">
             <div class="login-box">
-                <h2>🔐 Student Login</h2>
-                <p class="subtitle">Enter your registered email</p>
-                <input type="email" id="studentEmail" placeholder="your.email@example.com">
-                <button onclick="verifyAccess()">Login</button>
+                <h2>🔐 Student Access</h2>
+                <p class="subtitle">Enter your registered email to access course materials</p>
+                <input type="email" id="studentEmail" placeholder="student@biblecollege.edu" autocomplete="email">
+                <button onclick="verifyAccess()">Access Course Materials</button>
                 <div id="errorMsg" class="error-msg"></div>
                 <div id="successMsg" class="success-msg"></div>
             </div>
+
+            <div class="verse-quote">
+                "Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth." - 2 Timothy 2:15
+            </div>
+
+            <div class="info-notice">
+                <h3>📋 Important Information:</h3>
+                <ul>
+                    <li><strong>Authorized Access Only:</strong> Only registered students can access these materials</li>
+                    <li><strong>Personal Use:</strong> Materials are for your personal study only</li>
+                    <li><strong>Printing Allowed:</strong> You may print each chapter separately for study purposes</li>
+                    <li><strong>Protected Content:</strong> Materials are secured for authorized students only</li>
+                </ul>
+            </div>
         </div>
 
-        <!-- Dashboard Section -->
-        <div id="dashboardSection" class="pdf-selection">
+        <div id="pdfSelection" class="pdf-selection">
             <div class="student-info">
                 <div class="student-info-text">
-                    ✅ <span id="loggedName"></span>
+                    ✅ Logged in as: <span id="loggedEmail"></span>
                 </div>
-                <div class="student-actions">
-                    <button class="marks-btn" onclick="showMarks()">📊 View My Marks</button>
-                    <button class="logout-btn" onclick="logout()">Logout</button>
+                <div class="button-group">
+                    <button class="profile-btn" onclick="showProfile()">👤 Student Profile</button>
+                    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
                 </div>
             </div>
 
-            <h2 style="text-align:center; color:#1e3c72; margin-bottom:30px;">📚 Study Materials</h2>
-            
+            <h2 class="selection-title">📚 Select Study Material</h2>
+
             <div class="pdf-cards">
                 <div class="pdf-card">
                     <div class="pdf-card-icon">📖</div>
                     <h3 class="pdf-card-title">मत्तय</h3>
-                    <p style="color:#666; font-size:0.9em; margin:10px 0;">MATTHEW GOSPEL</p>
-                    <button onclick="loadPDFFromURL(1)">📖 View Material</button>
+                    <p class="pdf-card-desc">Matthew Gospel - Complete Study Guide</p>
+                    <button onclick="openPDF(1)">View Study Material</button>
                 </div>
+
                 <div class="pdf-card">
                     <div class="pdf-card-icon">📕</div>
                     <h3 class="pdf-card-title">मार्क</h3>
-                    <p style="color:#666; font-size:0.9em; margin:10px 0;">MARK GOSPEL</p>
-                    <button onclick="loadPDFFromURL(2)">📕 View Material</button>
+                    <p class="pdf-card-desc">Mark Gospel - Prophetic Insights</p>
+                    <button onclick="openPDF(2)">View Study Material</button>
                 </div>
+
                 <div class="pdf-card">
                     <div class="pdf-card-icon">📗</div>
-                    <h3 class="pdf-card-title">लूका</h3>
-                    <p style="color:#666; font-size:0.9em; margin:10px 0;">LUKE GOSPEL</p>
-                    <button onclick="loadPDFFromURL(3)">📗 View Material</button>
+                    <h3 class="pdf-card-title">लुक</h3>
+                    <p class="pdf-card-desc">Luke Gospel - Detailed Teachings</p>
+                    <button onclick="openPDF(3)">View Study Material</button>
                 </div>
+
                 <div class="pdf-card">
                     <div class="pdf-card-icon">📘</div>
-                    <h3 class="pdf-card-title">यूहन्ना</h3>
-                    <p style="color:#666; font-size:0.9em; margin:10px 0;">JOHN GOSPEL</p>
-                    <button onclick="loadPDFFromURL(4)">📘 View Material</button>
+                    <h3 class="pdf-card-title">योहान</h3>
+                    <p class="pdf-card-desc">John Gospel - Spiritual Insights</p>
+                    <button onclick="openPDF(4)">View Study Material</button>
                 </div>
+
                 <div class="pdf-card">
                     <div class="pdf-card-icon">📙</div>
-                    <h3 class="pdf-card-title">प्रेषितों के काम</h3>
-                    <p style="color:#666; font-size:0.9em; margin:10px 0;">ACTS</p>
-                    <button onclick="loadPDFFromURL(5)">📙 View Material</button>
+                    <h3 class="pdf-card-title">प्रेषित कृत्ये</h3>
+                    <p class="pdf-card-desc">Acts - Early Church History</p>
+                    <button onclick="openPDF(5)">View Study Material</button>
                 </div>
+
                 <div class="pdf-card">
                     <div class="pdf-card-icon">📔</div>
-                    <h3 class="pdf-card-title">रोमियों</h3>
-                    <p style="color:#666; font-size:0.9em; margin:10px 0;">ROMANS</p>
-                    <button onclick="loadPDFFromURL(6)">📔 View Material</button>
+                    <h3 class="pdf-card-title">रोमकरास पत्र</h3>
+                    <p class="pdf-card-desc">Romans - Doctrinal Foundation</p>
+                    <button onclick="openPDF(6)">View Study Material</button>
                 </div>
             </div>
         </div>
 
-        <!-- PDF Viewer Section -->
-        <div id="pdfViewerSection" class="marks-section">
-            <div class="button-group">
-                <button class="back-btn" onclick="backToDashboard()">⬅️ Back to Dashboard</button>
-                <button class="print-btn" onclick="printPDF()">🖨️ Print PDF</button>
-            </div>
-            
-            <div class="marks-header">
-                <h2 id="pdfTitle">📖 Study Material</h2>
+        <div id="pdfViewer" class="pdf-viewer">
+            <div class="back-btn-container">
+                <button class="back-btn" onclick="backToSelection()">⬅️ Back to All Chapters</button>
             </div>
 
-            <div class="pdf-viewer-container">
-                <canvas id="pdfCanvas"></canvas>
-                <div class="pdf-controls">
-                    <button onclick="previousPage()">⬅️ Previous</button>
-                    <span id="pageInfo">Page 1 of 1</span>
-                    <button onclick="nextPage()">Next ➡️</button>
-                </div>
+            <div class="current-pdf-title" id="currentPdfTitle"></div>
+
+            <div class="pdf-toolbar">
+                <div class="pdf-toolbar-left">📄 Current Chapter</div>
+                <button id="printBtn" onclick="printPDF()">🖨️ Print This Chapter</button>
+            </div>
+
+            <div class="pdf-controls">
+                <button onclick="firstPage()">⏮️ First</button>
+                <button onclick="previousPage()">⬅️ Previous</button>
+                <span class="page-info">
+                    Page <span id="page-num">1</span> of <span id="page-count">0</span>
+                </span>
+                <button onclick="nextPage()">Next ➡️</button>
+                <button onclick="lastPage()">⏭️ Last</button>
+                <button onclick="zoomOut()">🔍- Zoom Out</button>
+                <button onclick="zoomIn()">🔍+ Zoom In</button>
+            </div>
+
+            <div class="canvas-wrapper">
+                <canvas id="pdf-canvas"></canvas>
             </div>
         </div>
+    </div>
 
-        <!-- Marks Section -->
-        <div id="marksSection" class="marks-section">
-            <div class="button-group">
-                <button class="back-btn" onclick="backToDashboard()">⬅️ Back to Dashboard</button>
-                <button class="print-btn" onclick="printMarks()">🖨️ Print Marks Card</button>
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>👤 Student Profile</h2>
+                <button class="close-modal" onclick="closeProfile()">×</button>
             </div>
-            
-            <div class="marks-header">
-                <h2>📊 Academic Performance</h2>
-                <p id="marksStudentName"></p>
-            </div>
-
-            <div class="marks-summary" id="marksSummary"></div>
-
-            <div class="marks-table-container">
-                <table class="marks-table">
-                    <thead>
-                        <tr>
-                            <th>Exam</th>
-                            <th>Marks</th>
-                            <th>Out of</th>
-                            <th>%</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="marksBody"></tbody>
-                </table>
+            <div class="modal-body" id="profileContent">
+                <!-- Profile content will be inserted here -->
             </div>
         </div>
     </div>
@@ -514,6 +783,460 @@
     <div id="print-container"></div>
 
     <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // Complete Student Database
+        const STUDENT_DATABASE = {
+            'p82158860@gmail.com': {
+                name: 'Pritee B. Gaikwad',
+                address: 'Near Rahat Hospital, Dr Hibane building, Udgir 413517, MH',
+                mobile: '9545366748',
+                dob: '3/24/1965',
+                age: 58,
+                gender: 'Female',
+                education: 'Graduate',
+                occupation: 'Business',
+                marital: 'Married',
+                church: 'Methodist Church Udgir',
+                pastor: 'Pastor Name Not Specified',
+                reference1: 'Shobha Kamble - 8605592093',
+                reference2: '',
+                futurePlan: 'Preaching'
+            },
+            'anilparmar31318@gmail.com': {
+                name: 'Anil Chhagan Parmar',
+                address: 'At. Post. Dhadhon, Dist. Nandurbar',
+                mobile: '9423470753',
+                dob: '11/11/1986',
+                age: 39,
+                gender: 'Male',
+                education: '12th',
+                occupation: 'Ministry',
+                marital: 'Married',
+                church: 'F.M.B.P',
+                pastor: 'Pastor Name Not Specified',
+                reference1: 'Ramesh Pavara - 7821914953',
+                reference2: '',
+                futurePlan: 'प्रभू येशूची इच्छा प्रमाणे सेवा करणे'
+            },
+            'ranjeeta.kamble333@gmail.com': {
+                name: 'Ranjana Sangam Kamble',
+                address: 'Andheri, Mumbai',
+                mobile: '7506914392',
+                dob: '5/22/1985',
+                age: 40,
+                gender: 'Female',
+                education: '10th',
+                occupation: 'Ministry',
+                marital: 'Married',
+                church: 'Jesus is Life Church',
+                pastor: 'PS. Suraj Premani',
+                reference1: 'Priti Gaikwad - 9545366748',
+                reference2: '',
+                futurePlan: 'Glorifying God\'s Name, Preaching Kingdom of God'
+            },
+            'vypardh78@gmail.com': {
+                name: 'Vishal Yeshwant Pardhe',
+                address: 'Global Residency, Tulip 304, Adivali, Namaskar Dhaba, Kalyan East 421306',
+                mobile: '8655361379',
+                dob: '10/3/1978',
+                age: 47,
+                gender: 'Male',
+                education: '10th',
+                occupation: 'Service',
+                marital: 'Married',
+                church: 'Holy Redeemer Church',
+                pastor: 'Pastor Name Not Specified',
+                reference1: 'Hendry Appa Pardhe - 8879474729',
+                reference2: 'Damyanti Hendry Pardhe - 9222070542',
+                futurePlan: 'To serve Lord with purity and honesty'
+            },
+            'rvpardhe07@gmail.com': {
+                name: 'Kavita Vishal Pardhe',
+                address: 'Global Residency, Tulip 304, Adivali, Namaskar Dhaba, Kalyan East 421306',
+                mobile: '9029877366',
+                dob: '12/17/1983',
+                age: 40,
+                gender: 'Female',
+                education: '10th',
+                occupation: 'Service',
+                marital: 'Married',
+                church: 'Holy Redeemer Church',
+                pastor: 'Pastor Name Not Specified',
+                reference1: 'Hendry Appa Pardhe - 8879474729',
+                reference2: 'Damayanti Hendry Pardhe - 9222070542',
+                futurePlan: 'To serve Lord with my family'
+            },
+            'sswarashree@gmail.com': {
+                name: 'Swarashri Hemant Satralkar',
+                address: 'Simplicity, B-8, Flat No - 104, Hande Wadi Road, Hadapsar, Pune',
+                mobile: '8888279832',
+                dob: '5/1/1966',
+                age: 58,
+                gender: 'Female',
+                education: '12th',
+                occupation: 'Business',
+                marital: 'Married',
+                church: 'KDC-CNI MIRAJ',
+                pastor: 'Rev Vishal More',
+                reference1: 'Pallavi Chopde - 9766401284',
+                reference2: 'Asavari Jadhav - 9766486986',
+                futurePlan: 'Spread the name of God, preach kingdom of God and repentance'
+            },
+            'manoramaramane@gmail.com': {
+                name: 'Manorama Ashwin Ramane',
+                address: '934 Shukrawar Peth, Baraimam Masjid, Pune 411001',
+                mobile: '8208375825',
+                dob: '12/3/1978',
+                age: 45,
+                gender: 'Female',
+                education: '12th',
+                occupation: 'Service',
+                marital: 'Married',
+                church: 'Pavitra Nam Devalay',
+                pastor: 'Prist Karub',
+                reference1: 'Mrs Anita Pawar - 9960377393',
+                reference2: 'Mr Nishikant Pawar - 9890377393',
+                futurePlan: 'Sandesh Dene'
+            },
+            'buddhiwantmeene@gmail.com': {
+                name: 'Meena Hemant Buddhiwant',
+                address: 'Bramha Emerald County A/2 Flat 604, NIBM Road, Kondhwa, Pune 411048',
+                mobile: '9923334040',
+                dob: '10/10/1973',
+                age: 52,
+                gender: 'Female',
+                education: '12th',
+                occupation: 'Business',
+                marital: 'Married',
+                church: 'Alliance Church',
+                pastor: 'Rev Makasare',
+                reference1: 'Anita Bhaldar - 9011924242',
+                reference2: 'Rachel Koli - 7767930006',
+                futurePlan: 'लोकांना खऱ्या देवाची ओळख करून देणे'
+            },
+            'vishforluv1982@gmail.com': {
+                name: 'Vishwas Joseph Bhosale',
+                address: 'Pimple Gurav, Sudarshan Nagar, Lane No 5, Maa Manzil, Pune 411061',
+                mobile: '8788879755',
+                dob: '8/19/1982',
+                age: 42,
+                gender: 'Male',
+                education: '12th',
+                occupation: 'Service',
+                marital: 'Married',
+                church: 'The Pentecostal Mission',
+                pastor: 'Pastor George',
+                reference1: 'Manisha Bhosale - 8698398734',
+                reference2: 'Usha Bhosale - 7030178369',
+                futurePlan: 'सेवेक'
+            },
+            'ashubaladon@gmail.com': {
+                name: 'Ashish Chandrakant Dongardive',
+                address: '302, D2, Krishna Estate, Dubey Baug Road, Hendrepada, Badlapur (W), Dist Thane 421503',
+                mobile: '8975399863',
+                dob: '12/17/1974',
+                age: 50,
+                gender: 'Male',
+                education: 'Masters',
+                occupation: 'Ministry',
+                marital: 'Married',
+                church: 'Jasiele Prayer Fellowship',
+                pastor: 'Ashish Chandrakant Dongardive',
+                reference1: 'Reference 1 - 9359168368',
+                reference2: 'Reference 2 - 9763180289',
+                futurePlan: 'लोकांना देवाच्या शिक्षणात ठेवणे, वाढवणे'
+            },
+            'ujagarejames@gmail.com': {
+                name: 'James Shashikant Ujagare',
+                address: 'Vita 415311, Dis-Sangli, Near Church, Sangli Road',
+                mobile: '9595710004',
+                dob: '12/8/1972',
+                age: 52,
+                gender: 'Male',
+                education: 'Masters',
+                occupation: 'Business',
+                marital: 'Married',
+                church: 'Believers Church Vita',
+                pastor: 'Pastor Wilson',
+                reference1: 'Pastor Poul - 7774880375',
+                reference2: 'Soloman Andrews - 7558737074',
+                futurePlan: 'Share the word of God, serve the Lord\'s work'
+            },
+            'bordeamol26@gmail.com': {
+                name: 'Amol Borde',
+                address: 'B202, Kute Fortune, Sainagar, Mamurdi, PCMC',
+                mobile: '8805008272',
+                dob: '3/26/1979',
+                age: 46,
+                gender: 'Male',
+                education: 'Graduate',
+                occupation: 'Business',
+                marital: 'Married',
+                church: 'Jesus Loves India Church Foundation',
+                pastor: 'Pastor Sadanand Amolik',
+                reference1: 'Samuel Amolik - 9604433770',
+                reference2: '',
+                futurePlan: 'Serving God'
+            },
+            'borde.siyona@gmail.com': {
+                name: 'Siyona Borde',
+                address: 'Mamurdi',
+                mobile: '8805008273',
+                dob: '9/1/1980',
+                age: 45,
+                gender: 'Female',
+                education: 'Graduate',
+                occupation: 'Business',
+                marital: 'Married',
+                church: 'Jesus Loves India Church Foundation',
+                pastor: 'Pastor Sadanand Amolik',
+                reference1: 'Amol Borde - 8805008272',
+                reference2: 'Samuel Amolik - 9604433770',
+                futurePlan: 'Winning Souls for God\'s Kingdom, Church planting'
+            },
+            'smitaujagare82@gmail.com': {
+                name: 'Smita James Ujagare',
+                address: 'Tasgaon Road, Vita, Near Church',
+                mobile: '9673628648',
+                dob: '9/2/1982',
+                age: 43,
+                gender: 'Female',
+                education: 'Graduate',
+                occupation: 'Business',
+                marital: 'Married',
+                church: 'Believer Church of Vita',
+                pastor: 'Pastor Wilson Ujagare',
+                reference1: 'Prashila Ujagare - 7499824703',
+                reference2: '',
+                futurePlan: 'Preaching of God'
+            },
+            'dpadvi604@gmail.com': {
+                name: 'Dinesh Vanya Padvi',
+                address: 'At Jugani, Po Jugani, Tel Dhadgaon, Dist Nandurbar',
+                mobile: '7385535480',
+                dob: '2/13/2002',
+                age: 23,
+                gender: 'Male',
+                education: '10th',
+                occupation: 'Service',
+                marital: 'Married',
+                church: 'Church Name Not Specified',
+                pastor: 'Ruma Valvi',
+                reference1: 'Ganesh Vanya Padvi - 8080107056',
+                reference2: 'Vikram Vanya Padvi - 9420460782',
+                futurePlan: 'देवाची सेवा करणे'
+            },
+            'truptiadhav33@gmail.com': {
+                name: 'Trupti Suhas Adhav',
+                address: 'Vadala Bahiroba, Tal. Newasa, Dist. Ahilyanagar',
+                mobile: '9130932190',
+                dob: '7/10/1997',
+                age: 27,
+                gender: 'Female',
+                education: 'Masters',
+                occupation: 'Service',
+                marital: 'Single',
+                church: 'F.M. Church Vadala Mission',
+                pastor: 'Rev. Rajanikant Salve',
+                reference1: '',
+                reference2: '',
+                futurePlan: 'लोकांना सत्य समजावे, देवाची ओळख व्हावी, त्याचं तारण व्हावे, अनेक आत्मे जिंकले जावेत'
+            },
+            'sagarmblessed@gmail.com': {
+                name: 'Sagar Mhaske',
+                address: 'A-7, Ganesh Puram, Dapodi, Opp Vineyard Workers Church, Pimpri Chinchwad',
+                mobile: '9028991883',
+                dob: '1/11/1988',
+                age: 36,
+                gender: 'Male',
+                education: '12th',
+                occupation: 'Business',
+                marital: 'Married',
+                church: 'AG Church',
+                pastor: 'Pst. Nana Dar',
+                reference1: 'Akash Mhaske - 8796726320',
+                reference2: 'Sumit Hiwale - 9762379619',
+                futurePlan: 'Walking on the vision what God has given, Being a podcast host want to touch millions'
+            },
+            'beenadhusia@gmail.com': {
+                name: 'Beena Dhusia',
+                address: 'Siddharth Nagar House No 03, Near Harrise Bridge, Dapodi, Pune, Maharashtra 411012',
+                mobile: '9960027931',
+                dob: '1/7/1969',
+                age: 55,
+                gender: 'Female',
+                education: '10th',
+                occupation: 'None',
+                marital: 'Single',
+                church: 'Emmanuel Church Assembly of God',
+                pastor: 'Pastor Name Not Specified',
+                reference1: 'Kamalkant Dhusia',
+                reference2: '',
+                futurePlan: 'Preaching Gospel'
+            },
+            'bhamnik1215@gmail.com': {
+                name: 'Bhamni Niraj Dhusia',
+                address: 'Siddharth Nagar House No 03, Near Harrise Bridge, Dapodi, Pune, Maharashtra 411012',
+                mobile: '7276220521',
+                dob: '12/15/2001',
+                age: 23,
+                gender: 'Female',
+                education: 'Graduate',
+                occupation: 'Service',
+                marital: 'Married',
+                church: 'Emmanuel Church Assembly Of God',
+                pastor: 'Pastor Nana Dhar',
+                reference1: 'Niraj Dhusia - 9860245148',
+                reference2: '',
+                futurePlan: 'Empower my faith and knowledge'
+            },
+            'brani4211@gmail.com': {
+                name: 'Rani Vishwas Bhosale',
+                address: 'Pimple Gaurav, Sudarshan Nagar Lane No 5, Near Sushti Chowk, Pune - 411061',
+                mobile: '7499849874',
+                dob: '8/15/1988',
+                age: 36,
+                gender: 'Female',
+                education: '12th',
+                occupation: 'Service',
+                marital: 'Married',
+                church: 'The Pentecostal Church',
+                pastor: 'Pastor Name Not Specified',
+                reference1: 'Vishwas Bhosale - 8788879755',
+                reference2: 'Ranjana Banasode - 8850047608',
+                futurePlan: 'To become God\'s servant'
+            },
+            'khilarelajo@gmail.com': {
+                name: 'Helen Francis Khilare',
+                address: 'B2, Flat No. 403, St. Luke Society, 1 Guruwar Peth, Pune - 411042',
+                mobile: '9325506420',
+                dob: '4/25/1969',
+                age: 56,
+                gender: 'Female',
+                education: '10th',
+                occupation: 'None',
+                marital: 'Married',
+                church: 'Church of the Holy Name',
+                pastor: 'Pastor Ashok Karep',
+                reference1: 'Rekha Salvi - 9604418628',
+                reference2: 'Rajani Gaikwad - 9975375202',
+                futurePlan: 'To preach the gospel and let people know about the only true living God Lord Jesus'
+            },
+            'fkhilare@gmail.com': {
+                name: 'Francis Manuel Khilare',
+                address: 'B2, Flat No 403, St Luke Society, 1 Guruwar Peth, Pune 42',
+                mobile: '9325985914',
+                dob: '12/10/1964',
+                age: 60,
+                gender: 'Male',
+                education: '10th',
+                occupation: 'None',
+                marital: 'Married',
+                church: 'Church of the Holy Name',
+                pastor: 'Pastor Ashok Karep',
+                reference1: 'Sandeep Bhore - 9881429922',
+                reference2: 'Sanjay Barfe - 8468081159',
+                futurePlan: 'To Preach the Gospel'
+            },
+            'bhaleraojitesh727@gmail.com': {
+                name: 'Jitesh Rajendra Bhalerao',
+                address: '180 Ghorpade Peth, Shankarsheth Road, Pune',
+                mobile: '8983333727',
+                dob: '5/15/1990',
+                age: 34,
+                gender: 'Male',
+                education: 'Graduate',
+                occupation: 'Service',
+                marital: 'Married',
+                church: 'Jesus Loves India Church Foundation',
+                pastor: 'Pastor Name Not Specified',
+                reference1: 'Durga Bhalerao - 8788738055',
+                reference2: '',
+                futurePlan: 'Gospel'
+            },
+            'meghadhusia09june@gmail.com': {
+                name: 'Megha Shantilal Dhusia',
+                address: 'A7 Ganesh Puram, Opp VWC, Pune Dapodi 12',
+                mobile: '9028091883',
+                dob: '6/9/1989',
+                age: 35,
+                gender: 'Female',
+                education: 'Masters',
+                occupation: 'Service',
+                marital: 'Married',
+                church: 'Emanuel AG Church',
+                pastor: 'Pastor Name Not Specified',
+                reference1: 'Akash Mhaske - 8796726320',
+                reference2: 'Nikita Hiwale - 7745811984',
+                futurePlan: 'Know the plan of God in my life, Have a daily relationship with Jesus, walk with Him'
+            },
+            'shwetalondhe29@gmail.com': {
+                name: 'Shweta Sudhir Londhe',
+                address: '20/8, Vastu Udyog Colony, Pimpri, Pune-18',
+                mobile: '7057009769',
+                dob: '9/29/2025',
+                age: 30,
+                gender: 'Female',
+                education: 'Masters',
+                occupation: 'Service',
+                marital: 'Divorced',
+                church: 'United Church of Christ',
+                pastor: 'Pastor Name Not Specified',
+                reference1: 'Jaya Sudhir Londhe - 8149279453',
+                reference2: 'Sudhir Ratnakar Londhe - 9130664602',
+                futurePlan: 'God\'s work'
+            },
+            'ashmitgupta7787@gmail.com': {
+                name: 'Sayali Thokal',
+                address: 'Porwal Road',
+                mobile: '9021565467',
+                dob: '11/17/1983',
+                age: 41,
+                gender: 'Female',
+                education: 'Masters',
+                occupation: 'Service',
+                marital: 'Divorced',
+                church: 'Methodist Church',
+                pastor: 'Pastor Name Not Specified',
+                reference1: 'Ashmit - 9225112131',
+                reference2: '',
+                futurePlan: 'As will of God'
+            },
+            'michaelsalvi@gmail.com': {
+                name: 'Michael Salvi',
+                address: 'Jeevan Sinhha Co-op Housing Society, Ramne Sitaram Chawl, Parvati Paytha East, Pune-9, Behind Bharat Petrol Pump, 4th Floor',
+                mobile: '9730524015',
+                dob: '1982',
+                age: 60,
+                gender: 'Male',
+                education: '12th',
+                occupation: 'Not Specified',
+                marital: 'Married',
+                church: 'Believers Church',
+                pastor: 'Pastor KCD Jacob',
+                reference1: 'Pastor KCD Jacob',
+                reference2: '',
+                futurePlan: 'To serve the Lord to work, I want to tell the Gospel to the people to the other'
+            },
+            'jlibiblecollege@gmail.com': {
+                name: 'Bible College Admin',
+                address: 'Bible College of India',
+                mobile: 'N/A',
+                dob: 'N/A',
+                age: 'N/A',
+                gender: 'N/A',
+                education: 'N/A',
+                occupation: 'Administrator',
+                marital: 'N/A',
+                church: 'Jesus Loves India Church Foundation',
+                pastor: 'N/A',
+                reference1: 'N/A',
+                reference2: 'N/A',
+                futurePlan: 'Administering Bible College'
+            }
+        };
+
         // PDF Configuration
         const PDF_FILE_PATH = {
             1: {
@@ -542,218 +1265,295 @@
             }
         };
 
-        const STUDENT_DATA = {
-            'manoramaramane@gmail.com': { name: 'Manorama Ramane', marks: [90,100,97,100,100,100,93] },
-            'rvpardhe07@gmail.com': { name: 'Kavita Pardhe', marks: [92,100,100,100,100,100,86] },
-            'vypardh78@gmail.com': { name: 'Vishal Pardhe', marks: [89,100,100,100,100,100,74] },
-            'aadamgujare@gmail.com': { name: 'Aadam Gujare', marks: [93,100,100,100,100,80,88] },
-            'ranjeeta.kamble333@gmail.com': { name: 'Ranjana Kamble', marks: [52,100,100,100,100,100,94] },
-            'p82158860@gmail.com': { name: 'Pritee Gaikwad', marks: [63,75,90,100,100,100,76] },
-            'buddhiwantmeene@gmail.com': { name: 'Meena Buddhiwant', marks: [74,70,100,100,100,100,74] },
-            'khilarelajo@gmail.com': { name: 'Helen Khillare', marks: [74,85,100,100,100,100,69] },
-            'fkhilare@gmail.com': { name: 'Francis Khillare', marks: [77,85,70,60,80,80,90] },
-            'bhaleraojitesh727@gmail.com': { name: 'Jitesh Bhalerao', marks: [83,50,60,null,90,100,72] },
-            'dpadvi604@gmail.com': { name: 'Dinesh Padvi', marks: [70,100,100,50,60,60,null] },
-            'bordeamol26@gmail.com': { name: 'Amol Borde', marks: [90,95,null,null,null,null,null] },
-            'borde.siyona@gmail.com': { name: 'Siyona Borde', marks: [93,100,null,null,null,null,null] },
-            'manisha.fernandis15@gmail.com': { name: 'Manisha Fernandis', marks: [null,null,70,74,50,null,37] },
-            'meghad09jun@gmail.com': { name: 'Megha Mhaske', marks: [null,48,100,40,null,null,null] },
-            'ashubaladon@gmail.com': { name: 'Ashish Dongerdive', marks: [null,70,null,null,null,null,75] },
-            'vishforluv1982@gmail.com': { name: 'Vishwas Bhosale', marks: [62,50,null,100,40,null,null] }
-        };
-
-        const EXAMS = ['June', 'July', 'August', 'September', 'October', 'Nov-1', 'Nov-2'];
-        let currentUser = '';
         let pdfDoc = null;
-        let currentPage = 1;
-        let totalPages = 0;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        let scale = 1.5;
+        let studentEmail = '';
         let currentPdfId = null;
+        const canvas = document.getElementById('pdf-canvas');
+        const ctx = canvas.getContext('2d');
 
-        // Initialize PDF.js
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        // Allow Enter key to submit
+        document.getElementById('studentEmail').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyAccess();
+            }
+        });
 
         function verifyAccess() {
-            const email = document.getElementById('studentEmail').value.trim().toLowerCase();
+            const emailInput = document.getElementById('studentEmail');
             const errorMsg = document.getElementById('errorMsg');
             const successMsg = document.getElementById('successMsg');
+
+            const email = emailInput.value.trim().toLowerCase();
 
             errorMsg.style.display = 'none';
             successMsg.style.display = 'none';
 
             if (!email) {
-                errorMsg.textContent = '⚠️ Please enter email';
+                errorMsg.textContent = '⚠️ Please enter your email address';
                 errorMsg.style.display = 'block';
                 return;
             }
 
-            if (STUDENT_DATA[email]) {
-                currentUser = email;
-                successMsg.textContent = '✅ Login successful!';
+            if (!email.includes('@') || !email.includes('.')) {
+                errorMsg.textContent = '⚠️ Please enter a valid email address';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (STUDENT_DATABASE[email]) {
+                studentEmail = email;
+                const student = STUDENT_DATABASE[email];
+                successMsg.textContent = '✅ Access granted! Loading materials...';
                 successMsg.style.display = 'block';
+                
+                document.getElementById('loggedEmail').textContent = student.name + ' (' + email + ')';
                 
                 setTimeout(() => {
                     document.getElementById('loginSection').style.display = 'none';
-                    document.getElementById('dashboardSection').style.display = 'block';
-                    document.getElementById('loggedName').textContent = STUDENT_DATA[email].name;
-                }, 800);
+                    document.getElementById('pdfSelection').style.display = 'block';
+                }, 1000);
             } else {
-                errorMsg.textContent = '❌ Email not registered';
+                errorMsg.textContent = '❌ Access Denied: Your email is not registered. Please contact the administrator.';
                 errorMsg.style.display = 'block';
             }
         }
 
-        function loadPDFFromURL(bookId) {
-            const pdfConfig = PDF_FILE_PATH[bookId];
-            if (!pdfConfig) {
-                alert('PDF not found!');
-                return;
+        function logout() {
+            studentEmail = '';
+            document.getElementById('studentEmail').value = '';
+            document.getElementById('pdfSelection').style.display = 'none';
+            document.getElementById('pdfViewer').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+        }
+
+        function showProfile() {
+            if (!studentEmail) return;
+            
+            const student = STUDENT_DATABASE[studentEmail];
+            const profileContent = document.getElementById('profileContent');
+            
+            profileContent.innerHTML = `
+                <div class="profile-section">
+                    <h3>📋 Personal Information</h3>
+                    <div class="profile-grid">
+                        <div class="profile-item">
+                            <div class="profile-item-label">Full Name</div>
+                            <div class="profile-item-value">${student.name}</div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-item-label">Email</div>
+                            <div class="profile-item-value">${studentEmail}</div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-item-label">Mobile Number</div>
+                            <div class="profile-item-value">${student.mobile}</div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-item-label">Date of Birth</div>
+                            <div class="profile-item-value">${student.dob}</div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-item-label">Age</div>
+                            <div class="profile-item-value">${student.age} years</div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-item-label">Gender</div>
+                            <div class="profile-item-value">${student.gender}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3>🏠 Address</h3>
+                    <div class="profile-full">
+                        <div class="profile-item-value">${student.address}</div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3>🎓 Education & Occupation</h3>
+                    <div class="profile-grid">
+                        <div class="profile-item">
+                            <div class="profile-item-label">Education</div>
+                            <div class="profile-item-value">${student.education}</div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-item-label">Occupation</div>
+                            <div class="profile-item-value">${student.occupation}</div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-item-label">Marital Status</div>
+                            <div class="profile-item-value">${student.marital}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3>⛪ Church Information</h3>
+                    <div class="profile-grid">
+                        <div class="profile-item">
+                            <div class="profile-item-label">Current Church</div>
+                            <div class="profile-item-value">${student.church}</div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-item-label">Pastor Name</div>
+                            <div class="profile-item-value">${student.pastor}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3>👥 References</h3>
+                    <div class="profile-grid">
+                        ${student.reference1 ? `
+                        <div class="profile-item">
+                            <div class="profile-item-label">Reference 1</div>
+                            <div class="profile-item-value">${student.reference1}</div>
+                        </div>
+                        ` : ''}
+                        ${student.reference2 ? `
+                        <div class="profile-item">
+                            <div class="profile-item-label">Reference 2</div>
+                            <div class="profile-item-value">${student.reference2}</div>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3>🎯 Future Plan for God's Work</h3>
+                    <div class="profile-full">
+                        <div class="profile-item-value">${student.futurePlan}</div>
+                    </div>
+                </div>
+
+                <button class="print-profile-btn" onclick="printProfile()">🖨️ Print Profile</button>
+            `;
+            
+            document.getElementById('profileModal').style.display = 'block';
+        }
+
+        function closeProfile() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+
+        function closeModal(event) {
+            if (event.target.id === 'profileModal') {
+                closeProfile();
             }
+        }
 
-            currentPdfId = bookId; // Store current PDF ID
-            
-            document.getElementById('pdfTitle').textContent = `📖 ${pdfConfig.title}`;
-            document.getElementById('dashboardSection').style.display = 'none';
-            document.getElementById('pdfViewerSection').style.display = 'block';
-            
-            // Show loading message
-            const canvas = document.getElementById('pdfCanvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 800;
-            canvas.height = 400;
-            ctx.fillStyle = '#f0f0f0';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#1e3c72';
-            ctx.font = '20px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('Loading PDF...', canvas.width / 2, canvas.height / 2);
+        function printProfile() {
+            window.print();
+        }
 
-            pdfjsLib.getDocument(pdfConfig.file).promise.then(function(pdf) {
+        function openPDF(pdfId) {
+            currentPdfId = pdfId;
+            const pdfConfig = PDF_FILE_PATH[pdfId];
+            
+            document.getElementById('currentPdfTitle').textContent = pdfConfig.title;
+            document.getElementById('pdfSelection').style.display = 'none';
+            document.getElementById('pdfViewer').style.display = 'block';
+            
+            loadPDF(pdfConfig.file);
+        }
+
+        function backToSelection() {
+            document.getElementById('pdfViewer').style.display = 'none';
+            document.getElementById('pdfSelection').style.display = 'block';
+            pdfDoc = null;
+            pageNum = 1;
+        }
+
+        function loadPDF(pdfPath) {
+            const loadingTask = pdfjsLib.getDocument(pdfPath);
+            
+            loadingTask.promise.then(function(pdf) {
                 pdfDoc = pdf;
-                totalPages = pdf.numPages;
-                currentPage = 1;
-                renderPage(currentPage);
+                document.getElementById('page-count').textContent = pdf.numPages;
+                pageNum = 1;
+                renderPage(pageNum);
             }).catch(function(error) {
-                alert('Error loading PDF: ' + error.message + '\n\nFor local PDFs (मार्क, लूका), please ensure the files are in the same directory as this HTML file.');
-                backToDashboard();
+                console.error('Error loading PDF:', error);
+                alert('Error loading PDF. Please try again.');
+                backToSelection();
             });
         }
 
         function renderPage(num) {
+            pageRendering = true;
             pdfDoc.getPage(num).then(function(page) {
-                const canvas = document.getElementById('pdfCanvas');
-                const ctx = canvas.getContext('2d');
-                
-                const viewport = page.getViewport({ scale: 1.5 });
+                const viewport = page.getViewport({scale: scale});
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
 
-                const renderContext = {
+                const renderTask = page.render({
                     canvasContext: ctx,
                     viewport: viewport
-                };
-                
-                page.render(renderContext);
-                document.getElementById('pageInfo').textContent = `Page ${num} of ${totalPages}`;
+                });
+
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
             });
+
+            document.getElementById('page-num').textContent = num;
+        }
+
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        function firstPage() {
+            if (pageNum <= 1) return;
+            pageNum = 1;
+            queueRenderPage(pageNum);
         }
 
         function previousPage() {
-            if (currentPage <= 1) return;
-            currentPage--;
-            renderPage(currentPage);
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum);
         }
 
         function nextPage() {
-            if (currentPage >= totalPages) return;
-            currentPage++;
-            renderPage(currentPage);
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            queueRenderPage(pageNum);
         }
 
-        function showMarks() {
-            const student = STUDENT_DATA[currentUser];
-            const marks = student.marks.filter(m => m !== null);
-            const total = marks.reduce((a,b) => a+b, 0);
-            
-            // Students with less than 3 exams get null percentage
-            const excludedEmails = ['bordeamol26@gmail.com', 'borde.siyona@gmail.com', 'ashubaladon@gmail.com'];
-            const isExcluded = excludedEmails.includes(currentUser);
-            
-            const avg = isExcluded ? 'N/A' : (total / marks.length).toFixed(2);
-            const percentage = isExcluded ? 'N/A' : ((total / (marks.length * 100)) * 100).toFixed(2);
-            const grade = isExcluded ? 'N/A' : (percentage >= 90 ? 'A+' : percentage >= 80 ? 'A' : percentage >= 70 ? 'B+' : percentage >= 60 ? 'B' : percentage >= 50 ? 'C' : 'F');
-            const gradeClass = isExcluded ? '' : (percentage >= 80 ? 'grade-A' : percentage >= 60 ? 'grade-B' : percentage >= 50 ? 'grade-C' : 'grade-F');
-
-            document.getElementById('marksStudentName').textContent = student.name;
-            
-            document.getElementById('marksSummary').innerHTML = `
-                <div class="summary-card">
-                    <h3>Total Marks</h3>
-                    <div class="value">${total}</div>
-                </div>
-                <div class="summary-card">
-                    <h3>Exams Taken</h3>
-                    <div class="value">${marks.length}/7</div>
-                </div>
-                <div class="summary-card">
-                    <h3>Average</h3>
-                    <div class="value">${avg}</div>
-                </div>
-                <div class="summary-card">
-                    <h3>Percentage</h3>
-                    <div class="value">${percentage}${percentage !== 'N/A' ? '%' : ''}</div>
-                </div>
-                <div class="summary-card">
-                    <h3>Grade</h3>
-                    <div class="grade ${gradeClass}">${grade}</div>
-                </div>
-            `;
-
-            let tableHTML = '';
-            student.marks.forEach((mark, i) => {
-                const status = mark === null ? 'Absent' : mark >= 90 ? 'Excellent' : mark >= 70 ? 'Good' : mark >= 50 ? 'Average' : 'Needs Improvement';
-                const markClass = mark === null ? 'mark-absent' : mark >= 90 ? 'mark-excellent' : mark >= 70 ? 'mark-good' : mark >= 50 ? 'mark-average' : 'mark-poor';
-                const percent = mark === null ? '-' : mark + '%';
-                
-                tableHTML += `
-                    <tr>
-                        <td><strong>${EXAMS[i]}</strong></td>
-                        <td class="${markClass}">${mark === null ? '-' : mark}</td>
-                        <td>100</td>
-                        <td>${percent}</td>
-                        <td>${status}</td>
-                    </tr>
-                `;
-            });
-            document.getElementById('marksBody').innerHTML = tableHTML;
-
-            document.getElementById('dashboardSection').style.display = 'none';
-            document.getElementById('marksSection').style.display = 'block';
+        function lastPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum = pdfDoc.numPages;
+            queueRenderPage(pageNum);
         }
 
-        function backToDashboard() {
-            document.getElementById('marksSection').style.display = 'none';
-            document.getElementById('pdfViewerSection').style.display = 'none';
-            document.getElementById('dashboardSection').style.display = 'block';
+        function zoomIn() {
+            scale += 0.25;
+            queueRenderPage(pageNum);
         }
 
-        function logout() {
-            currentUser = '';
-            document.getElementById('studentEmail').value = '';
-            document.getElementById('dashboardSection').style.display = 'none';
-            document.getElementById('marksSection').style.display = 'none';
-            document.getElementById('pdfViewerSection').style.display = 'none';
-            document.getElementById('loginSection').style.display = 'block';
+        function zoomOut() {
+            if (scale <= 0.5) return;
+            scale -= 0.25;
+            queueRenderPage(pageNum);
         }
 
-        function printMarks() {
-            // Ensure we're not in PDF printing mode
-            document.body.classList.remove('printing-pdf');
-            window.print();
-        }
-
-        function printPDF() {
-            if (!pdfDoc || !currentPdfId) {
-                alert('No PDF loaded to print');
+        async function printPDF() {
+            if (!pdfDoc) {
+                alert('PDF not loaded yet');
                 return;
             }
             
@@ -764,7 +1564,10 @@
                 return;
             }
 
-            // Create progress overlay
+            const printBtn = document.getElementById('printBtn');
+            printBtn.disabled = true;
+            printBtn.textContent = '⏳ Preparing pages...';
+
             const progressOverlay = document.createElement('div');
             progressOverlay.className = 'print-progress';
             progressOverlay.innerHTML = `
@@ -780,94 +1583,6 @@
             const printContainer = document.getElementById('print-container');
             printContainer.innerHTML = '';
 
-            // Render all pages
-            let pagesRendered = 0;
-            
-            const renderAllPages = async () => {
-                try {
-                    for (let i = 1; i <= totalPages; i++) {
-                        const page = await pdfDoc.getPage(i);
-                        
-                        // Scale for print quality
-                        const viewport = page.getViewport({scale: 2.0});
-                        
-                        // Create canvas for this page
-                        const printCanvas = document.createElement('canvas');
-                        printCanvas.width = viewport.width;
-                        printCanvas.height = viewport.height;
-                        
-                        const printCtx = printCanvas.getContext('2d');
-                        
-                        // Render page to canvas
-                        await page.render({
-                            canvasContext: printCtx,
-                            viewport: viewport
-                        }).promise;
-                        
-                        // Convert canvas to image
-                        const imgData = printCanvas.toDataURL('image/png');
-                        
-                        // Create print page div
-                        const pageDiv = document.createElement('div');
-                        pageDiv.className = 'print-page';
-                        
-                        const img = document.createElement('img');
-                        img.src = imgData;
-                        img.alt = `Page ${i}`;
-                        
-                        pageDiv.appendChild(img);
-                        printContainer.appendChild(pageDiv);
-                        
-                        pagesRendered++;
-                        
-                        // Update progress
-                        const progress = Math.round((i / totalPages) * 100);
-                        const progressFill = document.getElementById('progressFill');
-                        const progressText = document.getElementById('progressText');
-                        
-                        if (progressFill) {
-                            progressFill.style.width = progress + '%';
-                            progressFill.textContent = progress + '%';
-                        }
-                        if (progressText) {
-                            progressText.textContent = `Loading page ${i} of ${totalPages}`;
-                        }
-                    }
-                    
-                    // Remove progress overlay
-                    document.body.removeChild(progressOverlay);
-                    
-                    // Show print container and add printing class
-                    printContainer.style.display = 'block';
-                    document.body.classList.add('printing-pdf');
-                    
-                    // Trigger print dialog
-                    setTimeout(() => {
-                        window.print();
-                        
-                        // Cleanup after print
-                        setTimeout(() => {
-                            document.body.classList.remove('printing-pdf');
-                            printContainer.style.display = 'none';
-                            printContainer.innerHTML = '';
-                        }, 500);
-                    }, 500);
-                    
-                } catch (error) {
-                    console.error('Print error:', error);
-                    alert('Error preparing document for printing. Please try again.');
-                    if (document.body.contains(progressOverlay)) {
-                        document.body.removeChild(progressOverlay);
-                    }
-                }
-            };
-            
-            renderAllPages();
-        }
-
-        document.getElementById('studentEmail').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') verifyAccess();
-        });
-    </script>
-</body>
-</html>
+            try {
+                for (let i = 1; i <= totalPages; i++) {
+                    const page = await pdf
