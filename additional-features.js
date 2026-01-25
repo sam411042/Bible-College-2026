@@ -352,8 +352,8 @@
     function getStatus(mark) {
         if (mark === null) return 'Absent';
         if (mark >= 90) return 'Excellent';
-        if (mark >= 80) return 'Good';
-        if (mark >= 70) return 'Average';
+        if (mark >= 80) return 'Very Good';
+        if (mark >= 60) return 'Good';
         return 'Needs Improvement';
     }
 
@@ -601,6 +601,7 @@
     };
 
 })();
+
 
 
 
