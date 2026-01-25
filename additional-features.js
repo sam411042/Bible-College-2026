@@ -210,9 +210,9 @@
                     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
                     border-left: 5px solid #ff9800;
                 ">
-                    <div style="color: #666; font-size: 0.85em; margin-bottom: 8px; text-transform: uppercase; font-weight: 600;">AVERAGE</div>
-                    <div id="average-score" style="color: #ff9800; font-size: 2.5em; font-weight: 700;">0</div>
-                </div>
+               <div style="color: #666; font-size: 0.85em; margin-bottom: 8px; text-transform: uppercase; font-weight: 600;">AVERAGE</div>
+                 <div id="average-score" style="color: #ff9800; font-size: 2.5em; font-weight: 700;">0</div>
+               </div>
 
                 <div class="summary-card" style="
                     background: white;
@@ -292,7 +292,7 @@
         document.getElementById('marksheet-student-email-display').textContent = email; // Display email
         document.getElementById('total-marks').textContent = totalMarks;
         document.getElementById('exams-taken').textContent = `${examsTaken}/${examMonths.length}`; // Dynamic total
-        document.getElementById('average-score').textContent = average;
+      //  document.getElementById('average-score').textContent = average;
         document.getElementById('percentage-score').textContent = percentage + '%';
         document.getElementById('grade-display').textContent = grade;
 
@@ -601,6 +601,7 @@
     };
 
 })();
+
 
 
 
