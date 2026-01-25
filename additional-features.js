@@ -344,7 +344,7 @@
         else if (percentage >= 80) return 'A';
         else if (percentage >= 70) return 'B+';
         else if (percentage >= 60) return 'B';
-        else if (percentage >= 50) return 'C';
+        else if (percentage >= 35) return 'C';
         else return 'F';
     }
 
@@ -601,6 +601,7 @@
     };
 
 })();
+
 
 
 
