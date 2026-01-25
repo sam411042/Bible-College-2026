@@ -844,9 +844,6 @@
             const pdfConfig = PDF_FILE_PATH[currentPdfId];
             const totalPages = pdfDoc.numPages;
             
-            if (!confirm(`Print all ${totalPages} pages of "${pdfConfig.title}"?\n\nThis will prepare all pages for printing.`)) {
-                return;
-            }
 
             const printBtn = document.getElementById('printBtn');
             printBtn.disabled = true;
@@ -945,6 +942,7 @@
     </script>
 </body>
 </html>
+
 
 
 
