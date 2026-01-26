@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible College of India - Pastors Foundation Course</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        /* Existing CSS styles remain unchanged */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 5px solid #ffd700;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-style: italic;
+        }
+
+        .logo-section {
+            margin-bottom: 15px;
+            font-size: 3em;
+        }
+
+        .login-section {
+            padding: 60px 40px;
+            background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+        }
+
+        .login-box {
+            max-width: 450px;
+            margin: 0 auto;
+            background: white;
+            padding: 45px;
+            border-radius: 12px;
+            border: 3px solid #1e3c72;
+            box-shadow: 0 10px 30px rgba(30, 60, 114, 0.15);
+        }
+
+        .login-box h2 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .login-box .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 0.95em;
+        }
+
+        input[type="email"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 60, 114, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-msg {
+            color: #dc3545;
+            margin-top: 15px;
+            font-weight: 600;
+            text-align: center;
+            padding: 10px;
+            background: #ffe6e6;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .success-msg {
+            color: #28a745;
+            margin-top: 15px;
+            font-weight: 600;
+            text-align: center;
+            padding: 10px;
+            background: #d4edda;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .verse-quote {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+            font-style: italic;
+            text-align: center;
+            color: #1565c0;
+            font-size: 1.05em;
+        }
+
+        .info-notice {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            color: #856404;
+        }
+
+        .info-notice h3 {
+            margin-bottom: 12px;
+            color: #856404;
+        }
+
+        .info-notice ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .pdf-selection {
+            display: none;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .student-info {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 5px solid #4caf50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .student-info-text {
+            color: #1b5e20;
+            font-weight: 600;
+        }
+        /* The .action-btn CSS is removed from here as additional-features.js handles inline styling */
+
+        .logout-btn {
+            width: auto;
+            padding: 10px 20px;
+            background: #dc3545;
+            font-size: 0.9em;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        .selection-title {
+            text-align: center;
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .pdf-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .pdf-card {
+            background: white;
+            border-radius: 12px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .pdf-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(30, 60, 114, 0.2);
+            border-color: #1e3c72;
+        }
+
+        .pdf-card-icon {
+            font-size: 4.5em;
+            margin-bottom: 15px;
+        }
+
+        .pdf-card-title {
+            font-size: 1.5em;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .pdf-card-desc {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .pdf-card button {
+            width: auto;
+            padding: 14px 35px;
+            font-size: 1em;
+        }
+
+        .pdf-viewer {
+            display: none;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .back-btn-container {
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            width: auto;
+            padding: 10px 20px;
+            background: #6c757d;
+            font-size: 0.95em;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+        }
+
+        .current-pdf-title {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ffc107;
+            text-align: center;
+            font-size: 1.3em;
+            color: #856404;
+            font-weight: 700;
+        }
+
+        .pdf-toolbar {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .pdf-toolbar-left {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .pdf-toolbar button {
+            width: auto;
+            padding: 12px 25px;
+            background: #4caf50;
+            font-size: 1em;
+        }
+
+        .pdf-toolbar button:hover {
+            background: #45a049;
+        }
+
+        .pdf-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: #34495e;
+            padding: 18px;
+            justify-content: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .pdf-controls button {
+            width: auto;
+            padding: 10px 18px;
+            font-size: 0.95em;
+            background: #1e3c72;
+        }
+
+        .pdf-controls button:hover {
+            background: #2a5298;
+        }
+
+        .page-info {
+            color: white;
+            font-weight: 600;
+            font-size: 1.05em;
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+        }
+
+        .canvas-wrapper {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+            overflow: auto;
+            max-height: 85vh;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        #pdf-canvas {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #print-container {
+            display: none;
+        }
+
+        .print-progress {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 10000;
+            text-align: center;
+            min-width: 400px;
+        }
+
+        .print-progress h3 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        /* 1. The Main Outer Panel - Hidden by default */
+#admin-security-section {
+    display: none; 
+    background-color: #0f0f0f; /* Near black */
+    color: #00ff41; /* Terminal Green */
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 30px auto;
+    max-width: 1000px;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+/* 2. The Scrolling Container */
+#log-display-area {
+    height: 450px;
+    overflow-y: auto;
+    background-color: #000000;
+    padding: 15px;
+    border: 1px solid #222;
+    border-radius: 5px;
+}
+
+/* 3. Individual Log Entries */
+.log-entry {
+    background: #111;
+    border-left: 5px solid #00ff41; /* Green for normal actions */
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 0 5px 5px 0;
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+/* 4. RED ALERT: Violation Style */
+.log-entry.violation {
+    border-left: 5px solid #ff0000; /* Bright red side bar */
+    background: #200000; /* Dark red background */
+}
+
+/* 5. Typography Details */
+.log-entry strong {
+    color: #ffffff;
+    font-size: 1.1em;
+}
+
+.log-entry small {
+    float: right;
+    color: #888;
+}
+
+/* 6. High-Tech Scrollbar */
+#log-display-area::-webkit-scrollbar {
+    width: 10px;
+}
+#log-display-area::-webkit-scrollbar-track {
+    background: #000;
+}
+#log-display-area::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 5px;
+}
+#log-display-area::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}
+        /* Styling for the Toggle Button */
+#security-toggle-btn {
+    background: #1a1a1a;
+    color: #00ff41;
+    border: 1px solid #00ff41;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    width: 100%;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+#security-toggle-btn:hover {
+    background: #00ff41;
+    color: #000;
+}
+
+/* Container for the content */
+#security-main-content {
+    background-color: #0f0f0f;
+    padding: 20px;
+    border-radius: 0 0 10px 10px;
+}
+
+        /* New styles for Admin Dashboard */
+        .admin-dashboard {
+            display: none; /* Hidden by default */
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .admin-header h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .admin-controls {
+            display: flex;
+            justify-content: flex-end; /* Pushes logout to the right */
+            margin-bottom: 20px;
+        }
+
+        .student-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .student-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid #1e3c72;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .student-card h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .student-card p {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            flex-grow: 1; /* Allows card to expand evenly */
+        }
+
+        .student-card-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap; /* For responsiveness */
+        }
+
+        .student-card-actions button {
+            flex-grow: 1; /* Buttons take equal space */
+            width: auto; /* Override default 100% width for individual buttons in card */
+            padding: 10px 15px;
+            font-size: 0.9em;
+            border-radius: 6px;
+        }
+
+        .btn-view-profile {
+            background: linear-gradient(135deg, #2196f3 0%, #00bcd4 100%);
+        }
+        .btn-view-profile:hover {
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-view-marksheet {
+            background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);
+        }
+        .btn-view-marksheet:hover {
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+        }
+
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 0.5cm;
+            }
+            
+            body * {
+                visibility: hidden !important;
+            }
+            
+            #print-container,
+            #print-container * {
+                visibility: visible !important;
+            }
+            
+            #print-container {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                display: block !important;
+            }
+            
+            .print-page {
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                display: block !important;
+                width: 100% !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+            }
+            
+            .print-page:last-child {
+                page-break-after: avoid !important;
+            }
+
+            .print-page img {
+                max-width: 100% !important;
+                height: auto !important;
+                display: block !important;
+                margin: 0 auto !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pdf-cards {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .login-box {
+                padding: 30px 20px;
+            }
+            .print-progress {
+                min-width: 300px;
+                padding: 30px;
+            }
+            .profile-cards {
+                grid-template-columns: 1fr; /* Stack profile cards on small screens */
+            }
+            .student-card-actions button {
+                padding: 8px 12px; /* Smaller buttons on mobile */
+                font-size: 0.85em;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="security-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-section">✝️</div>
+            <h1>Bible College of India</h1>
+            <p>Pastors Foundation Course Materials</p>
+        </div>
+
+        <div id="loginSection" class="login-section">
+            <div class="login-box">
+                <h2>🔐 Student Access</h2>
+                <p class="subtitle">Enter your registered email to access course materials</p>
+                <input type="email" id="studentEmail" placeholder="student@biblecollege.edu" autocomplete="email">
+                <button onclick="verifyAccess()">Access Course Materials</button>
+                <div id="errorMsg" class="error-msg"></div>
+                <div id="successMsg" class="success-msg"></div>
+            </div>
+
+            <div class="verse-quote">
+                "Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth." - 2 Timothy 2:15
+            </div>
+
+            <div class="info-notice">
+                <h3>📋 Important Information:</h3>
+                <ul>
+                    <li><strong>Authorized Access Only:</strong> Only registered students can access these materials</li>
+                    <li><strong>Personal Use:</strong> Materials are for your personal study only</li>
+                    <li><strong>Printing Allowed:</strong> You may print each chapter separately for study purposes</li>
+                    <li><strong>Protected Content:</strong> Materials are secured for authorized students only</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="pdfSelection" class="pdf-selection">
+            <div class="student-info">
+                <div class="student-info-text">
+                    ✅ Logged in as: <span id="loggedEmail"></span>
+                </div>
+                <!-- The "View Marksheet" and "Student Profile" buttons will be dynamically added here by additional-features.js -->
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+
+            <h2 class="selection-title">📚 Select Study Material</h2>
+
+            <div class="pdf-cards">
+                <div class="pdf-card">
+                    <div class="pdf-card-icon">📖</div>
+                    <h3 class="pdf-card-title">मत्तय</h3>
+                    <p class="pdf-card-desc">Matthew Gospel - Complete Study Guide</p>
+                    <button onclick="openPDF(1)">View Study Material</button>
+                </div>
+
+                <div class="pdf-card">
+                    <div class="pdf-card-icon">📕</div>
+                    <h3 class="pdf-card-title">मार्क</h3>
+                    <p class="pdf-card-desc">Mark Gospel - Prophetic Insights</p>
+                    <button onclick="openPDF(2)">View Study Material</button>
+                </div>
+
+                <div class="pdf-card">
+                    <div class="pdf-card-icon">📗</div>
+                    <h3 class="pdf-card-title">लुक</h3>
+                    <p class="pdf-card-desc">Luke Gospel - Detailed Teachings</p>
+                    <button onclick="openPDF(3)">View Study Material</button>
+                </div>
+
+                <div class="pdf-card">
+                    <div class="pdf-card-icon">📘</div>
+                    <h3 class="pdf-card-title">योहान</h3>
+                    <p class="pdf-card-desc">John Gospel - Spiritual Insights</p>
+                    <button onclick="openPDF(4)">View Study Material</button>
+                </div>
+
+                <div class="pdf-card">
+                    <div class="pdf-card-icon">📙</div>
+                    <h3 class="pdf-card-title">प्रेषित कृत्ये</h3>
+                    <p class="pdf-card-desc">Acts - Early Church History</p>
+                    <button onclick="openPDF(5)">View Study Material</button>
+                </div>
+
+                <div class="pdf-card">
+                    <div class="pdf-card-icon">📔</div>
+                    <h3 class="pdf-card-title">रोमकरास पत्र</h3>
+                    <p class="pdf-card-desc">Romans - Doctrinal Foundation</p>
+                    <button onclick="openPDF(6)">View Study Material</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="pdfViewer" class="pdf-viewer">
+            <div class="back-btn-container">
+                <button class="back-btn" onclick="backToSelection()">⬅️ Back to All Chapters</button>
+            </div>
+
+            <div class="current-pdf-title" id="currentPdfTitle"></div>
+
+            <div class="pdf-toolbar">
+                <div class="pdf-toolbar-left">📄 Current Chapter</div>
+                <button id="printBtn" onclick="printPDF()">🖨️ Print This Chapter</button>
+            </div>
+
+            <div class="pdf-controls">
+                <button onclick="firstPage()">⏮️ First</button>
+                <button onclick="previousPage()">⬅️ Previous</button>
+                <span class="page-info">
+                    Page <span id="page-num">1</span> of <span id="page-count">0</span>
+                </span>
+                <button onclick="nextPage()">Next ➡️</button>
+                <button onclick="lastPage()">⏭️ Last</button>
+                <button onclick="zoomOut()">🔍- Zoom Out</button>
+                <button onclick="zoomIn()">🔍+ Zoom In</button>
+            </div>
+
+            <div class="canvas-wrapper">
+                <canvas id="pdf-canvas"></canvas>
+            </div>
+        </div>
+
+        <!-- NEW ADMIN DASHBOARD SECTION -->
+      <div id="adminDashboard" class="admin-dashboard">
+    <div class="admin-header">
+        <div style="font-size: 3em; margin-bottom: 10px;">👑</div>
+        <h2>Admin Dashboard</h2>
+        <p>Welcome, <span id="adminLoggedEmail"></span>!</p>
+    </div>
+
+    <div class="admin-controls" style="display: flex; flex-direction: column; gap: 12px; align-items: center; margin-bottom: 30px;">
+        
+        <div id="admin-security-section" style="display:none; width: 100%; max-width: 500px;">
+            <button id="security-toggle-btn" onclick="ActivityLogger.ui.togglePanel()" style="width: 100%; background: #1a1a1a; color: #00ff41; border: 1px solid #00ff41;">
+                🛡️ OPEN SECURITY COMMAND CENTER
+            </button>
+        </div>
+
+        <div id="admin-students-toggle-div" style="display: none; width: 100%; max-width: 500px;">
+            <button id="viewStudentsBtn" onclick="ActivityLogger.ui.toggleStudents()" style="background: #1e3c72; width: 100%;">
+                👥 VIEW STUDENT DIRECTORY
+            </button>
+        </div>
+
+        <button class="logout-btn" onclick="logout()" style="width: auto; padding: 10px 40px;">Logout</button>
+    </div>
+          
+
+  <div id="student-directory-wrapper" style="display: none; border-top: 2px solid #ddd; padding-top: 20px;">
+    <h3 class="selection-title" style="margin-bottom: 20px;">Registered Student Records</h3>
+    <div id="studentList" class="student-list">
+         </div>
+</div>
+</div>
+        <!-- END NEW ADMIN DASHBOARD SECTION -->
+
+    </div>
+
+    <div id="print-container"></div>
+    <!-- Your external JS files should be linked before the main script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+              <script src="student-data.js"></script>
+              <script src="additional-features.js"></script>
+              <script src="activity-logger.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // WHITELIST - Authorized emails
+        const ALLOWED_EMAILS = {
+            'p82158860@gmail.com': 'Pritee Gaikwad',
+            'ranjeeta.kamble333@gmail.com': 'Ranjana Kamble',
+            'vypardh78@gmail.com': 'Vishal Pardhe',
+            'rvpardhe07@gmail.com': 'Kavita Pardhe',
+            'jlibiblecollege@gmail.com': 'Bible College Admin',
+            'manoramaramane@gmail.com': 'Manorama Ramane',
+            'buddhiwantmeene@gmail.com': 'Meena Buddhiwant',
+            'vishforluv1982@gmail.com': 'Vishwas Bhosale',
+            'ashubaladon@gmail.com': 'Ashish Dongerdive',
+            'bordeamol26@gmail.com': 'Amol Borde',
+            'borde.siyona@gmail.com': 'Siyona Borde',
+            'dpadvi604@gmail.com': 'Dinesh Padvi',
+            'khilarelajo@gmail.com': 'Helen Khilare',
+            'fkhilare@gmail.com': 'Francis Khilare',
+            'bhaleraojitesh727@gmail.com': 'Jitesh Bhalerao',
+            'meghadhusia09june@gmail.com': 'Megha Mhaske',
+            'brani4211@gmail.com': 'Rani Bhosale',
+            'aadamgujare@gmail.com': 'Aadam Gujare',
+            'manisha.fernandis15@gmail.com': 'Manisha Fernandis'
+        };
+
+        // PDF Configuration
+        const PDF_FILE_PATH = {
+            1: {
+                file: 'https://raw.githubusercontent.com/sam411042/Bible-College-2026/main/matthew.pdf',
+                title: 'मत्तय : MATTHEW GOSPEL'
+            },
+            2: {
+                file: '41.मार्क.pdf',
+                title: 'मार्क : MARK GOSPEL'
+            },
+            3: {
+                file: 'लुक.pdf',
+                title: 'लूका : LUKE GOSPEL'
+            },
+            4: {
+                file: 'https://raw.githubusercontent.com/sam411042/Bible-College-2026/main/john.pdf',
+                title: 'यूहन्ना : JOHN GOSPEL'
+            },
+            5: {
+                file: 'https://raw.githubusercontent.com/sam411042/Bible-College-2026/main/acts.pdf',
+                title: 'प्रेषितों के काम : ACTS'
+            },
+            6: {
+                file: 'https://raw.githubusercontent.com/sam411042/Bible-College-2026/main/romans.pdf',
+                title: 'रोमियों : ROMANS'
+            }
+        };
+
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        let scale = 1.5;
+        // Declare studentEmail and studentName globally so additional-features.js can access them
+        window.studentEmail = '';
+        window.studentName = '';
+        let currentPdfId = null;
+        const canvas = document.getElementById('pdf-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Allow Enter key to submit
+        document.getElementById('studentEmail').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyAccess();
+            }
+        });
+
+        // Function to hide all main content sections
+        window.hideAllContentSections = function() { // Made global for additional-features.js to access
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('pdfSelection').style.display = 'none';
+            document.getElementById('pdfViewer').style.display = 'none';
+            const marksheetSection = document.getElementById('marksheetSection');
+            if (marksheetSection) marksheetSection.style.display = 'none';
+            const profileSection = document.getElementById('profileSection');
+            if (profileSection) profileSection.style.display = 'none';
+            document.getElementById('adminDashboard').style.display = 'none'; // Hide admin dashboard too
+        }
+
+       function verifyAccess() {
+            const emailInput = document.getElementById('studentEmail');
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+            const email = emailInput.value.trim().toLowerCase();
+
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            if (!email) {
+                errorMsg.textContent = '⚠️ Please enter your email address';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                errorMsg.textContent = '⚠️ Please enter a valid email address';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (ALLOWED_EMAILS[email]) {
+                window.studentEmail = email; 
+                window.studentName = ALLOWED_EMAILS[email];
+
+                // --- NEW LINE ADDED HERE TO TRIGGER THE GUI ---
+                if (typeof ActivityLogger !== 'undefined') ActivityLogger.init();
+                // ----------------------------------------------
+
+                successMsg.textContent = '✅ Access granted! Loading materials...';
+                successMsg.style.display = 'block';
+                
+                setTimeout(() => {
+                    window.hideAllContentSections(); 
+
+                    if (email === 'jlibiblecollege@gmail.com') {
+                        localStorage.setItem('adminEmail', 'jlibiblecollege@gmail.com');
+                        localStorage.setItem('isAdmin', 'true');
+                        document.getElementById('adminLoggedEmail').textContent = window.studentName;
+                        if (typeof window.showAdminDashboard === 'function') {
+                            window.showAdminDashboard();
+                        } else {
+                            console.error("showAdminDashboard is not defined.");
+                            document.getElementById('adminDashboard').style.display = 'block';
+                            document.getElementById('studentList').innerHTML = '<p>Error loading student list.</p>';
+                        }
+                    } else {
+                        document.getElementById('loggedEmail').textContent = window.studentName + ' (' + email + ')';
+                        document.getElementById('pdfSelection').style.display = 'block';
+                        
+                        if (typeof window.addAdditionalButtons === 'function') {
+                            window.addAdditionalButtons();
+                        } else {
+                            console.error("addAdditionalButtons is not defined.");
+                        }
+                    }
+                }, 1000);
+            } else {
+                errorMsg.textContent = '❌ Access Denied: Your email is not registered.';
+                errorMsg.style.display = 'block';
+            }
+           if (typeof window.showAdminDashboard === 'function') {
+        window.showAdminDashboard();
+    }
+const adminDiv = document.getElementById('admin-students-toggle-div');
+    if (adminDiv) {
+        adminDiv.innerHTML = `
+            <button onclick="ActivityLogger.ui.toggleStudents()" id="viewStudentsBtn"
+                style="background: #1e3c72; color: white; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 10px; border: none; font-weight: bold;">
+                👥 VIEW MAIN BATCH DIRECTORY
+            </button>
+
+            <button onclick="window.location.href='https://biblecollege2026.github.io/septemberbatch/10.html'" 
+                style="background: #2a5298; color: white; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 10px; border: none; font-weight: bold;">
+                📂 OPEN SEPTEMBER BATCH PORTAL
+            </button>
+
+              <button onclick="window.location.href='https://biblecollege2026.github.io/biblecollege2026Januarybatch/10.html'" 
+            style="background: #34495e; color: white; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 15px; border: none; font-weight: bold;">
+            ❄️ OPEN JANUARY 2026 BATCH PORTAL
+        </button>
+        `;
+    }
+}
+        function logout() {
+            window.studentEmail = '';
+            window.studentName = '';
+            document.getElementById('studentEmail').value = '';
+            window.hideAllContentSections(); // Hide all current views
+            document.getElementById('loginSection').style.display = 'block'; // Show login section
+        }
+
+        function openPDF(pdfId) {
+            currentPdfId = pdfId;
+            const pdfConfig = PDF_FILE_PATH[pdfId];
+            
+            window.hideAllContentSections(); // Hide everything else
+            document.getElementById('currentPdfTitle').textContent = pdfConfig.title;
+            document.getElementById('pdfViewer').style.display = 'block';
+            
+            loadPDF(pdfConfig.file);
+        }
+
+        function backToSelection() {
+            window.hideAllContentSections();
+            document.getElementById('pdfSelection').style.display = 'block';
+            pdfDoc = null;
+            pageNum = 1;
+        }
+
+        function loadPDF(pdfPath) {
+            const loadingTask = pdfjsLib.getDocument(pdfPath);
+            
+            loadingTask.promise.then(function(pdf) {
+                pdfDoc = pdf;
+                document.getElementById('page-count').textContent = pdf.numPages;
+                pageNum = 1;
+                renderPage(pageNum);
+            }).catch(function(error) {
+                console.error('Error loading PDF:', error);
+                alert('Error loading PDF. Please try again.');
+                backToSelection();
+            });
+        }
+
+        function renderPage(num) {
+            pageRendering = true;
+            pdfDoc.getPage(num).then(function(page) {
+                const viewport = page.getViewport({scale: scale});
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderTask = page.render({
+                    canvasContext: ctx,
+                    viewport: viewport
+                });
+
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+            });
+
+            document.getElementById('page-num').textContent = num;
+        }
+
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        function firstPage() {
+            if (pageNum <= 1) return;
+            pageNum = 1;
+            queueRenderPage(pageNum);
+        }
+
+        function previousPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+
+        function nextPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+
+        function lastPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum = pdfDoc.numPages;
+            queueRenderPage(pageNum);
+        }
+
+        function zoomIn() {
+            scale += 0.25;
+            queueRenderPage(pageNum);
+        }
+
+        function zoomOut() {
+            if (scale <= 0.5) return;
+            scale -= 0.25;
+            queueRenderPage(pageNum);
+        }
+
+        async function printPDF() {
+            if (!pdfDoc) {
+                alert('PDF not loaded yet');
+                return;
+            }
+            
+            const pdfConfig = PDF_FILE_PATH[currentPdfId];
+            const totalPages = pdfDoc.numPages;
+            
+            if (!confirm(`Print all $${totalPages} pages of "$${pdfConfig.title}"?\n\nThis will prepare all pages for printing.`)) {
+                return;
+            }
+
+            const printBtn = document.getElementById('printBtn');
+            printBtn.disabled = true;
+            printBtn.textContent = '⏳ Preparing pages...';
+
+            // Create progress overlay
+            const progressOverlay = document.createElement('div');
+            progressOverlay.className = 'print-progress';
+            progressOverlay.innerHTML = `
+                <h3>🖨️ Preparing Document for Print</h3>
+                <p>Please wait while all pages are loaded...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
+                </div>
+                <p id="progressText">Loading page 1 of ${totalPages}</p>
+            `;
+            document.body.appendChild(progressOverlay);
+
+            const printContainer = document.getElementById('print-container');
+            printContainer.innerHTML = '';
+
+            try {
+                // Render all pages to images
+                for (let i = 1; i <= totalPages; i++) {
+                    const page = await pdfDoc.getPage(i);
+                    
+                    // Scale for print quality (2.0 for good quality)
+                    const viewport = page.getViewport({scale: 2.0});
+                    
+                    // Create canvas for this page
+                    const printCanvas = document.createElement('canvas');
+                    printCanvas.width = viewport.width;
+                    printCanvas.height = viewport.height;
+                    
+                    const printCtx = printCanvas.getContext('2d');
+                    
+                    // Render page to canvas
+                    await page.render({
+                        canvasContext: printCtx,
+                        viewport: viewport
+                    }).promise;
+                    
+                    // Convert canvas to image
+                    const imgData = printCanvas.toDataURL('image/png');
+                    
+                    // Create image element
+                    const img = document.createElement('img');
+                    img.src = imgData;
+                    img.className = 'print-page';
+                    img.alt = `Page ${i}`;
+                    
+                    printContainer.appendChild(img);
+                    
+                    // Update progress
+                    const progress = Math.round((i / totalPages) * 100);
+                    const progressFill = document.getElementById('progressFill');
+                    const progressText = document.getElementById('progressText');
+                    
+                    if (progressFill) {
+                        progressFill.style.width = progress + '%';
+                        progressFill.textContent = progress + '%';
+                    }
+                    if (progressText) {
+                        progressText.textContent = `Loading page $${i} of $${totalPages}`;
+                    }
+                }
+                
+                // Remove progress overlay
+                document.body.removeChild(progressOverlay);
+                
+                // Show print container
+                printContainer.style.display = 'block';
+                
+                // Small delay to ensure images are ready
+                setTimeout(() => {
+                    // Trigger print dialog
+                    window.print();
+                    
+                    // Cleanup after print
+                    setTimeout(() => {
+                        printContainer.style.display = 'none';
+                        printContainer.innerHTML = '';
+                        printBtn.disabled = false;
+                        printBtn.textContent = '🖨️ Print This Chapter';
+                    }, 500);
+                }, 500);
+                
+            } catch (error) {
+                console.error('Print error:', error);
+                alert('Error preparing document for printing. Please try again.');
+                document.body.removeChild(progressOverlay);
+                printBtn.disabled = false;
+                printBtn.textContent = '🖨️ Print This Chapter';
+            }
+        }
+    </script>
+    
+</body>
+</html>
