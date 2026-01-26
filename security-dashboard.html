@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BCI Security Command Center</title>
+    <style>
+        body { background-color: #0a0a0a; color: #00ff41; font-family: 'Courier New', monospace; padding: 20px; }
+        .header { border: 2px solid #00ff41; padding: 15px; text-align: center; margin-bottom: 20px; box-shadow: 0 0 10px #00ff41; }
+        .log-container { max-width: 900px; margin: 0 auto; }
+        .log-entry { 
+            background: #151515; 
+            border-left: 5px solid #00ff41; 
+            margin-bottom: 12px; 
+            padding: 15px; 
+            position: relative;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        .violation { border-left-color: #ff4d4d; }
+        .timestamp { position: absolute; right: 15px; top: 15px; color: #888; font-size: 0.85em; }
+        .email { color: #008f11; font-weight: bold; }
+        .action { margin-top: 8px; display: block; font-size: 1.1em; }
+        .meta { font-size: 0.8em; color: #666; margin-top: 10px; border-top: 1px solid #222; padding-top: 5px; }
+        .loading { text-align: center; font-style: italic; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🛡️ BCI Security Command Center</h1>
+        <p>Live Surveillance Feed</p>
+    </div>
+
+    <div id="log-display-area" class="log-container">
+        <div class="loading">Establishing secure connection to Google Sheets...</div>
+    </div>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby7eXy51_62Lh_H_TkAYWSWyZ6pJaLJ7OoFNW2dofSQ9TtRi5UprElciBhNMIqafDrY/exec?action=read';
+
+    function fetchLiveLogs() {
+        fetch(SCRIPT_URL)
+            .then(res => res.json())
+            .then(logs => {
+                const container = document.getElementById('log-display-area');
+                if (!container || !logs) return;
+
+                // SORTING: This puts the newest student activity at the TOP
+                const sortedLogs = logs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                container.innerHTML = sortedLogs.map(log => {
+                    const isViolation = log.action.includes('Violation') || log.action.includes('Print');
+                    const entryClass = isViolation ? 'log-entry violation' : 'log-entry';
+                    const icon = isViolation ? '⚠️' : '➡️';
+
+                    return `
+                        <div class="${entryClass}">
+                            <small>${new Date(log.timestamp).toLocaleTimeString()}</small>
+                            <strong>${log.name}</strong> (${log.email})
+                            <br>
+                            <span>${icon} ${log.action}</span>
+                            <div style="font-size: 0.8em; color: #666; margin-top: 5px;">
+                                Location: ${log.location} | Device: ${log.device}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            })
+            .catch(err => console.error("Sync error:", err));
+    }
+
+    // Run immediately when page opens
+    fetchLiveLogs();
+
+    // Re-run every 5 seconds for a live experience
+    setInterval(fetchLiveLogs, 5000); 
+</script>
+</body>
+</html>
