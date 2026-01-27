@@ -923,88 +923,80 @@
             document.getElementById('adminDashboard').style.display = 'none'; // Hide admin dashboard too
         }
 
-       function verifyAccess() {
-            const emailInput = document.getElementById('studentEmail');
-            const errorMsg = document.getElementById('errorMsg');
-            const successMsg = document.getElementById('successMsg');
-            const email = emailInput.value.trim().toLowerCase();
+      function verifyAccess() {
+    const emailInput = document.getElementById('studentEmail');
+    const errorMsg = document.getElementById('errorMsg');
+    const successMsg = document.getElementById('successMsg');
+    const email = emailInput.value.trim().toLowerCase();
 
-            errorMsg.style.display = 'none';
-            successMsg.style.display = 'none';
+    errorMsg.style.display = 'none';
+    successMsg.style.display = 'none';
 
-            if (!email) {
-                errorMsg.textContent = '⚠️ Please enter your email address';
-                errorMsg.style.display = 'block';
-                return;
-            }
-
-            if (!email.includes('@') || !email.includes('.')) {
-                errorMsg.textContent = '⚠️ Please enter a valid email address';
-                errorMsg.style.display = 'block';
-                return;
-            }
-
-            if (ALLOWED_EMAILS[email]) {
-                window.studentEmail = email; 
-                window.studentName = ALLOWED_EMAILS[email];
-
-                // --- NEW LINE ADDED HERE TO TRIGGER THE GUI ---
-                if (typeof ActivityLogger !== 'undefined') ActivityLogger.init();
-                // ----------------------------------------------
-
-                successMsg.textContent = '✅ Access granted! Loading materials...';
-                successMsg.style.display = 'block';
-                
-                setTimeout(() => {
-                    window.hideAllContentSections(); 
-
-                    if (email === 'jlibiblecollege@gmail.com') {
-                        localStorage.setItem('adminEmail', 'jlibiblecollege@gmail.com');
-                        localStorage.setItem('isAdmin', 'true');
-                        document.getElementById('adminLoggedEmail').textContent = window.studentName;
-                        if (typeof window.showAdminDashboard === 'function') {
-                            window.showAdminDashboard();
-                        } else {
-                            console.error("showAdminDashboard is not defined.");
-                            document.getElementById('adminDashboard').style.display = 'block';
-                            document.getElementById('studentList').innerHTML = '<p>Error loading student list.</p>';
-                        }
-                    } else {
-                        document.getElementById('loggedEmail').textContent = window.studentName + ' (' + email + ')';
-                        document.getElementById('pdfSelection').style.display = 'block';
-                        
-                        if (typeof window.addAdditionalButtons === 'function') {
-                            window.addAdditionalButtons();
-                        } else {
-                            console.error("addAdditionalButtons is not defined.");
-                        }
-                    }
-                }, 1000);
-            } else {
-                errorMsg.textContent = '❌ Access Denied: Your email is not registered.';
-                errorMsg.style.display = 'block';
-            }
-           if (typeof window.showAdminDashboard === 'function') {
-        window.showAdminDashboard();
+    // 1. Basic Validation
+    if (!email || !email.includes('@') || !email.includes('.')) {
+        errorMsg.textContent = '⚠️ Please enter a valid email address';
+        errorMsg.style.display = 'block';
+        return;
     }
-const adminDiv = document.getElementById('admin-students-toggle-div');
-    if (adminDiv) {
-        adminDiv.innerHTML = `
-            <button onclick="ActivityLogger.ui.toggleStudents()" id="viewStudentsBtn"
-                style="background: #1e3c72; color: white; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 10px; border: none; font-weight: bold;">
-                👥 VIEW MAIN BATCH DIRECTORY
-            </button>
 
-            <button onclick="window.location.href='https://biblecollege2026.github.io/septemberbatch/10.html'" 
-                style="background: #2a5298; color: white; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 10px; border: none; font-weight: bold;">
-                📂 OPEN SEPTEMBER BATCH PORTAL
-            </button>
+    // 2. Check if Email is Authorized
+    if (ALLOWED_EMAILS[email]) {
+        window.studentEmail = email; 
+        window.studentName = ALLOWED_EMAILS[email];
 
-              <button onclick="window.location.href='https://biblecollege2026.github.io/biblecollege2026Januarybatch/10.html'" 
-            style="background: #34495e; color: white; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 15px; border: none; font-weight: bold;">
-            ❄️ OPEN JANUARY 2026 BATCH PORTAL
-        </button>
-        `;
+        if (typeof ActivityLogger !== 'undefined') ActivityLogger.init();
+
+        successMsg.textContent = '✅ Access granted! Loading...';
+        successMsg.style.display = 'block';
+        
+        // 3. Success Redirect Logic
+        setTimeout(() => {
+            window.hideAllContentSections(); 
+
+            if (email === 'jlibiblecollege@gmail.com') {
+                // ADMIN SUCCESS
+                localStorage.setItem('adminEmail', 'jlibiblecollege@gmail.com');
+                localStorage.setItem('isAdmin', 'true');
+                document.getElementById('adminLoggedEmail').textContent = window.studentName;
+                
+                if (typeof window.showAdminDashboard === 'function') {
+                    window.showAdminDashboard();
+                }
+                
+                // Set up the Admin Buttons (Only once)
+                const adminDiv = document.getElementById('admin-students-toggle-div');
+                if (adminDiv) {
+                    adminDiv.innerHTML = `
+                        <button onclick="ActivityLogger.ui.toggleStudents()" id="viewStudentsBtn" 
+                                style="background: #1e3c72; color: white; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 10px; border: none; font-weight: bold;">
+                            👥 VIEW MAIN BATCH DIRECTORY
+                        </button>
+                        <button onclick="window.location.href='https://biblecollege2026.github.io/septemberbatch/10.html'" 
+                                style="background: #2a5298; color: white; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 10px; border: none; font-weight: bold;">
+                            📂 OPEN SEPTEMBER BATCH PORTAL
+                        </button>
+                        <button onclick="window.location.href='https://biblecollege2026.github.io/biblecollege2026Januarybatch/10.html'" 
+                                style="background: #34495e; color: white; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 15px; border: none; font-weight: bold;">
+                            ❄️ OPEN JANUARY 2026 BATCH PORTAL
+                        </button>`;
+                }
+            } else {
+                // STUDENT SUCCESS
+                document.getElementById('loggedEmail').textContent = window.studentName + ' (' + email + ')';
+                document.getElementById('pdfSelection').style.display = 'block';
+                if (typeof window.addAdditionalButtons === 'function') window.addAdditionalButtons();
+            }
+        }, 1000);
+
+    } else {
+        // 4. ACCESS DENIED
+        errorMsg.textContent = '❌ Access Denied: Your email is not registered.';
+        errorMsg.style.display = 'block';
+        
+        // Log the intrusion attempt
+        if (typeof ActivityLogger !== 'undefined') {
+            ActivityLogger.logActivity('Unauthorized Login Attempt', `Email: ${email}`);
+        }
     }
 }
         function logout() {
