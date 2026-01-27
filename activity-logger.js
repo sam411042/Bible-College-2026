@@ -92,13 +92,13 @@ const ActivityLogger = {
             }
 
             // TRACK PROFILE (Checks for ID or Text)
-            if (target.id === 'profile-btn' || target.innerText.includes('Profile')) {
+            if (target.id === 'profileBtn' || target.innerText.includes('Profile')) {
                 this.logActivity('Click Profile', 'Student Profile View');
                 return;
             }
 
             // TRACK MARKSHEET (Checks for ID or Text)
-            if (target.id === 'marksheet-btn' || target.innerText.includes('Marksheet')) {
+            if (target.id === 'marksheetBtn' || target.innerText.includes('Marksheet')) {
                 this.logActivity('Checked Marksheet', 'Student Portal');
                 return;
             }
