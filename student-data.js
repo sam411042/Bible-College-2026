@@ -10,7 +10,7 @@ const STUDENT_DATA = {
         'aadamgujare@gmail.com': { name: 'Aadam Gujare', marks: [93, 100, 100, 100, 100, 80, 88], offlineMark: 79 },
         'ranjeeta.kamble333@gmail.com': { name: 'Ranjana Kamble', marks: [52, 100, 100, 100, 100, 100, 94], offlineMark: 82 },
         'p82158860@gmail.com': { name: 'Pritee Gaikwad', marks: [63, 75, 90, 100, 100, 100, 76], offlineMark: 72 },
-        'buddhiwantmeene@gmail.com': { name: 'Meena Buddhiwant', marks: [74, 70, 100, 100, 100, 100, 74], offlineMark: 92 },
+        'buddhiwantmeene@gmail.com': { name: 'Meena Buddhiwant', marks: [74, 70, 100, 100, 100, 100, 74], offlineMark: 88 },
         'khilarelajo@gmail.com': { name: 'Helen Khillare', marks: [74, 85, 100, 100, 100, 100, 69], offlineMark: 86 },
         'fkhilare@gmail.com': { name: 'Francis Khilare', marks: [77, 85, 70, 60, 80, 80, 90], offlineMark: 66 },
         'bhaleraojitesh727@gmail.com': { name: 'Jitesh Bhalerao', marks: [83, 50, 60, null, 90, 100, 72], offlineMark: 66 },
