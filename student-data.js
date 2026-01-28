@@ -22,7 +22,7 @@ const STUDENT_DATA = {
         'ashubaladon@gmail.com': { name: 'Ashish Dongerdive', marks: [75, 70, null, null, null, null, null], offlineMark: 84 },
         'vishforluv1982@gmail.com': { name: 'Vishwas Bhosale', marks: [62, 50, null, 100, 40, null, null], offlineMark: 43 },
         'brani4211@gmail.com': { name: 'Rani Bhosale', marks: [null, null, null, null, null, null, null], offlineMark: 46 },
-        'michaelsalvi@gmail.com': { name: 'Michael Salvi', marks: [93, 70, 100, 74, 100, 100, 83], offlineMark: 47 } // Added Michael Salvi's marks entry
+        'michaelsalvi9324@gmail.com': { name: 'Michael Salvi', marks: [93, 70, 100, 74, 100, 100, 83], offlineMark: 47 } // Added Michael Salvi's marks entry
     },
 
     // Student Profile Information
@@ -288,7 +288,7 @@ const STUDENT_DATA = {
             reference2: 'Nikita Hiwale - 7745811984',
             futurePlan: 'Know the plan of God in my life, Have a daily relationship with Jesus, walk with Him'
         },
-        'michaelsalvi@gmail.com': {
+        'michaelsalvi9324@gmail.comm': {
             name: 'Michael Salvi',
             address: 'Jeevan Sinhha Co-op Housing Society, Ramne Sitaram Chawl, Parvati Paytha East, Pune-9, Behind Bharat Petrol Pump, 4th Floor',
             mobile: '9730524015',
