@@ -609,53 +609,49 @@
         }
 
 
-@media print {
-    /* 1. Hide the main website UI */
-    body * {
-        visibility: hidden !important;
-    }
+ @media print {
+            @page {
+                size: A4;
+                margin: 0.5cm;
+            }
+            
+            body * {
+                visibility: hidden !important;
+            }
+            
+            #print-container,
+            #print-container * {
+                visibility: visible !important;
+            }
+            
+            #print-container {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                display: block !important;
+            }
+            
+            .print-page {
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                display: block !important;
+                width: 100% !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+            }
+            
+            .print-page:last-child {
+                page-break-after: avoid !important;
+            }
 
-    /* 2. EXPLICITLY SHOW the Print Container (The "Old Version" Logic) */
-    #print-container, 
-    #print-container img {
-        visibility: visible !important;
-        display: block !important;
-    }
-
-    /* 3. EXPLICITLY SHOW the Marksheet (If printing marksheet) */
-    #marksheet-to-print,
-    #marksheet-to-print * {
-        visibility: visible !important;
-        display: block !important;
-    }
-
-    /* 4. Position for the printer */
-    #print-container {
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    .print-page {
-        width: 100% !important;
-        page-break-after: always !important;
-        page-break-inside: avoid !important;
-    }
-
-    /* 5. Logic to make "Save as PDF" blank */
-    /* We place a white layer that only digital PDF printers usually 'see' first */
-    .print-shield {
-        display: block !important;
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: white;
-        z-index: -1; /* Keep it behind the images so real prints work */
-    }
-}
+            .print-page img {
+                max-width: 100% !important;
+                height: auto !important;
+                display: block !important;
+                margin: 0 auto !important;
+            }
+        }
         @media (max-width: 768px) {
             .pdf-cards {
                 grid-template-columns: 1fr;
@@ -1111,65 +1107,112 @@
         }
 
  async function printPDF() {
-    if (!pdfDoc) {
-        alert('PDF not loaded yet');
-        return;
-    }
-    
-    const pdfConfig = PDF_FILE_PATH[currentPdfId];
-    const totalPages = pdfDoc.numPages;
-    
-    if (!confirm(`Print all ${totalPages} pages of "${pdfConfig.title}"?`)) {
-        return;
-    }
+            if (!pdfDoc) {
+                alert('PDF not loaded yet');
+                return;
+            }
+            
+            const pdfConfig = PDF_FILE_PATH[currentPdfId];
+            const totalPages = pdfDoc.numPages;
+            
+            if (!confirm(`Print all $${totalPages} pages of "$${pdfConfig.title}"?\n\nThis will prepare all pages for printing.`)) {
+                return;
+            }
 
-    const printBtn = document.getElementById('printBtn');
-    printBtn.disabled = true;
-    printBtn.textContent = '⏳ Preparing...';
+            const printBtn = document.getElementById('printBtn');
+            printBtn.disabled = true;
+            printBtn.textContent = '⏳ Preparing pages...';
 
-    const printContainer = document.getElementById('print-container');
-    printContainer.innerHTML = '';
-    // IMPORTANT: Make it block so the browser registers the images inside
-    printContainer.style.display = 'block'; 
+            // Create progress overlay
+            const progressOverlay = document.createElement('div');
+            progressOverlay.className = 'print-progress';
+            progressOverlay.innerHTML = `
+                <h3>🖨️ Preparing Document for Print</h3>
+                <p>Please wait while all pages are loaded...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
+                </div>
+                <p id="progressText">Loading page 1 of ${totalPages}</p>
+            `;
+            document.body.appendChild(progressOverlay);
 
-    try {
-        for (let i = 1; i <= totalPages; i++) {
-            const page = await pdfDoc.getPage(i);
-            const viewport = page.getViewport({scale: 2.0}); // High resolution for print
-            
-            const printCanvas = document.createElement('canvas');
-            const printCtx = printCanvas.getContext('2d');
-            printCanvas.width = viewport.width;
-            printCanvas.height = viewport.height;
-            
-            await page.render({
-                canvasContext: printCtx,
-                viewport: viewport
-            }).promise;
-            
-            const img = document.createElement('img');
-            img.src = printCanvas.toDataURL('image/png');
-            img.className = 'print-page';
-            printContainer.appendChild(img);
-        }
-        
-        // Give the browser a moment to render the images into the DOM
-        setTimeout(() => {
-            window.print();
-            
-            // Cleanup after the print dialog is closed
-            printContainer.style.display = 'none';
+            const printContainer = document.getElementById('print-container');
             printContainer.innerHTML = '';
-            printBtn.disabled = false;
-            printBtn.textContent = '🖨️ Print This Chapter';
-        }, 1000);
-        
-    } catch (error) {
-        console.error('Print error:', error);
-        alert('Error preparing document.');
-        printBtn.disabled = false;
-    }
-}
+
+            try {
+                // Render all pages to images
+                for (let i = 1; i <= totalPages; i++) {
+                    const page = await pdfDoc.getPage(i);
+                    
+                    // Scale for print quality (2.0 for good quality)
+                    const viewport = page.getViewport({scale: 2.0});
+                    
+                    // Create canvas for this page
+                    const printCanvas = document.createElement('canvas');
+                    printCanvas.width = viewport.width;
+                    printCanvas.height = viewport.height;
+                    
+                    const printCtx = printCanvas.getContext('2d');
+                    
+                    // Render page to canvas
+                    await page.render({
+                        canvasContext: printCtx,
+                        viewport: viewport
+                    }).promise;
+                    
+                    // Convert canvas to image
+                    const imgData = printCanvas.toDataURL('image/png');
+                    
+                    // Create image element
+                    const img = document.createElement('img');
+                    img.src = imgData;
+                    img.className = 'print-page';
+                    img.alt = `Page ${i}`;
+                    
+                    printContainer.appendChild(img);
+                    
+                    // Update progress
+                    const progress = Math.round((i / totalPages) * 100);
+                    const progressFill = document.getElementById('progressFill');
+                    const progressText = document.getElementById('progressText');
+                    
+                    if (progressFill) {
+                        progressFill.style.width = progress + '%';
+                        progressFill.textContent = progress + '%';
+                    }
+                    if (progressText) {
+                        progressText.textContent = `Loading page $${i} of $${totalPages}`;
+                    }
+                }
+                
+                // Remove progress overlay
+                document.body.removeChild(progressOverlay);
+                
+                // Show print container
+                printContainer.style.display = 'block';
+                
+                // Small delay to ensure images are ready
+                setTimeout(() => {
+                    // Trigger print dialog
+                    window.print();
+                    
+                    // Cleanup after print
+                    setTimeout(() => {
+                        printContainer.style.display = 'none';
+                        printContainer.innerHTML = '';
+                        printBtn.disabled = false;
+                        printBtn.textContent = '🖨️ Print This Chapter';
+                    }, 500);
+                }, 500);
+                
+            } catch (error) {
+                console.error('Print error:', error);
+                alert('Error preparing document for printing. Please try again.');
+                document.body.removeChild(progressOverlay);
+                printBtn.disabled = false;
+                printBtn.textContent = '🖨️ Print This Chapter';
+            }
+        }
     </script>
     
 </body>
