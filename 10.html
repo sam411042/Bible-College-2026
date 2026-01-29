@@ -388,7 +388,7 @@
         }
 
         #print-container {
-            display: none;
+            display: none !important;
         }
 
         .print-progress {
@@ -609,51 +609,45 @@
         }
 
 
-  @media print {
-            @page {
-                size: A4;
-                margin: 0.5cm;
-            }
-            
-            body * {
-                visibility: hidden !important;
-            }
-            
-            #print-container,
-            #print-container * {
-                visibility: visible !important;
-            }
-            
-            #print-container {
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100% !important;
-                display: block !important;
-            }
-            
-            .print-page {
-                page-break-after: always !important;
-                page-break-inside: avoid !important;
-                display: block !important;
-                width: 100% !important;
-                margin: 0 auto !important;
-                padding: 0 !important;
-            }
-            
-            .print-page:last-child {
-                page-break-after: avoid !important;
-            }
+         @media print {
+        @page {
+        size: A4;
+        margin: 0.3cm; /* Reduced from 0.5cm to push everything UP */
+    }
+    
+    body * {
+        display: none !important;
+    }
+    
+    #marksheet-to-print,
+    #marksheet-to-print * {
+        visibility: visible !important;
+    }
+    
+    #marksheet-to-print {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        padding: 10px !important; /* Pushes content closer to the edges */
+        display: block !important;
+    }
+    
+    .print-page {
+        /* FIXED: Removed 'always' - this stops the 2nd page from being forced */
+        page-break-after: avoid !important; 
+        page-break-inside: avoid !important;
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
 
-            .print-page img {
-                max-width: 100% !important;
-                height: auto !important;
-                display: block !important;
-                margin: 0 auto !important;
-            }
-        }
-
-
+    /* This forces the browser to shrink the content to fit one page */
+    #marksheet-to-print {
+        max-height: 98vh;
+        overflow: hidden;
+    }
+}
 
 
         @media (max-width: 768px) {
@@ -1110,7 +1104,7 @@
             queueRenderPage(pageNum);
         }
 
- async function printPDF() {
+        async function printPDF() {
             if (!pdfDoc) {
                 alert('PDF not loaded yet');
                 return;
@@ -1119,6 +1113,9 @@
             const pdfConfig = PDF_FILE_PATH[currentPdfId];
             const totalPages = pdfDoc.numPages;
             
+            if (!confirm(`Print all $${totalPages} pages of "$${pdfConfig.title}"?\n\nThis will prepare all pages for printing.`)) {
+                return;
+            }
 
             const printBtn = document.getElementById('printBtn');
             printBtn.disabled = true;
@@ -1182,7 +1179,7 @@
                         progressFill.textContent = progress + '%';
                     }
                     if (progressText) {
-                        progressText.textContent = `Loading page ${i} of ${totalPages}`;
+                        progressText.textContent = `Loading page $${i} of $${totalPages}`;
                     }
                 }
                 
