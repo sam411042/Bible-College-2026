@@ -1200,10 +1200,36 @@
                         progressText.textContent = `Loading page $${i} of $${totalPages}`; 
                     }
                 }
+
+                // Remove progress overlay
+                document.body.removeChild(progressOverlay);
                 
+                // Show print container
+                printContainer.style.display = 'block';
+                
+                // Small delay to ensure images are ready
+                setTimeout(() => {
+                    // Trigger print dialog
+                    window.print();
+                    
+                    // Cleanup after print
+                    setTimeout(() => {
+                        printContainer.style.display = 'none';
+                        printContainer.innerHTML = '';
+                        printBtn.disabled = false;
+                        printBtn.textContent = '🖨️ Print This Chapter';
+                    }, 500);
+                }, 500);
+
                 // ... (rest of the printPDF function) ...
             } catch (error) {
                 // ... (error handling) ...
+                console.error('Print error:', error);
+                alert('Error preparing document for printing. Please try again.');
+                document.body.removeChild(progressOverlay);
+                printBtn.disabled = false;
+                printBtn.textContent = '🖨️ Print This Chapter';
+
             }
         }
 
